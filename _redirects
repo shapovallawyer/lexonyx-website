@@ -1,0 +1,90 @@
+# ══════════════════════════════════════════════════════════════
+# LEXONYX — Netlify _redirects
+# Старая плоская архитектура (англ. слаги в /ru/) → новая вложенная.
+# Файл кладётся В КОРЕНЬ деплоя (рядом с index.html, не в /ru/).
+# Правила читаются сверху вниз, срабатывает первое совпадение.
+# 301 — постоянный перенос (для SEO), 302 — временный (языки-заглушки).
+# ══════════════════════════════════════════════════════════════
+# ── 1. ПЕРЕЕХАВШАЯ СТРАНИЦА (на неё до сих пор ссылаются 45 страниц сайта)
+/ru/o-praktike/podhod.html        /ru/podhod/                                                  301
+# ── 2. СТАРЫЕ ПЛОСКИЕ URL /ru/<слаг>.html → НОВЫЕ ВЛОЖЕННЫЕ
+# О практике / контакты / intake
+/ru/about.html                    /ru/o-praktike/                                              301
+/ru/how-we-work.html              /ru/o-praktike/kak-my-rabotaem.html                          301
+/ru/contacts.html                 /ru/kontakty.html                                            301
+/ru/intake.html                   /ru/intake/intake.html                                       301
+/ru/spasibo.html                  /ru/intake/ruspasibo.html                                    301
+# Юрисдикции (англ. слаг → рус. слаг)
+/ru/jurisdictions.html            /ru/yurisdikcii/                                             301
+/ru/cyprus.html                   /ru/yurisdikcii/kipr.html                                    301
+/ru/czechia.html                  /ru/yurisdikcii/chehiya.html                                 301
+/ru/estonia.html                  /ru/yurisdikcii/estoniya.html                                301
+/ru/lithuania.html                /ru/yurisdikcii/litva.html                                   301
+/ru/netherlands.html              /ru/yurisdikcii/niderlandy.html                              301
+/ru/poland.html                   /ru/yurisdikcii/polsha.html                                  301
+/ru/switzerland.html              /ru/yurisdikcii/shveycariya.html                             301
+/ru/uae.html                      /ru/yurisdikcii/oae.html                                     301
+/ru/united-kingdom.html           /ru/yurisdikcii/velikobritaniya.html                         301
+# у Ирландии и Мальты слаг не менялся — меняется только папка
+/ru/irlandiya.html                /ru/yurisdikcii/irlandiya.html                               301
+/ru/malta.html                    /ru/yurisdikcii/malta.html                                   301
+# Экспертиза
+/ru/practices.html                /ru/ekspertiza/                                              301
+/ru/tax-residency.html            /ru/ekspertiza/nalogovoe-rezidentstvo-i-kik.html             301
+/ru/corporate-structuring.html    /ru/ekspertiza/strukturirovanie-gruppy.html                  301
+/ru/banking-payments.html         /ru/ekspertiza/bankovskaya-gotovnost.html                    301
+/ru/substance-governance.html     /ru/ekspertiza/substance-i-governance.html                   301
+/ru/vat-oss-ioss.html             /ru/ekspertiza/vat-i-transgranichnye-modeli.html             301
+/ru/cross-border-hiring.html      /ru/ekspertiza/pe-risk-i-mezhdunarodnye-komandy.html         301
+/ru/licensing-roadmaps.html       /ru/ekspertiza/regulyatornaya-arhitektura-i-licenzirovanie.html 301
+/ru/contracts-operations.html     /ru/ekspertiza/                                              301
+# Форматы работы
+/ru/services.html                 /ru/formaty-raboty/                                          301
+/ru/needs.html                    /ru/formaty-raboty/                                          301
+# Инсайты (старые разделы материалов)
+/ru/resources.html                /ru/insayty/                                                 301
+/ru/materialy.html                /ru/insayty/                                                 301
+/ru/analytics.html                /ru/insayty/razbory/                                         301
+/ru/razbory.html                  /ru/insayty/razbory/                                         301
+/ru/briefings.html                /ru/insayty/brifingi/                                        301
+/ru/playbooks.html                /ru/insayty/brifingi/                                        301
+/ru/instrumenty.html              /ru/insayty/instrumenty/                                     301
+/ru/checklists.html               /ru/insayty/instrumenty/checklists.html                      301
+/ru/signals.html                  /ru/podhod/karta-riskov.html                                 301
+/ru/glossary.html                 /ru/insayty/                                                 301
+# ── 3. СОВСЕМ СТАРЫЕ КОРНЕВЫЕ URL (без языкового префикса)
+# Когда выйдет EN-версия — эти цели можно переключить на /en/…
+/about.html                       /ru/o-praktike/                                              301
+/contacts.html                    /ru/kontakty.html                                            301
+/how-we-work.html                 /ru/o-praktike/kak-my-rabotaem.html                          301
+/jurisdictions.html               /ru/yurisdikcii/                                             301
+/practices.html                   /ru/ekspertiza/                                              301
+/services.html                    /ru/formaty-raboty/                                          301
+/resources.html                   /ru/insayty/                                                 301
+/tax-residency.html               /ru/ekspertiza/nalogovoe-rezidentstvo-i-kik.html             301
+/corporate-structuring.html       /ru/ekspertiza/strukturirovanie-gruppy.html                  301
+/banking-payments.html            /ru/ekspertiza/bankovskaya-gotovnost.html                    301
+/cross-border-hiring.html         /ru/ekspertiza/pe-risk-i-mezhdunarodnye-komandy.html         301
+/licensing-roadmaps.html          /ru/ekspertiza/regulyatornaya-arhitektura-i-licenzirovanie.html 301
+/glossary.html                    /ru/insayty/                                                 301
+/cookie-policy.html               /ru/cookie-policy.html                                       301
+/privacy-policy.html              /ru/privacy-policy.html                                      301
+/terms-of-use.html                /ru/terms-of-use.html                                        301
+# Подстраховка для старых ссылок на ассеты из корня
+/styles.css                       /ru/styles.css                                               301
+# ══════════════════════════════════════════════════════════════
+# ЯЗЫКОВЫЕ ВЕРСИИ — временные заглушки (302) пока страницы не готовы.
+# По мере публикации EN/UK-страницы удаляйте её строку отсюда,
+# чтобы Netlify отдавал реальную страницу вместо редиректа на RU.
+# ══════════════════════════════════════════════════════════════
+# — EN (пути с англ. слагами) —
+# — UK (зеркало RU-слагов, финализируем после EN) —
+# Языковые корни
+/en/                                                  /ru/                                                302
+
+/ru/intake/ruspasibo.html    /ru/spasibo.html            301
+/ru/intake/thank-you/        /ru/spasibo.html            301
+/ru/intake/thank-you         /ru/spasibo.html            301
+/ru/intake/intake.html       /ru/zaprosit-razbor.html    301
+/ru/intake/*                 /ru/zaprosit-razbor.html    301
+/ru/intake                   /ru/zaprosit-razbor.html    301

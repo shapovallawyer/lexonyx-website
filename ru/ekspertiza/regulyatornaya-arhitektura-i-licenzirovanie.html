@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Регуляторная архитектура и лицензирование — LEXONYX</title>
+  <meta name="description"
+    content="Регуляторная архитектура и лицензирование как элемент системы международного структурирования: EMI, PI, CASP (MiCA), regulatory scoping, выбор юрисдикции, compliance framework и licensing roadmap.">
+
+  <meta name="theme-color" content="#0a1118">
+  <meta name="view-transition" content="same-origin">
+
+  <link rel="canonical" href="https://lexonyx.com/ru/ekspertiza/regulyatornaya-arhitektura-i-licenzirovanie.html">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://lexonyx.com/ru/ekspertiza/regulyatornaya-arhitektura-i-licenzirovanie.html">
+  <meta property="og:title" content="Регуляторная архитектура и лицензирование — LEXONYX">
+  <meta property="og:description"
+    content="EMI, PI, CASP (MiCA), regulatory scoping, выбор юрисдикции и compliance framework как часть международной структуры бизнеса.">
+  <meta property="og:image" content="https://lexonyx.com/images/og-licensing.jpg">
+  <meta property="og:locale" content="ru_RU">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Регуляторная архитектура и лицензирование — LEXONYX">
+  <meta name="twitter:description"
+    content="Licensing как regulatory architecture: scope, jurisdiction choice, compliance design и scalability logic.">
+  <meta name="twitter:image" content="https://lexonyx.com/images/og-licensing.jpg">
+
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="/ru/styles.css">
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name":"Регуляторная архитектура и лицензирование — LEXONYX",
+    "url":"https://lexonyx.com/ru/ekspertiza/regulyatornaya-arhitektura-i-licenzirovanie.html",
+    "inLanguage":"ru",
+    "description":"Регуляторная архитектура и лицензирование как элемент системы международного структурирования.",
+    "isPartOf":{"@type":"WebSite","url":"https://lexonyx.com"}
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {
+        "@type":"ListItem",
+        "position":1,
+        "name":"Главная",
+        "item":"https://lexonyx.com/ru/index.html"
+      },
+      {
+        "@type":"ListItem",
+        "position":2,
+        "name":"Экспертиза",
+        "item":"https://lexonyx.com/ru/ekspertiza/index.html"
+      },
+      {
+        "@type":"ListItem",
+        "position":3,
+        "name":"Регуляторная архитектура и лицензирование",
+        "item":"https://lexonyx.com/ru/ekspertiza/regulyatornaya-arhitektura-i-licenzirovanie.html"
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Что такое регуляторная архитектура и зачем она нужна?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Регуляторная архитектура — это согласование бизнес-модели с применимым регулированием: какие виды деятельности фактически регулируются, какая лицензия нужна и в какой юрисдикции. Лицензия — стратегический выбор: она влияет на капитальные требования, доступ к банкам, passporting, операционный дизайн и инвестиционную привлекательность модели на годы вперёд."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Всегда ли бизнесу нужна полная лицензия?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Нет. Не всякая модель требует full licence сразу. Иногда правильный путь — regulatory scoping и более лёгкие entry routes: exemption, limited network, small EMI, agent/distributor model или staged approach. Ошибка в обратную сторону тоже опасна: модель классифицируется как технологическая, хотя фактически оказывает регулируемые услуги."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Чем отличаются лицензии EMI, PI и CASP?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "EMI — Electronic Money Institution: выпуск электронных денег и платёжные услуги, капитал от €350 000 и широкий operational scope. PI — Payment Institution: платёжные услуги без выпуска e-money, капитал €20 000–125 000 и обычно более быстрый процесс. CASP под MiCA — крипто-услуги: exchange, custody, wallet, с capital bands €50k/€125k/€150k по классу услуг."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Как MiCA, PSD3 и AMLR влияют на лицензирование?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "MiCA заменяет национальные VASP-регистрации единой CASP-авторизацией с passporting по всему ЕС. PSD3 движется к объединению EMI и PI в единую payment institution logic с окном re-authorisation для существующих лицензий. AMLR усиливает прямое AML/KYC-регулирование и делает compliance framework центральным компонентом архитектуры, а не приложением к ней."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Как выбирают юрисдикцию для лицензирования?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Сравнивают, где licensing path реалистичен именно для этой модели: banking, капитал, сроки и целевые рынки. В ЕС ключевая ценность — passporting: Литва обычно быстрее как practical route, Кипр дольше, но premium-oriented. Великобритания после Brexit — самостоятельный выбор с отдельной FCA-авторизацией. ОАЭ — отдельная среда без EU passporting со своей логикой."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Что подготовить для первичного regulatory scoping?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Достаточно честной карты модели: краткое описание продукта и бизнес-модели, планируемые услуги — payments, e-money, custody, exchange, wallet, карты, целевые рынки, существующая структура группы и banking setup, ожидаемая капитальная модель, кто founders и ключевые менеджеры и где они находятся, а также критичные сроки и ограничения. Пакет для регулятора на старте не нужен."
+      }
+    }
+  ]
+}
+  </script>
+  <link rel="alternate" hreflang="ru" href="https://lexonyx.com/ru/ekspertiza/regulyatornaya-arhitektura-i-licenzirovanie.html" />
+  <link rel="alternate" hreflang="en" href="https://lexonyx.com/en/expertise/regulatory-licensing.html" />
+  <link rel="alternate" hreflang="uk" href="https://lexonyx.com/uk/ekspertyza/regulyatorna-arhitektura-ta-litsenzuvannya.html" />
+  <link rel="alternate" hreflang="x-default" href="https://lexonyx.com/ru/ekspertiza/regulyatornaya-arhitektura-i-licenzirovanie.html" />
+</head>
+
+<body>
+  <a href="#main-content" class="skip-link">Перейти к основному содержимому</a>
+
+  <header class="site-header" id="main-header" data-lang="ru">
+    <div class="container">
+      <div class="header-container">
+
+        <a href="/ru/index.html" class="logo" aria-label="LEXONYX — главная">
+          <svg class="logo-icon-standard" width="160" height="42" viewBox="0 0 160 42" fill="none" aria-hidden="true">
+            <text x="0" y="30" font-family="Georgia, serif" font-size="26" font-weight="500" fill="currentColor"
+              letter-spacing="2">LEXONYX</text>
+            <line x1="0" y1="38" x2="145" y2="38" stroke="currentColor" stroke-width="1.2" opacity="0.55"></line>
+          </svg>
+        </a>
+
+        <nav class="nav" aria-label="Основная навигация">
+          <!-- Подход -->
+          <div class="nav-dropdown">
+            <a href="/ru/podhod/index.html" class="nav-link nav-link-dropdown" aria-haspopup="true">
+              Подход
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+              </svg>
+            </a>
+            <div class="dropdown-menu">
+              <div class="dropdown-content dropdown-stack">
+                <div class="dropdown-section">
+                  <a href="/ru/podhod/strukturnaya-model.html">Структурная модель</a>
+                  <a href="/ru/podhod/principy-mezhdunarodnyh-struktur.html">Принципы построения</a>
+                  <a href="/ru/podhod/karta-riskov.html">Карта рисков</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Экспертиза -->
+          <div class="nav-dropdown">
+            <a href="/ru/ekspertiza/index.html" class="nav-link nav-link-dropdown" aria-haspopup="true">
+              Экспертиза
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+              </svg>
+            </a>
+            <div class="dropdown-menu dropdown-menu-wide">
+              <div class="dropdown-content dropdown-two-col">
+                <div class="dropdown-section">
+                  <h4>Структура и модель</h4>
+                  <a href="/ru/ekspertiza/strukturirovanie-gruppy.html">Структурирование группы</a>
+                  <a href="/ru/ekspertiza/nalogovoe-rezidentstvo-i-kik.html">Налоговое резидентство и КИК</a>
+                  <a href="/ru/ekspertiza/substance-i-governance.html">Фактическое присутствие и система управления</a>
+                  <a href="/ru/ekspertiza/vat-i-transgranichnye-modeli.html">VAT и трансграничные модели</a>
+                  <a href="/ru/ekspertiza/pe-risk-i-mezhdunarodnye-komandy.html">PE-risk и международные команды</a>
+                </div>
+                <div class="dropdown-section">
+                  <h4>Банки и капитал</h4>
+                  <a href="/ru/ekspertiza/bankovskaya-gotovnost.html">Банковская готовность</a>
+                  <a href="/ru/ekspertiza/source-of-funds.html">Source of Funds / Source of Wealth</a>
+                  <a href="/ru/ekspertiza/chastnyy-kapital-i-family-office.html">Частный капитал и family office</a>
+                  <a href="/ru/ekspertiza/regulyatornaya-arhitektura-i-licenzirovanie.html">Регуляторная архитектура и лицензирование</a>
+                  <a href="/ru/dlya-ukrainskogo-biznesa.html">Для украинского бизнеса в Европе</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Форматы работы -->
+          <div class="nav-dropdown">
+            <a href="/ru/formaty-raboty/index.html" class="nav-link nav-link-dropdown" aria-haspopup="true">
+              Форматы работы
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+              </svg>
+            </a>
+            <div class="dropdown-menu">
+              <div class="dropdown-content dropdown-stack">
+                <div class="dropdown-section">
+                  <a href="/ru/kak-nachat.html">Как начать</a>
+                  <a href="/ru/formaty-raboty/strategicheskiy-strukturnyy-audit.html">Стратегический структурный аудит</a>
+                  <a href="/ru/formaty-raboty/ekspress-proverka-riskov.html">Экспресс-проверка рисков</a>
+                  <a href="/ru/formaty-raboty/soprovozhdenie-i-advisory.html">Сопровождение и advisory</a>
+                  <a href="/ru/formaty-raboty/vneshnyaya-yuridicheskaya-funkciya.html">Внешняя международная юридическая функция</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Инсайты -->
+          <div class="nav-dropdown">
+            <a href="/ru/insayty/index.html" class="nav-link nav-link-dropdown" aria-haspopup="true">
+              Инсайты
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+              </svg>
+            </a>
+            <div class="dropdown-menu">
+              <div class="dropdown-content dropdown-stack">
+                <div class="dropdown-section">
+                  <a href="/ru/insayty/brifingi/index.html">Брифинги</a>
+                  <a href="/ru/insayty/razbory/index.html">Разборы</a>
+                  <a href="/ru/insayty/instrumenty/index.html">Инструменты</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Юрисдикции -->
+          <div class="nav-dropdown">
+            <a href="/ru/yurisdikcii/index.html" class="nav-link nav-link-dropdown" aria-haspopup="true">
+              Юрисдикции
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+              </svg>
+            </a>
+            <div class="dropdown-menu dropdown-jurisdictions">
+              <div class="dropdown-content dropdown-two-col jurisdictions-two-col">
+                <div class="dropdown-section">
+                  <h4>ЕС</h4>
+                  <a href="/ru/yurisdikcii/kipr.html"><span class="jur-code">CY</span> Кипр</a>
+                  <a href="/ru/yurisdikcii/estoniya.html"><span class="jur-code">EE</span> Эстония</a>
+                  <a href="/ru/yurisdikcii/litva.html"><span class="jur-code">LT</span> Литва</a>
+                  <a href="/ru/yurisdikcii/irlandiya.html"><span class="jur-code">IE</span> Ирландия</a>
+                  <a href="/ru/yurisdikcii/niderlandy.html"><span class="jur-code">NL</span> Нидерланды</a>
+                  <a href="/ru/yurisdikcii/malta.html"><span class="jur-code">MT</span> Мальта</a>
+                  <a href="/ru/yurisdikcii/polsha.html"><span class="jur-code">PL</span> Польша</a>
+                  <a href="/ru/yurisdikcii/chehiya.html"><span class="jur-code">CZ</span> Чехия</a>
+                </div>
+
+                <div class="dropdown-section">
+                  <h4>Великобритания и другие</h4>
+                  <a href="/ru/yurisdikcii/velikobritaniya.html"><span class="jur-code">UK</span> Великобритания</a>
+                  <a href="/ru/yurisdikcii/oae.html"><span class="jur-code">AE</span> ОАЭ</a>
+                  <a href="/ru/yurisdikcii/shveycariya.html"><span class="jur-code">CH</span> Швейцария</a>
+                </div>
+
+                <div class="dropdown-footer">
+                  <a href="/ru/yurisdikcii/index.html" class="btn-dropdown-all">Все юрисдикции →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- О практике -->
+          <div class="nav-dropdown">
+            <a href="/ru/o-praktike/index.html" class="nav-link nav-link-dropdown" aria-haspopup="true">
+              О практике
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+              </svg>
+            </a>
+            <div class="dropdown-menu">
+              <div class="dropdown-content dropdown-stack">
+                <div class="dropdown-section">
+                  <a href="/ru/o-praktike/kto-my.html">Кто мы</a>
+                  <a href="/ru/o-praktike/kak-my-rabotaem.html">Как мы работаем</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Контакты -->
+          <a href="/ru/kontakty.html" class="nav-link">Контакты</a>
+        </nav>
+
+        <div class="header-right">
+          <button class="search-toggle" id="search-toggle" type="button" aria-label="Открыть поиск"
+            aria-controls="search-overlay" aria-expanded="false">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"></circle>
+              <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            </svg>
+          </button>
+
+          <div class="header-lang-switch" aria-label="Переключение языка">
+            <a href="/ru/ekspertiza/regulyatornaya-arhitektura-i-licenzirovanie.html" class="lang-option active" lang="ru">RU</a>
+            <span class="lang-divider">|</span>
+            <a href="/en/expertise/regulatory-licensing.html" class="lang-option" lang="en">EN</a>
+            <span class="lang-divider">|</span>
+            <a href="/uk/ekspertyza/regulyatorna-arhitektura-ta-litsenzuvannya.html" class="lang-option" lang="uk">UK</a>
+          </div>
+
+          <a href="/ru/zaprosit-razbor.html" class="btn btn-sm btn-primary header-cta">
+            Запросить разбор
+          </a>
+
+          <button class="mobile-menu-toggle" id="mobile-menu-toggle" type="button" aria-label="Открыть меню"
+            aria-controls="mobile-menu" aria-expanded="false">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Search overlay -->
+    <div class="search-overlay" id="search-overlay" aria-hidden="true">
+      <div class="search-container">
+        <div class="search-box">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"></circle>
+            <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+          <input type="text" id="search-input" placeholder="Поиск по разделам и темам…" autocomplete="off"
+            aria-label="Поиск по сайту">
+          <button class="search-close" id="search-close" type="button" aria-label="Закрыть поиск">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="search-results" id="search-results" role="listbox" aria-label="Результаты поиска"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <div class="mobile-menu-header">
+      <a href="/ru/index.html" class="logo" aria-label="LEXONYX — главная">
+        <svg width="140" height="36" viewBox="0 0 140 36" fill="none" aria-hidden="true">
+          <text x="0" y="26" font-family="Georgia, serif" font-size="22" font-weight="500" fill="currentColor"
+            letter-spacing="2">LEXONYX</text>
+          <line x1="0" y1="32" x2="125" y2="32" stroke="currentColor" stroke-width="1.2" opacity="0.55"></line>
+        </svg>
+      </a>
+      <button class="mobile-menu-close" id="mobile-menu-close" type="button" aria-label="Закрыть меню">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="mobile-nav" aria-label="Мобильная навигация">
+      <!-- Подход -->
+      <div class="mobile-nav-accordion">
+        <button class="mobile-nav-link mobile-accordion-trigger" type="button" aria-expanded="false"
+          aria-controls="mobile-podhod-content">
+          Подход
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+          </svg>
+        </button>
+        <div class="mobile-accordion-content" id="mobile-podhod-content">
+          <a href="/ru/podhod/strukturnaya-model.html" class="mobile-sub-link">Структурная модель</a>
+          <a href="/ru/podhod/principy-mezhdunarodnyh-struktur.html" class="mobile-sub-link">Принципы построения</a>
+          <a href="/ru/podhod/karta-riskov.html" class="mobile-sub-link">Карта рисков</a>
+        </div>
+      </div>
+
+      <!-- Экспертиза -->
+      <div class="mobile-nav-accordion">
+        <button class="mobile-nav-link mobile-accordion-trigger" type="button" aria-expanded="false"
+          aria-controls="mobile-ekspertiza-content">
+          Экспертиза
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+          </svg>
+        </button>
+        <div class="mobile-accordion-content" id="mobile-ekspertiza-content">
+          <a href="/ru/ekspertiza/strukturirovanie-gruppy.html" class="mobile-sub-link">Структурирование группы</a>
+          <a href="/ru/ekspertiza/nalogovoe-rezidentstvo-i-kik.html" class="mobile-sub-link">Налоговое резидентство и
+            КИК</a>
+          <a href="/ru/ekspertiza/vat-i-transgranichnye-modeli.html" class="mobile-sub-link">VAT и трансграничные
+            модели</a>
+          <a href="/ru/ekspertiza/pe-risk-i-mezhdunarodnye-komandy.html" class="mobile-sub-link">PE-risk и международные
+            команды</a>
+          <a href="/ru/ekspertiza/bankovskaya-gotovnost.html" class="mobile-sub-link">Банковская готовность</a>
+          <a href="/ru/ekspertiza/source-of-funds.html" class="mobile-sub-link">Source of Funds / Source of Wealth</a>
+          <a href="/ru/ekspertiza/regulyatornaya-arhitektura-i-licenzirovanie.html" class="mobile-sub-link">Регуляторная
+            архитектура и лицензирование</a>
+          <a href="/ru/ekspertiza/substance-i-governance.html" class="mobile-sub-link">Фактическое присутствие и система
+            управления</a>
+        </div>
+      </div>
+
+      <!-- Форматы работы -->
+      <div class="mobile-nav-accordion">
+        <button class="mobile-nav-link mobile-accordion-trigger" type="button" aria-expanded="false"
+          aria-controls="mobile-formaty-content">
+          Форматы работы
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+          </svg>
+        </button>
+        <div class="mobile-accordion-content" id="mobile-formaty-content">
+          <a href="/ru/formaty-raboty/strategicheskiy-strukturnyy-audit.html" class="mobile-sub-link">Стратегический
+            структурный аудит</a>
+          <a href="/ru/formaty-raboty/ekspress-proverka-riskov.html" class="mobile-sub-link">Экспресс-проверка
+            рисков</a>
+          <a href="/ru/formaty-raboty/soprovozhdenie-i-advisory.html" class="mobile-sub-link">Сопровождение и
+            advisory</a>
+        </div>
+      </div>
+
+      <!-- Инсайты -->
+      <div class="mobile-nav-accordion">
+        <button class="mobile-nav-link mobile-accordion-trigger" type="button" aria-expanded="false"
+          aria-controls="mobile-insayty-content">
+          Инсайты
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+          </svg>
+        </button>
+        <div class="mobile-accordion-content" id="mobile-insayty-content">
+          <a href="/ru/insayty/brifingi/index.html" class="mobile-sub-link">Брифинги</a>
+          <a href="/ru/insayty/razbory/index.html" class="mobile-sub-link">Разборы</a>
+          <a href="/ru/insayty/instrumenty/index.html" class="mobile-sub-link">Инструменты</a>
+        </div>
+      </div>
+
+      <!-- Юрисдикции -->
+      <div class="mobile-nav-accordion">
+        <button class="mobile-nav-link mobile-accordion-trigger" type="button" aria-expanded="false"
+          aria-controls="mobile-yurisdikcii-content">
+          Юрисдикции
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+          </svg>
+        </button>
+        <div class="mobile-accordion-content" id="mobile-yurisdikcii-content">
+          <div class="mobile-sub-group">
+            <div class="mobile-sub-group-title">ЕС</div>
+            <a href="/ru/yurisdikcii/kipr.html" class="mobile-sub-link">Кипр</a>
+            <a href="/ru/yurisdikcii/estoniya.html" class="mobile-sub-link">Эстония</a>
+            <a href="/ru/yurisdikcii/litva.html" class="mobile-sub-link">Литва</a>
+            <a href="/ru/yurisdikcii/irlandiya.html" class="mobile-sub-link">Ирландия</a>
+            <a href="/ru/yurisdikcii/niderlandy.html" class="mobile-sub-link">Нидерланды</a>
+            <a href="/ru/yurisdikcii/malta.html" class="mobile-sub-link">Мальта</a>
+            <a href="/ru/yurisdikcii/polsha.html" class="mobile-sub-link">Польша</a>
+            <a href="/ru/yurisdikcii/chehiya.html" class="mobile-sub-link">Чехия</a>
+          </div>
+
+          <div class="mobile-sub-group">
+            <div class="mobile-sub-group-title">Великобритания и другие</div>
+            <a href="/ru/yurisdikcii/velikobritaniya.html" class="mobile-sub-link">Великобритания</a>
+            <a href="/ru/yurisdikcii/oae.html" class="mobile-sub-link">ОАЭ</a>
+            <a href="/ru/yurisdikcii/shveycariya.html" class="mobile-sub-link">Швейцария</a>
+          </div>
+
+          <a href="/ru/yurisdikcii/index.html" class="mobile-sub-link mobile-sub-link-all">Все юрисдикции →</a>
+        </div>
+      </div>
+
+      <!-- О практике -->
+      <div class="mobile-nav-accordion">
+        <button class="mobile-nav-link mobile-accordion-trigger" type="button" aria-expanded="false"
+          aria-controls="mobile-o-praktike-content">
+          О практике
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+          </svg>
+        </button>
+        <div class="mobile-accordion-content" id="mobile-o-praktike-content">
+          <a href="/ru/o-praktike/kto-my.html" class="mobile-sub-link">Кто мы</a>
+          <a href="/ru/o-praktike/kak-my-rabotaem.html" class="mobile-sub-link">Как мы работаем</a>
+        </div>
+      </div>
+
+      <a href="/ru/kontakty.html" class="nav-link">Контакты</a>
+    </nav>
+
+    <div class="mobile-menu-footer">
+      <div class="mobile-lang-switch">
+        <a href="/ru/ekspertiza/regulyatornaya-arhitektura-i-licenzirovanie.html" class="lang-option active" lang="ru">RU</a>
+        <span class="lang-divider">|</span>
+        <a href="/en/expertise/regulatory-licensing.html" class="lang-option" lang="en">EN</a>
+        <span class="lang-divider">|</span>
+        <a href="/uk/ekspertiza/regulyatornaya-arhitektura-i-licenzirovanie.html" class="lang-option" lang="uk">UK</a>
+      </div>
+      <a href="/ru/zaprosit-razbor.html" class="btn btn-primary mobile-menu-cta">Запросить разбор</a>
+      <p class="mobile-menu-note">Конфиденциально · Без обязательств · Ответ после первичной квалификации запроса</p>
+    </div>
+  </div>
+
+  <main id="main-content" class="regulatory-architecture-page">
+
+    <section class="section section-dark licensing-hero hero-bg-dark--ekspertiza-regulyatornaya-arhitektura-i-licenzirovanie">
+      <div class="container container-narrow">
+        <nav class="breadcrumbs breadcrumbs-on-dark" aria-label="Breadcrumb">
+          <a href="/ru/index.html">Главная</a>
+          <span class="separator">›</span>
+          <a href="/ru/ekspertiza/index.html">Экспертиза</a>
+          <span class="separator">›</span>
+          <span class="current">Регуляторная архитектура и лицензирование</span>
+        </nav>
+
+        <div class="section-label">REGULATORY ARCHITECTURE</div>
+        <h1 class="page-title page-title-wide">Регуляторная архитектура и лицензирование</h1>
+        <p class="page-subtitle page-subtitle-wide">Лицензирование — стратегический выбор, а не форма заявки: он зависит от модели, юрисдикции, капитала и MiCA / PSD3 / AMLR.</p>
+
+        <div class="hero-actions">
+          <a href="/ru/zaprosit-razbor.html" class="btn btn-primary btn-lg">Запросить регуляторный разбор</a>
+          <a href="/ru/ekspertiza/strukturirovanie-gruppy.html" class="btn btn-secondary btn-lg">Вернуться к структурированию группы</a>
+        </div>
+
+        <div class="hero-meta-line">
+          <span>EMI / PI / CASP</span>
+          <span>·</span>
+          <span>Regulatory scoping</span>
+          <span>·</span>
+          <span>Jurisdiction choice</span>
+          <span>·</span>
+          <span>Compliance framework</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-light">
+      <div class="container container-narrow">
+        <div class="section-header-centered" data-reveal>
+          <div class="section-label">Почему это важно</div>
+          <h2 class="section-title-main">Неправильный licensing path ломает бизнес раньше, чем он масштабируется</h2>
+          <p class="section-subtitle">
+            Основная проблема — не только «получить или не получить лицензию», а изначально неверно классифицировать модель, выбрать неподходящую юрисдикцию, недооценить MiCA / PSD3 / AMLR и построить слабый compliance framework. 
+          </p>
+        </div>
+
+        <div class="regulatory-risk-grid" data-reveal-stagger>
+          <article class="system-note-card">
+            <h3>Лицензия — это стратегический выбор</h3>
+            <p>Она влияет на capital requirements, banking access, passporting, operational design и инвестиционную привлекательность. </p>
+          </article>
+          <article class="system-note-card">
+            <h3>Не всякая модель требует full licence сразу</h3>
+            <p>Иногда сначала нужен scoping: лицензия, exemption, agent/distributor model или staged approach.</p>
+          </article>
+          <article class="system-note-card">
+            <h3>Регуляторный ландшафт меняется</h3>
+            <p>MiCA, PSD3 и AMLR меняют licensing logic, transitional periods и требования к будущим проектам.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark">
+      <div class="container">
+        <div class="section-header-centered" data-reveal>
+          <div class="section-label">Регуляторный контекст</div>
+          <h2 class="section-title-main">Регуляторный ландшафт 2026–2028</h2>
+          <p class="section-subtitle">
+            MiCA, PSD3 и AMLR нельзя рассматривать как фон — они уже определяют проектирование модели на старте. 
+          </p>
+        </div>
+
+        <div class="regulatory-context-grid" data-reveal-stagger>
+          <article class="regulatory-context-card">
+            <h3>MiCA</h3>
+            <p>MiCA заменяет национальные VASP-регистрации единой CASP-авторизацией с passporting по ЕС, включая transition deadlines и отдельные capital classes для CASP.</p>
+          </article>
+          <article class="regulatory-context-card">
+            <h3>PSD3 / PSR</h3>
+            <p>PSD3 — будущий фактор объединения EMI и PI в единую payment institution logic с re-authorisation window для существующих лицензий. </p>
+          </article>
+          <article class="regulatory-context-card">
+            <h3>AMLR</h3>
+            <p>AMLR усиливает прямое AML/KYC регулирование и делает compliance framework ещё более central component licensing architecture. </p>
+          </article>
+        </div>
+
+        <div class="regulatory-conclusion-panel">
+          <p>
+            Лицензирование больше нельзя рассматривать как локальную задачу.
+            Это архитектура, рассчитанная на общеевропейское регулирование, усиление надзора и последующее масштабирование.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-light">
+      <div class="container">
+        <div class="section-header-centered" data-reveal>
+          <div class="section-label">Типы режимов</div>
+          <h2 class="section-title-main">Какие regulatory paths обычно рассматриваются</h2>
+          <p class="section-subtitle">
+            EMI, PI, CASP и более лёгкие entry routes — это варианты regulatory architecture, а не каталог продуктов.
+          </p>
+        </div>
+
+        <div class="license-types-grid" data-reveal-stagger>
+          <article class="license-type-card">
+            <h3>EMI</h3>
+            <p>Electronic Money Institution: выпуск e-money и payment services. Капитал от €350 000 и более широкая operational scope.</p>
+          </article>
+          <article class="license-type-card">
+            <h3>PI</h3>
+            <p>Payment Institution: платёжные услуги без выпуска e-money; капитал €20k–125k и обычно более быстрый процесс, чем у EMI. </p>
+          </article>
+          <article class="license-type-card">
+            <h3>CASP / MiCA</h3>
+            <p>Crypto-asset service provider under MiCA: exchange, custody, wallet and related activities; capital bands €50k / €125k / €150k в зависимости от класса услуг. </p>
+          </article>
+          <article class="license-type-card">
+            <h3>Exemptions / staged entry</h3>
+            <p>Limited network, small EMI, agent/distributor model и staged approach — возможные entry routes для части моделей.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark">
+      <div class="container container-narrow">
+        <div class="section-header-centered" data-reveal>
+          <div class="section-label">Где обычно ошибаются</div>
+          <h2 class="section-title-main">Типовые риски неправильного лицензирования</h2>
+        </div>
+
+        <div class="schema-panel" data-reveal-stagger>
+          <div class="schema-line">Модель классифицируется как «технологическая», хотя фактически оказывает регулируемые услуги</div>
+          <div class="schema-line">Выбрана юрисдикция, которая плохо сочетается с banking needs или substance expectations</div>
+          <div class="schema-line">Compliance framework собран как шаблон, а не встроен в реальную operating model</div>
+          <div class="schema-line">Проект не учитывает MiCA / PSD3 / AMLR и требует перестройки через 1–2 года</div>
+          <div class="schema-line">Passporting, capital logic и governance requirements были недооценены на старте</div>
+          <div class="schema-line">Licensing path не согласован с group structure, ownership и коммерческой моделью</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-light">
+      <div class="container">
+        <div class="section-header-centered" data-reveal>
+          <div class="section-label">Как мы работаем с этим</div>
+          <h2 class="section-title-main">От business idea к licensing roadmap</h2>
+          <p class="section-subtitle">
+            Самая сильная operational формула из расширенных файлов: сначала regulatory scoping, потом выбор юрисдикции, затем licensing roadmap, compliance framework и coordination with local counsel. Это и оставляем как process backbone. 
+          </p>
+        </div>
+
+        <div class="method-grid" data-reveal-stagger>
+          <article class="method-step-card">
+            <span class="method-step-number">01</span>
+            <h3>Regulatory scoping</h3>
+            <p>Определяем, нужна ли лицензия вообще, какого типа и какие regulated activities фактически возникают.</p>
+          </article>
+          <article class="method-step-card">
+            <span class="method-step-number">02</span>
+            <h3>Jurisdiction choice</h3>
+            <p>Сравниваем, где licensing path реалистичен именно для этой модели — с учётом banking, capital, timeline и target markets.</p>
+          </article>
+          <article class="method-step-card">
+            <span class="method-step-number">03</span>
+            <h3>Compliance architecture</h3>
+            <p>Формируем базовый compliance framework, governance logic, operational design и documentation expectations.</p>
+          </article>
+          <article class="method-step-card">
+            <span class="method-step-number">04</span>
+            <h3>Roadmap and execution support</h3>
+            <p>Строим licensing roadmap, sequencing и coordination logic для дальнейшей подачи и взаимодействия с local counsel.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-light">
+      <div class="container">
+        <div class="section-header-centered" data-reveal>
+          <div class="section-label">Юрисдикционная логика</div>
+          <h2 class="section-title-main">Как обычно сравнивают юрисдикции</h2>
+          <p class="section-subtitle">
+            Lithuania, Cyprus, UK и UAE — типовые варианты с разной логикой passporting, timing и positioning. 
+          </p>
+        </div>
+
+        <div class="jurisdiction-comparison-grid" data-reveal-stagger>
+          <article class="comparison-card">
+            <h3>ЕС</h3>
+            <p>Ключевая ценность — passporting. Lithuania — более быстрый practical route; Cyprus — более длительный, но premium-oriented путь.</p>
+          </article>
+          <article class="comparison-card">
+            <h3>Великобритания</h3>
+            <p>После Brexit FCA authorisation живёт отдельно от EU passporting; поэтому UK — самостоятельный strategic choice, а не «дополнение к ЕС». </p>
+          </article>
+          <article class="comparison-card">
+            <h3>ОАЭ</h3>
+            <p>UAE — отдельная лицензируемая среда без EU passporting, но с собственной regulatory logic и positioning.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-light">
+      <div class="container container-narrow">
+        <div class="section-header-centered" data-reveal>
+          <div class="section-label">Что подготовить</div>
+          <h2 class="section-title-main">Что обычно нужно для первичного regulatory scoping</h2>
+        </div>
+
+        <div class="prep-checklist" data-reveal-stagger>
+          <div class="prep-item">Краткое описание бизнес-модели и того, что именно делает продукт</div>
+          <div class="prep-item">Какие услуги планируются: payments, e-money, custody, exchange, wallet, cards и т.д.</div>
+          <div class="prep-item">Какие рынки и страны планируются как target markets</div>
+          <div class="prep-item">Есть ли уже структура группы, banking setup и expected capital model</div>
+          <div class="prep-item">Кто founders, key managers и где они находятся</div>
+          <div class="prep-item">Какие сроки, budget expectations и business constraints критичны на старте</div>
+        </div>
+
+        <p class="section-note">
+          На первом этапе нужен не package draft для регулятора, а честная карта модели и её regulatory perimeter.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section-dark">
+      <div class="container">
+        <div class="section-header-centered" data-reveal>
+          <div class="section-label">Как это связано</div>
+          <h2 class="section-title-main">Как это связано с другими элементами системы</h2>
+        </div>
+
+        <div class="related-links-grid" data-reveal-stagger>
+          <a href="/ru/ekspertiza/strukturirovanie-gruppy.html" class="related-link-card">
+            <h3>Структурирование группы</h3>
+            <p>Licensing path должен быть совместим с ownership, roles of entities и общей business architecture.</p>
+          </a>
+          <a href="/ru/ekspertiza/bankovskaya-gotovnost.html" class="related-link-card">
+            <h3>Банковская готовность</h3>
+            <p>Для regulated models licensing и banking readiness тесно связаны через KYC, capital logic и business narrative.</p>
+          </a>
+          <a href="/ru/ekspertiza/substance-i-governance.html" class="related-link-card">
+            <h3>Substance и governance</h3>
+            <p>Лицензируемая модель требует governance reality и compliance ownership, а не только формального local presence.</p>
+          </a>
+          <a href="/ru/yurisdikcii/index.html" class="related-link-card">
+            <h3>Юрисдикции</h3>
+            <p>Jurisdiction choice определяет timing, passporting, capital burden и regulatory fit будущей модели.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-light licensing-faq">
+      <div class="container container-narrow">
+        <div class="section-header-centered" data-reveal>
+          <span class="lx-rule"></span>
+          <div class="section-label">ЧАСТЫЕ ВОПРОСЫ</div>
+          <h2 class="section-title-main">Лицензирование — коротко по сути</h2>
+        </div>
+        <div class="lx-faq" data-reveal>
+          <details class="lx-faq-item"><summary>Что такое регуляторная архитектура и зачем она нужна?<span class="lx-faq-icon" aria-hidden="true"></span></summary><div class="lx-faq-answer"><p>Регуляторная архитектура — это согласование бизнес-модели с применимым регулированием: какие виды деятельности фактически регулируются, какая лицензия нужна и в какой юрисдикции. Лицензия — стратегический выбор: она влияет на капитальные требования, доступ к банкам, passporting, операционный дизайн и инвестиционную привлекательность модели на годы вперёд.</p></div></details>
+          <details class="lx-faq-item"><summary>Всегда ли бизнесу нужна полная лицензия?<span class="lx-faq-icon" aria-hidden="true"></span></summary><div class="lx-faq-answer"><p>Нет. Не всякая модель требует full licence сразу. Иногда правильный путь — regulatory scoping и более лёгкие entry routes: exemption, limited network, small EMI, agent/distributor model или staged approach. Ошибка в обратную сторону тоже опасна: модель классифицируется как технологическая, хотя фактически оказывает регулируемые услуги.</p></div></details>
+          <details class="lx-faq-item"><summary>Чем отличаются лицензии EMI, PI и CASP?<span class="lx-faq-icon" aria-hidden="true"></span></summary><div class="lx-faq-answer"><p>EMI — Electronic Money Institution: выпуск электронных денег и платёжные услуги, капитал от €350 000 и широкий operational scope. PI — Payment Institution: платёжные услуги без выпуска e-money, капитал €20 000–125 000 и обычно более быстрый процесс. CASP под MiCA — крипто-услуги: exchange, custody, wallet, с capital bands €50k/€125k/€150k по классу услуг.</p></div></details>
+          <details class="lx-faq-item"><summary>Как MiCA, PSD3 и AMLR влияют на лицензирование?<span class="lx-faq-icon" aria-hidden="true"></span></summary><div class="lx-faq-answer"><p>MiCA заменяет национальные VASP-регистрации единой CASP-авторизацией с passporting по всему ЕС. PSD3 движется к объединению EMI и PI в единую payment institution logic с окном re-authorisation для существующих лицензий. AMLR усиливает прямое AML/KYC-регулирование и делает compliance framework центральным компонентом архитектуры, а не приложением к ней.</p></div></details>
+          <details class="lx-faq-item"><summary>Как выбирают юрисдикцию для лицензирования?<span class="lx-faq-icon" aria-hidden="true"></span></summary><div class="lx-faq-answer"><p>Сравнивают, где licensing path реалистичен именно для этой модели: banking, капитал, сроки и целевые рынки. В ЕС ключевая ценность — passporting: Литва обычно быстрее как practical route, Кипр дольше, но premium-oriented. Великобритания после Brexit — самостоятельный выбор с отдельной FCA-авторизацией. ОАЭ — отдельная среда без EU passporting со своей логикой.</p></div></details>
+          <details class="lx-faq-item"><summary>Что подготовить для первичного regulatory scoping?<span class="lx-faq-icon" aria-hidden="true"></span></summary><div class="lx-faq-answer"><p>Достаточно честной карты модели: краткое описание продукта и бизнес-модели, планируемые услуги — payments, e-money, custody, exchange, wallet, карты, целевые рынки, существующая структура группы и banking setup, ожидаемая капитальная модель, кто founders и ключевые менеджеры и где они находятся, а также критичные сроки и ограничения. Пакет для регулятора на старте не нужен.</p></div></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark expertise-cta licensing-final-cta">
+      <div class="container container-narrow">
+        <div class="cta-centered">
+          <div class="section-label">NEXT STEP</div>
+          <h2 class="cta-title">Если нужна не «лицензия вообще», а реалистичная regulatory architecture</h2>
+          <p class="cta-subtitle">
+            Мы поможем определить, какой licence perimeter действительно возникает,
+            где модель регуляторно жизнеспособна, какие требования критичны сразу
+            и где licensing path должен быть staged, а не максималистским.
+          </p>
+          <a href="/ru/zaprosit-razbor.html" class="btn btn-primary btn-lg">Запросить scoping</a>
+          <div class="cta-meta">
+            Первичная квалификация · scope после анализа запроса · без гарантий licensing outcome
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="section-nav" aria-label="Навигация по разделу">
+      <div class="container">
+        <a href="/ru/ekspertiza/bankovskaya-gotovnost.html" class="section-nav-link section-nav-prev">
+          <span class="section-nav-label">Назад</span>
+          <strong>Банковская готовность</strong>
+        </a>
+        <a href="/ru/ekspertiza/substance-i-governance.html" class="section-nav-link section-nav-next">
+          <span class="section-nav-label">Далее</span>
+          <strong>Substance и governance</strong>
+        </a>
+      </div>
+    </nav>
+
+  </main>
+
+  <!-- FOOTER (ethalon RU, with newsletter) -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-brand-col">
+          <a href="/ru/index.html" class="logo footer-logo" aria-label="LEXONYX — главная">
+            <svg width="160" height="42" viewBox="0 0 160 42" fill="none" aria-hidden="true">
+              <text x="0" y="30" font-family="Georgia, serif" font-size="26" font-weight="500" fill="currentColor"
+                letter-spacing="2">LEXONYX</text>
+              <line x1="0" y1="38" x2="145" y2="38" stroke="currentColor" stroke-width="1.2" opacity="0.55"></line>
+            </svg>
+          </a>
+          <p class="footer-tagline">Архитектура международной структуры</p>
+          <p class="footer-description">
+            Независимая advisory-практика для международного бизнеса: международное структурирование, tax/VAT/PE риски,
+            банковская готовность и regulatory fit в EU, UK и UAE.
+          </p>
+
+          <div class="footer-social">
+            <a href="https://linkedin.com/company/lexonyx" class="social-link" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+              </svg>
+            </a>
+            <a href="https://t.me/liudmyla_mir" class="social-link" target="_blank" rel="noopener" aria-label="Telegram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+              </svg>
+            </a>
+            <a href="mailto:info@lexonyx.com" class="social-link" aria-label="Email">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                aria-hidden="true">
+                <rect x="2.5" y="4.5" width="19" height="15" rx="2" />
+                <path d="M3 6.5l9 6.5 9-6.5" />
+              </svg>
+            </a>
+          </div>
+          <p class="footer-phones">
+            <a href="tel:+380980198800">+38 098 019 88 00</a>
+            <a href="tel:+4917610198800">+49 1761 019 88 00</a>
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h3 class="footer-heading">Разделы</h3>
+          <ul class="footer-links">
+            <li><a href="/ru/podhod/index.html">Подход</a></li>
+            <li><a href="/ru/ekspertiza/index.html">Экспертиза</a></li>
+            <li><a href="/ru/formaty-raboty/index.html">Форматы работы</a></li>
+            <li><a href="/ru/kak-nachat.html">Как начать</a></li>
+            <li><a href="/ru/insayty/index.html">Инсайты</a></li>
+            <li><a href="/ru/yurisdikcii/index.html">Юрисдикции</a></li>
+            <li><a href="/ru/o-praktike/index.html">О практике</a></li>
+            <li><a href="/ru/dlya-ukrainskogo-biznesa.html">Украинский бизнес в Европе</a></li>
+            <li><a href="/ru/zaprosit-razbor.html">Запросить разбор →</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3 class="footer-heading">Экспертиза</h3>
+          <ul class="footer-links">
+            <li><a href="/ru/ekspertiza/strukturirovanie-gruppy.html">Структурирование группы</a></li>
+            <li><a href="/ru/ekspertiza/nalogovoe-rezidentstvo-i-kik.html">Налоговое резидентство и КИК</a></li>
+            <li><a href="/ru/ekspertiza/vat-i-transgranichnye-modeli.html">VAT и трансграничные модели</a></li>
+            <li><a href="/ru/ekspertiza/pe-risk-i-mezhdunarodnye-komandy.html">PE-risk и международные команды</a></li>
+            <li><a href="/ru/ekspertiza/bankovskaya-gotovnost.html">Банковская готовность</a></li>
+            <li><a href="/ru/ekspertiza/chastnyy-kapital-i-family-office.html">Частный капитал и family office</a></li>
+            <li><a href="/ru/ekspertiza/source-of-funds.html">Source of Funds / Source of Wealth</a></li>
+            <li><a href="/ru/ekspertiza/substance-i-governance.html">Фактическое присутствие и governance</a></li>
+            <li><a href="/ru/ekspertiza/regulyatornaya-arhitektura-i-licenzirovanie.html">Регуляторная архитектура</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3 class="footer-heading">Инсайты</h3>
+          <ul class="footer-links">
+            <li><a href="/ru/insayty/brifingi/index.html">Брифинги</a></li>
+            <li><a href="/ru/insayty/razbory/index.html">Разборы</a></li>
+            <li><a href="/ru/insayty/instrumenty/index.html">Инструменты</a></li>
+            <li><a href="/ru/podhod/karta-riskov.html">Карта рисков</a></li>
+          </ul>
+        </div>
+
+        <!-- Newsletter -->
+        <div class="footer-column footer-newsletter" id="footer-newsletter">
+          <h3 class="footer-heading">Подписка на обновления</h3>
+          <p class="newsletter-description">Только прикладные материалы по международному бизнесу.</p>
+
+          <form class="newsletter-form" id="newsletter-form"
+                name="newsletter" method="POST"
+                data-netlify="true" data-netlify-honeypot="bot-field"
+                action="/ru/ruspasibo-newsletter.html">
+            <input type="hidden" name="form-name" value="newsletter" />
+            <p style="display:none"><label>Не заполнять: <input name="bot-field"></label></p>
+
+            <div class="form-group">
+              <input type="email" class="newsletter-input" name="email"
+                     placeholder="Ваш email" required id="newsletter-email"
+                     autocomplete="email" aria-label="Email для подписки">
+              <button type="submit" class="newsletter-button" aria-label="Подписаться">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+
+            <div class="newsletter-consent">
+              <label class="newsletter-consent-label">
+                <input type="checkbox" name="privacy_consent" required>
+                <span>Согласен(на) с <a href="/ru/privacy-policy.html">Политикой конфиденциальности</a>.</span>
+              </label>
+            </div>
+          </form>
+
+          <div class="footer-badges" style="margin-top:20px;">
+            <div class="badge">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+              <span>EU · UK · UAE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-disclaimer">
+        <p>
+          Материалы на сайте носят общеинформационный характер и не являются юридической, налоговой или регуляторной консультацией и не создают отношений
+          «консультант — клиент». Для персонализированного анализа требуется отдельное соглашение.
+          LEXONYX работает исключительно с законными и compliance-совместимыми структурами и не участвует в схемах, нарушающих санкционное законодательство, требования AML/KYC или стандарты FATF.
+          Мы не гарантируем открытие счёта, получение лицензии или конкретный результат: решения принимаются банками, регуляторами и налоговыми органами самостоятельно.
+        </p>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-bottom-left">
+          <p class="footer-copyright">© 2026 LEXONYX. Все права защищены.</p>
+          <div class="footer-legal-links">
+            <a href="/ru/privacy-policy.html">Политика конфиденциальности</a>
+            <span class="separator">•</span>
+            <a href="/ru/terms-of-use.html">Условия использования</a>
+            <span class="separator">•</span>
+            <a href="/ru/cookie-policy.html">Политика cookies</a>
+            <a href="/ru/impressum.html">Impressum</a>
+            <span class="separator">•</span>
+            <a href="/ru/accessibility.html">Доступность</a>
+            <span class="separator">•</span>
+            <a href="#" data-cookie-settings>Настройки cookies</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script defer src="/ru/scripts/search-index-ru.js"></script>
+  <script defer src="/ru/scripts/site.js"></script>
+  <script defer src="/ru/scripts/lx-reveal.js"></script>
+  <script defer src="/ru/scripts/lx-consent.js"></script>
+  <script defer src="/ru/scripts/lx-to-top.js"></script>
+</body>
+
+</html>

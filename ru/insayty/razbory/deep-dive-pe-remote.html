@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Permanent Establishment в digital и remote-моделях — Разбор | LEXONYX</title>
+  <meta name="description" content="Где проходит граница между удалённой деятельностью и созданием налогооблагаемого присутствия. Практический разбор для международных структур.">
+  <meta name="view-transition" content="same-origin">
+  <link rel="stylesheet" href="/ru/styles.css">
+  <link rel="canonical" href="https://lexonyx.com/ru/insayty/razbory/deep-dive-pe-remote.html">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Permanent Establishment в digital и remote-моделях",
+    "description": "Где проходит граница между удалённой деятельностью и созданием налогооблагаемого присутствия.",
+    "author": { "@type": "Organization", "name": "LEXONYX" },
+    "publisher": { "@type": "Organization", "name": "LEXONYX" },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://lexonyx.com/ru/insayty/razbory/deep-dive-pe-remote.html"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Как возникает риск постоянного представительства в remote-моделях?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Риск возникает, когда люди в другой стране выполняют ключевые функции: ведут переговоры, заключают договоры, управляют или создают экономическую ценность. В digital и remote-моделях физического офиса нет, но фактическое присутствие людей с полномочиями способно создать постоянное представительство и налоговое присутствие в их юрисдикции."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Достаточно ли отсутствия офиса, чтобы избежать PE?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Нет. Отсутствие офиса не убирает риск автоматически. Постоянное представительство определяется не наличием помещения, а функциями и полномочиями людей: если сотрудник фактически заключает сделки или управляет бизнесом из своей страны, риск PE возникает независимо от того, есть ли у компании там физический офис."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Как управлять PE-риском в распределённой команде?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Управление начинается с карты команды по странам, функциям и полномочиям: где люди, что они реально делают, кто принимает решения. Важно, чтобы распределение функций было согласовано со структурой группы, договорной моделью и налоговой логикой. PE-risk анализируется вместе с резидентством и substance, а не как отдельная задача найма."
+      }
+    }
+  ]
+}
+  </script>
+  <link rel="alternate" hreflang="ru" href="https://lexonyx.com/ru/insayty/razbory/deep-dive-pe-remote.html" />
+  <link rel="alternate" hreflang="en" href="https://lexonyx.com/en/insights/deep-dives/deep-dive-pe-remote.html" />
+  <link rel="alternate" hreflang="uk" href="https://lexonyx.com/uk/insaity/rozbory/deep-dive-pe-remote.html" />
+  <link rel="alternate" hreflang="x-default" href="https://lexonyx.com/ru/insayty/razbory/deep-dive-pe-remote.html" />
+</head>
+
+<body>
+
+<!-- ═══════════════════════════════════════════ NAV ═══ -->
+<header class="site-header" id="main-header">
+  <div class="container">
+    <div class="header-container">
+
+      <a href="index.html" class="logo">
+        <svg class="logo-icon-standard" width="160" height="42" viewBox="0 0 160 42" fill="none">
+          <text x="0" y="30" font-family="Georgia, serif" font-size="26" font-weight="500" fill="#f5f2ea" letter-spacing="2">LEXONYX</text>
+          <line x1="0" y1="38" x2="145" y2="38" stroke="#b8956a" stroke-width="1.5" />
+        </svg>
+      </a>
+
+      <nav class="nav">
+        <a href="/ru/o-praktike/" class="nav-link">О практике</a>
+
+        <div class="nav-dropdown">
+          <a href="/ru/ekspertiza/" class="nav-link nav-link-dropdown">Практики
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left:4px;"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </a>
+          <div class="dropdown-menu dropdown-practices">
+            <div class="dropdown-content">
+              <div class="dropdown-section"><div class="dropdown-practice-card">
+                <h4>Структурирование и налоговые риски</h4>
+                <p>Международные структуры, налоговое резидентство, КИК, treaty-risk, governance и substance</p>
+                <a href="/ru/ekspertiza/#corporate" class="dropdown-link">Подробнее →</a>
+              </div></div>
+              <div class="dropdown-section"><div class="dropdown-practice-card">
+                <h4>Банковская готовность и FinTech</h4>
+                <p>Подготовка к onboarding, проверкам, KYC / AML, структуре для регулятора и готовности к лицензированию</p>
+                <a href="/ru/ekspertiza/#banking" class="dropdown-link">Подробнее →</a>
+              </div></div>
+              <div class="dropdown-section"><div class="dropdown-practice-card">
+                <h4>VAT, e-commerce и PE-risk</h4>
+                <p>VAT / OSS / IOSS, marketplace и fulfillment-модели, fixed establishment, PE-risk и международные команды</p>
+                <a href="/ru/ekspertiza/#compliance" class="dropdown-link">Подробнее →</a>
+              </div></div>
+              <div class="dropdown-section"><div class="dropdown-practice-card">
+                <h4>Договоры и операционная поддержка</h4>
+                <p>Коммерческие договоры, IP / brand, согласованность документации и координация между консультантами</p>
+                <a href="/ru/ekspertiza/#contracts" class="dropdown-link">Подробнее →</a>
+              </div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-dropdown">
+          <a href="/ru/formaty-raboty/" class="nav-link nav-link-dropdown">Услуги
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left:4px;"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </a>
+          <div class="dropdown-menu" style="min-width:680px;">
+            <div class="dropdown-content" style="grid-template-columns:repeat(4,1fr);">
+              <div class="dropdown-section"><h4>Структурирование и налоги</h4>
+                <a href="/ru/ekspertiza/strukturirovanie-gruppy.html">Международное структурирование бизнеса</a>
+                <a href="/ru/ekspertiza/nalogovoe-rezidentstvo-i-kik.html">Налоговое резидентство, КИК и treaty-risk</a>
+              </div>
+              <div class="dropdown-section"><h4>Банковская готовность и FinTech</h4>
+                <a href="/ru/ekspertiza/bankovskaya-gotovnost.html">Банковская готовность</a>
+                <a href="/ru/ekspertiza/regulyatornaya-arhitektura-i-licenzirovanie.html">Лицензирование FinTech-проектов</a>
+              </div>
+              <div class="dropdown-section"><h4>VAT и PE-risk</h4>
+                <a href="/ru/ekspertiza/vat-i-transgranichnye-modeli.html">VAT / OSS / IOSS</a>
+                <a href="/ru/ekspertiza/pe-risk-i-mezhdunarodnye-komandy.html">PE-risk и международные команды</a>
+              </div>
+              <div class="dropdown-section"><h4>Управление и операционная поддержка</h4>
+                <a href="/ru/ekspertiza/substance-i-governance.html">Substance и governance</a>
+                <a href="/ru/dlya-ukrainskogo-biznesa.html">Для украинского бизнеса в Европе</a>
+                <a href="/ru/ekspertiza/">Договоры и операционная поддержка</a>
+              </div>
+              <div class="dropdown-footer"><a href="/ru/formaty-raboty/" class="btn-dropdown-all">Все услуги →</a></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-dropdown">
+          <a href="/ru/yurisdikcii/" class="nav-link nav-link-dropdown">Юрисдикции
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left:4px;"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </a>
+          <div class="dropdown-menu dropdown-jurisdictions">
+            <div class="dropdown-content" style="grid-template-columns:1fr 1fr;min-width:520px;">
+              <div class="dropdown-section"><h4>ЕС</h4>
+                <a href="/ru/yurisdikcii/kipr.html"><span class="jur-code">CY</span> Кипр</a>
+                <a href="/ru/yurisdikcii/estoniya.html"><span class="jur-code">EE</span> Эстония</a>
+                <a href="/ru/yurisdikcii/litva.html"><span class="jur-code">LT</span> Литва</a>
+                <a href="/ru/yurisdikcii/irlandiya.html"><span class="jur-code">IE</span> Ирландия</a>
+                <a href="/ru/yurisdikcii/niderlandy.html"><span class="jur-code">NL</span> Нидерланды</a>
+                <a href="/ru/yurisdikcii/malta.html"><span class="jur-code">MT</span> Мальта</a>
+                <a href="/ru/yurisdikcii/polsha.html"><span class="jur-code">PL</span> Польша</a>
+                <a href="/ru/yurisdikcii/chehiya.html"><span class="jur-code">CZ</span> Чехия</a>
+              </div>
+              <div class="dropdown-section"><h4>Великобритания и другие</h4>
+                <a href="/ru/yurisdikcii/velikobritaniya.html"><span class="jur-code">UK</span> Великобритания</a>
+                <a href="/ru/yurisdikcii/oae.html"><span class="jur-code">AE</span> ОАЭ</a>
+                <a href="/ru/yurisdikcii/shveycariya.html"><span class="jur-code">CH</span> Швейцария</a>
+              </div>
+              <div class="dropdown-footer"><a href="/ru/yurisdikcii/" class="btn-dropdown-all">Все юрисдикции →</a></div>
+            </div>
+          </div>
+        </div>
+
+        <a href="/ru/formaty-raboty/" class="nav-link">Задачи</a>
+
+        <div class="nav-dropdown">
+          <a href="/ru/insayty/" class="nav-link nav-link-dropdown">Материалы
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left:4px;"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </a>
+          <div class="dropdown-menu" style="min-width:360px;">
+            <div class="dropdown-content" style="grid-template-columns:1fr;">
+              <div class="dropdown-section"><h4>Материалы</h4>
+                <a href="/ru/insayty/brifingi/">Брифинги</a>
+                <a href="/ru/insayty/razbory/" class="nav-link active">Разборы</a>
+                <a href="/ru/insayty/instrumenty/">Инструменты</a>
+              </div>
+              <div class="dropdown-footer"><a href="/ru/insayty/" class="btn-dropdown-all">Все материалы →</a></div>
+            </div>
+          </div>
+        </div>
+
+        <a href="/ru/o-praktike/kak-my-rabotaem.html" class="nav-link">Как мы работаем</a>
+        <a href="/ru/kontakty.html" class="nav-link">Контакты</a>
+      </nav>
+
+      <div class="header-right">
+        <button class="search-toggle" aria-label="Search" id="search-toggle">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+            <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="header-lang-switch" aria-label="Переключение языка">
+            <a href="/ru/insayty/razbory/deep-dive-pe-remote.html" class="lang-option active" lang="ru">RU</a>
+            <span class="lang-divider">|</span>
+            <a href="/en/insights/deep-dives/deep-dive-pe-remote.html" class="lang-option" lang="en">EN</a>
+            <span class="lang-divider">|</span>
+            <a href="/uk/insaity/rozbory/deep-dive-pe-remote.html" class="lang-option" lang="uk">UK</a>
+          </div>
+        <a href="/ru/zaprosit-razbor.html" class="btn btn-sm btn-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="margin-right:6px;">
+            <path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Запросить разбор
+        </a>
+        <button class="mobile-menu-toggle" aria-label="Menu" id="mobile-menu-toggle">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="search-overlay" id="search-overlay">
+    <div class="search-container">
+      <div class="search-box">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+          <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <input type="text" placeholder="Поиск услуг, разборов, материалов..." id="search-input" autocomplete="off">
+        <button class="search-close" id="search-close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="search-results" id="search-results"></div>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════ MOBILE MENU ══ -->
+<div class="mobile-menu" id="mobile-menu">
+  <div class="mobile-menu-header">
+    <a href="index.html" class="logo">
+      <svg width="140" height="36" viewBox="0 0 140 36" fill="none">
+        <text x="0" y="26" font-family="Georgia, serif" font-size="22" font-weight="500" fill="#f5f2ea" letter-spacing="2">LEXONYX</text>
+        <line x1="0" y1="32" x2="125" y2="32" stroke="#b8956a" stroke-width="1.5"/>
+      </svg>
+    </a>
+    <button class="mobile-menu-close" id="mobile-menu-close">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+  <nav class="mobile-nav">
+    <a href="/ru/o-praktike/" class="mobile-nav-link">О практике</a>
+    <div class="mobile-nav-accordion">
+      <button class="mobile-nav-link mobile-accordion-trigger" id="mobile-practices-trigger">Практики
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left:auto;"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <div class="mobile-accordion-content" id="mobile-practices-content">
+        <a href="/ru/ekspertiza/#corporate" class="mobile-sub-link">Структурирование и налоговые риски</a>
+        <a href="/ru/ekspertiza/#banking" class="mobile-sub-link">Банковская готовность и FinTech</a>
+        <a href="/ru/ekspertiza/#compliance" class="mobile-sub-link">VAT, e-commerce и PE-risk</a>
+        <a href="/ru/ekspertiza/#contracts" class="mobile-sub-link">Договоры и операционная поддержка</a>
+        <a href="/ru/ekspertiza/" class="mobile-sub-link mobile-sub-all">Все практики →</a>
+      </div>
+    </div>
+    <div class="mobile-nav-accordion">
+      <button class="mobile-nav-link mobile-accordion-trigger" id="mobile-services-trigger">Услуги
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left:auto;"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <div class="mobile-accordion-content" id="mobile-services-content">
+        <a href="/ru/ekspertiza/strukturirovanie-gruppy.html" class="mobile-sub-link">Международное структурирование бизнеса</a>
+        <a href="/ru/ekspertiza/nalogovoe-rezidentstvo-i-kik.html" class="mobile-sub-link">Налоговое резидентство, КИК и treaty-risk</a>
+        <a href="/ru/ekspertiza/bankovskaya-gotovnost.html" class="mobile-sub-link">Банковская готовность</a>
+        <a href="/ru/ekspertiza/regulyatornaya-arhitektura-i-licenzirovanie.html" class="mobile-sub-link">Лицензирование FinTech-проектов</a>
+        <a href="/ru/ekspertiza/vat-i-transgranichnye-modeli.html" class="mobile-sub-link">VAT / OSS / IOSS</a>
+        <a href="/ru/ekspertiza/pe-risk-i-mezhdunarodnye-komandy.html" class="mobile-sub-link">PE-risk и международные команды</a>
+        <a href="/ru/formaty-raboty/" class="mobile-sub-link mobile-sub-all">Все услуги →</a>
+      </div>
+    </div>
+    <div class="mobile-nav-accordion">
+      <button class="mobile-nav-link mobile-accordion-trigger" id="mobile-jurisdictions-trigger">Юрисдикции
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left:auto;"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <div class="mobile-accordion-content" id="mobile-jurisdictions-content">
+        <a href="/ru/yurisdikcii/kipr.html" class="mobile-sub-link"><span class="jur-code">CY</span> Кипр</a>
+        <a href="/ru/yurisdikcii/estoniya.html" class="mobile-sub-link"><span class="jur-code">EE</span> Эстония</a>
+        <a href="/ru/yurisdikcii/litva.html" class="mobile-sub-link"><span class="jur-code">LT</span> Литва</a>
+        <a href="/ru/yurisdikcii/irlandiya.html" class="mobile-sub-link"><span class="jur-code">IE</span> Ирландия</a>
+        <a href="/ru/yurisdikcii/niderlandy.html" class="mobile-sub-link"><span class="jur-code">NL</span> Нидерланды</a>
+        <a href="/ru/yurisdikcii/malta.html" class="mobile-sub-link"><span class="jur-code">MT</span> Мальта</a>
+        <a href="/ru/yurisdikcii/polsha.html" class="mobile-sub-link"><span class="jur-code">PL</span> Польша</a>
+        <a href="/ru/yurisdikcii/chehiya.html" class="mobile-sub-link"><span class="jur-code">CZ</span> Чехия</a>
+        <a href="/ru/yurisdikcii/velikobritaniya.html" class="mobile-sub-link"><span class="jur-code">UK</span> Великобритания</a>
+        <a href="/ru/yurisdikcii/oae.html" class="mobile-sub-link"><span class="jur-code">AE</span> ОАЭ</a>
+        <a href="/ru/yurisdikcii/shveycariya.html" class="mobile-sub-link"><span class="jur-code">CH</span> Швейцария</a>
+        <a href="/ru/yurisdikcii/" class="mobile-sub-link mobile-sub-all">Все юрисдикции →</a>
+      </div>
+    </div>
+    <div class="mobile-nav-accordion">
+      <button class="mobile-nav-link mobile-accordion-trigger" id="mobile-materials-trigger">Материалы
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left:auto;"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <div class="mobile-accordion-content" id="mobile-materials-content">
+        <a href="/ru/insayty/brifingi/" class="mobile-sub-link">Брифинги</a>
+        <a href="/ru/insayty/razbory/" class="mobile-sub-link">Разборы</a>
+        <a href="/ru/insayty/instrumenty/" class="mobile-sub-link">Инструменты</a>
+        <a href="/ru/insayty/" class="mobile-sub-link mobile-sub-all">Все материалы →</a>
+      </div>
+    </div>
+    <a href="/ru/o-praktike/kak-my-rabotaem.html" class="mobile-nav-link">Как мы работаем</a>
+    <a href="/ru/kontakty.html" class="mobile-nav-link">Контакты</a>
+  </nav>
+  <div class="mobile-menu-footer">
+    <div class="mobile-lang-switch">
+        <a href="/ru/insayty/razbory/deep-dive-pe-remote.html" class="lang-option active" lang="ru">RU</a>
+        <span class="lang-divider">|</span>
+        <a href="/en/insights/deep-dives/deep-dive-pe-remote.html" class="lang-option" lang="en">EN</a>
+        <span class="lang-divider">|</span>
+        <a href="/uk/insayty/razbory/deep-dive-pe-remote.html" class="lang-option" lang="uk">UK</a>
+      </div>
+    <a href="/ru/zaprosit-razbor.html" class="btn btn-primary" style="width:100%;margin-top:16px;justify-content:center;">Запросить разбор</a>
+  </div>
+</div>
+<!-- ══════════════════════════════════════════════════════ -->
+
+
+<!-- BREADCRUMBS -->
+<section class="section section-light hero-bg-light--insayty-razbory-deep-dive-pe-remote" style="padding:20px 0 0;">
+  <div class="container container-narrow">
+    <div style="font-size:13px;color:rgba(26,26,26,0.45);">
+      <a href="index.html" style="color:rgba(26,26,26,0.45);text-decoration:none;">Главная</a>
+      <span style="margin:0 8px;">→</span>
+      <a href="/ru/insayty/" style="color:rgba(26,26,26,0.45);text-decoration:none;">Материалы</a>
+      <span style="margin:0 8px;">→</span>
+      <a href="/ru/insayty/razbory/" style="color:rgba(26,26,26,0.45);text-decoration:none;">Разборы</a>
+      <span style="margin:0 8px;">→</span>
+      <a href="deep-dives.html" style="color:rgba(26,26,26,0.45);text-decoration:none;">Deep Dive</a>
+      <span style="margin:0 8px;">→</span>
+      <span style="color:rgba(26,26,26,0.65);">PE Risk</span>
+    </div>
+  </div>
+</section>
+
+
+<main class="pillar-page">
+<div class="pillar-layout">
+
+<!-- SIDE NAV -->
+<aside class="pillar-toc">
+  <div class="pillar-toc-inner">
+    <a href="#context">Контекст</a>
+    <a href="#definition">Что такое PE</a>
+    <a href="#digital">Digital-реальность</a>
+    <a href="#scenarios">Сценарии риска</a>
+    <a href="#dependent">Dependent Agent PE</a>
+    <a href="#banking">Банковская перспектива</a>
+    <a href="#control">Как контролировать риск</a>
+  </div>
+</aside>
+
+<div class="pillar-content">
+
+<!-- HERO -->
+<section id="context" class="pillar-hero pillar-section">
+  <div class="container container-narrow">
+    <div class="pillar-label">DEEP DIVE · PE RISK</div>
+    <h1 class="pillar-title">
+      Permanent Establishment<br>
+      в digital и remote-моделях
+    </h1>
+    <p class="pillar-subtitle">
+      Где проходит граница между удалённой деятельностью
+      и созданием налогооблагаемого присутствия.
+      Практический разбор для международных структур.
+    </p>
+  </div>
+</section>
+
+
+<!-- DEFINITION -->
+<section id="definition" class="pillar-section">
+  <div class="container container-narrow">
+    <h2 class="pillar-heading">Что такое Permanent Establishment</h2>
+    <p class="pillar-text">
+      PE возникает, когда иностранная компания
+      создаёт достаточную степень экономического присутствия
+      в другой юрисдикции.
+    </p>
+    <div class="pillar-insight">
+      <div class="pillar-insight-line"></div>
+      <p>
+        Ключевой вопрос — не «есть ли сотрудник»,
+        а «осуществляется ли бизнес через эту страну».
+      </p>
+    </div>
+    <ul class="pillar-list">
+      <li>Fixed place of business</li>
+      <li>Dependent agent</li>
+      <li>Фактическое управление</li>
+      <li>Регулярная коммерческая активность</li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- DIGITAL REALITY -->
+<section id="digital" class="pillar-section pillar-muted">
+  <div class="container container-narrow">
+    <h2 class="pillar-heading">Digital-реальность изменила картину</h2>
+    <p class="pillar-text">
+      SaaS, e-commerce и remote-команды
+      сделали географию размытой.
+    </p>
+    <p class="pillar-text">
+      Но налоговые органы всё чаще оценивают
+      фактическое место создания ценности.
+    </p>
+  </div>
+</section>
+
+
+<!-- SCENARIO 1 -->
+<section id="scenarios" class="pillar-section">
+  <div class="container container-narrow">
+    <h2 class="pillar-heading">Сценарий 1 — Remote developer</h2>
+
+    <!-- HTML/CSS diagram — no SVG class dependency -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:0;margin:32px auto;max-width:480px;flex-wrap:wrap;">
+      <div style="padding:14px 24px;border:1px solid rgba(184,149,106,0.50);background:rgba(184,149,106,0.05);text-align:center;min-width:160px;">
+        <div style="font-family:Georgia,serif;font-size:15px;color:rgba(26,26,26,0.85);font-weight:400;">Estonian OÜ</div>
+        <div style="font-size:11px;color:rgba(26,26,26,0.50);margin-top:4px;letter-spacing:0.02em;">SaaS Revenue</div>
+      </div>
+      <div style="display:flex;align-items:center;padding:0 8px;">
+        <div style="height:1px;width:40px;border-top:1px dashed rgba(184,149,106,0.40);"></div>
+        <div style="font-size:11px;color:rgba(184,149,106,0.60);padding:0 6px;">→</div>
+        <div style="height:1px;width:40px;border-top:1px dashed rgba(184,149,106,0.40);"></div>
+      </div>
+      <div style="padding:14px 24px;border:1px solid rgba(184,149,106,0.50);background:rgba(184,149,106,0.05);text-align:center;min-width:160px;">
+        <div style="font-family:Georgia,serif;font-size:15px;color:rgba(26,26,26,0.85);font-weight:400;">Developer</div>
+        <div style="font-size:11px;color:rgba(26,26,26,0.50);margin-top:4px;letter-spacing:0.02em;">Poland</div>
+      </div>
+    </div>
+
+    <p class="pillar-text">
+      Один разработчик редко создаёт PE.
+      Но если:
+    </p>
+    <ul class="pillar-list">
+      <li>Он ведёт переговоры</li>
+      <li>Подписывает договоры</li>
+      <li>Фактически управляет проектом</li>
+    </ul>
+    <p class="pillar-text">
+      риск существенно возрастает.
+    </p>
+  </div>
+</section>
+
+
+<!-- DEPENDENT AGENT -->
+<section id="dependent" class="pillar-section pillar-muted">
+  <div class="container container-narrow">
+    <h2 class="pillar-heading">Dependent Agent PE</h2>
+    <p class="pillar-text">
+      Если лицо в стране:
+    </p>
+    <ul class="pillar-list">
+      <li>Регулярно заключает договоры</li>
+      <li>Ведёт переговоры от имени компании</li>
+      <li>Действует не как независимый подрядчик</li>
+    </ul>
+    <div class="pillar-insight">
+      <div class="pillar-insight-line"></div>
+      <p>
+        Тогда возникает риск налогооблагаемого присутствия,
+        даже без офиса.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- BANKING -->
+<section id="banking" class="pillar-section">
+  <div class="container container-narrow">
+    <h2 class="pillar-heading">Банковская перспектива</h2>
+    <p class="pillar-text">
+      Банк анализирует footprint команды.
+    </p>
+    <p class="pillar-text">
+      Если 80% команды в одной стране,
+      а компания зарегистрирована в другой —
+      возникает вопрос о реальном центре управления.
+    </p>
+  </div>
+</section>
+
+
+<!-- CONTROL -->
+<section id="control" class="pillar-section pillar-muted">
+  <div class="container container-narrow">
+    <h2 class="pillar-heading">Как контролировать риск</h2>
+    <ul class="pillar-list">
+      <li>Разграничить функции сотрудников</li>
+      <li>Документировать процесс принятия решений</li>
+      <li>Не концентрировать управление вне юрисдикции</li>
+      <li>Оценивать структуру при масштабировании</li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- CTA -->
+<section class="pillar-cta">
+  <div class="container container-narrow">
+    <h2 class="pillar-cta-title">
+      Есть remote-команда?
+    </h2>
+    <p class="pillar-cta-text">
+      Оценим риск PE до того,
+      как это сделает налоговый орган.
+    </p>
+    <a href="/ru/zaprosit-razbor.html"
+       style="font-size:14px;font-weight:500;color:rgba(184,149,106,0.8);text-decoration:none;letter-spacing:0.04em;text-transform:uppercase;">
+      Запросить анализ →
+    </a>
+  </div>
+</section>
+
+
+<!-- Связанные материалы -->
+<section class="pillar-section" style="padding:48px 0;">
+  <div class="container container-narrow">
+    <div style="border-top:0.5px solid rgba(10,17,24,0.10);padding-top:40px;">
+      <div style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(184,149,106,0.65);margin-bottom:20px;">
+        Связанные материалы
+      </div>
+      <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;">
+        <li><a href="/ru/insayty/brifingi/" style="font-size:14px;font-weight:500;color:rgba(184,149,106,0.8);text-decoration:none;">PE-risk и Management &amp; Control →</a></li>
+        <li><a href="deep-dive-holdco-opco.html" style="font-size:14px;font-weight:500;color:rgba(184,149,106,0.8);text-decoration:none;">HoldCo / OpCo: когда модель работает →</a></li>
+        <li><a href="deep-dive-banking-readiness.html" style="font-size:14px;font-weight:500;color:rgba(184,149,106,0.8);text-decoration:none;">Banking Readiness как структурный стресс-тест →</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Disclaimer -->
+<section class="pillar-section" style="padding:0 0 48px;">
+  <div class="container container-narrow">
+    <p style="font-size:13px;color:#718096;line-height:1.7;">
+      Материал носит аналитический характер и не является индивидуальной
+      юридической или налоговой консультацией.
+    </p>
+  </div>
+</section>
+
+</div><!-- /pillar-content -->
+</div><!-- /pillar-layout -->
+</main>
+
+
+<!-- ═══════════════════════════════════════════ FOOTER ═══ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-main">
+
+      <div class="footer-column footer-brand">
+        <a href="index.html" class="footer-logo">
+          <svg width="180" height="46" viewBox="0 0 180 46" fill="none">
+            <text x="0" y="34" font-family="Georgia, serif" font-size="28" font-weight="500" fill="#f5f2ea" letter-spacing="2.5">LEXONYX</text>
+            <line x1="0" y1="42" x2="165" y2="42" stroke="#b8956a" stroke-width="2"/>
+          </svg>
+        </a>
+        <p class="footer-tagline">Международное структурирование бизнеса</p>
+        <p class="footer-description">Независимая advisory-практика: международное структурирование, налоговые риски, банковская готовность, VAT, PE-risk и регуляторная готовность в EU, UK и UAE.</p>
+        <div class="footer-social">
+          <a href="https://linkedin.com/company/lexonyx" class="social-link" target="_blank" aria-label="LinkedIn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+          <a href="https://t.me/liudmyla_mir" class="social-link" target="_blank" aria-label="Telegram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          </a>
+        </div>
+          <p class="footer-phones">
+            <a href="tel:+380980198800">+38 098 019 88 00</a>
+            <a href="tel:+4917610198800">+49 1761 019 88 00</a>
+          </p>
+      </div>
+
+      <div class="footer-column">
+        <h3 class="footer-heading">Направления работы</h3>
+        <ul class="footer-links">
+          <li><a href="/ru/ekspertiza/#corporate">Структурирование и налоговые риски</a></li>
+          <li><a href="/ru/ekspertiza/#banking">Банковская готовность и FinTech</a></li>
+          <li><a href="/ru/ekspertiza/#compliance">VAT, e-commerce и PE-risk</a></li>
+          <li><a href="/ru/ekspertiza/#contracts">Договоры и операционная поддержка</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3 class="footer-heading">Ключевые услуги</h3>
+        <ul class="footer-links">
+          <li><a href="/ru/ekspertiza/strukturirovanie-gruppy.html">Международное структурирование бизнеса</a></li>
+          <li><a href="/ru/ekspertiza/nalogovoe-rezidentstvo-i-kik.html">Налоговое резидентство, КИК и treaty-risk</a></li>
+          <li><a href="/ru/ekspertiza/bankovskaya-gotovnost.html">Банковская готовность</a></li>
+            <li><a href="/ru/ekspertiza/chastnyy-kapital-i-family-office.html">Частный капитал и family office</a></li>
+            <li><a href="/ru/ekspertiza/source-of-funds.html">Source of Funds / Source of Wealth</a></li>
+          <li><a href="/ru/ekspertiza/vat-i-transgranichnye-modeli.html">VAT / OSS / IOSS</a></li>
+          <li><a href="/ru/ekspertiza/pe-risk-i-mezhdunarodnye-komandy.html">PE-risk и международные команды</a></li>
+          <li><a href="/ru/formaty-raboty/" class="link-all">Все услуги →</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3 class="footer-heading">Материалы</h3>
+        <ul class="footer-links">
+          <li><a href="/ru/insayty/brifingi/">Брифинги</a></li>
+          <li><a href="/ru/insayty/razbory/">Разборы</a></li>
+          <li><a href="/ru/insayty/instrumenty/">Инструменты</a></li>
+          <li><a href="/ru/o-praktike/kak-my-rabotaem.html">Как мы работаем</a></li>
+          <li><a href="/ru/o-praktike/">О практике</a></li>
+          <li><a href="/ru/kontakty.html">Контакты</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column footer-newsletter" id="footer-newsletter">
+        <h3 class="footer-heading">Newsletter</h3>
+        <p class="newsletter-description">Только прикладные материалы по международному бизнесу.<br>Без спама и без «новостей ради новостей».</p>
+        <form class="newsletter-form" id="newsletter-form" name="newsletter" data-netlify="true" netlify-honeypot="bot-field">
+          <p style="display:none"><label>Не заполнять: <input name="bot-field"></label></p>
+          <div class="form-group">
+            <input type="email" class="newsletter-input" placeholder="Ваш email" required id="newsletter-email">
+            <button type="submit" class="newsletter-button">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+          </div>
+          <p class="newsletter-note">Никакого спама. Только экспертные материалы.</p>
+        </form>
+        <div class="footer-badges">
+          <div class="badge">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            <span>EU · UK · UAE</span>
+          </div>
+          <div class="badge">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span>С 2012 года</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-disclaimer">
+      <p>Материалы носят общеинформационный характер. Не являются юридической консультацией. LEXONYX — независимая advisory-компания. Работаем с законными структурами. Не участвуем в схемах, нарушающих AML/KYC/FATF.</p>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-bottom-left">
+        <p class="footer-copyright">© 2024–2026 LEXONYX. Все права защищены.</p>
+        <div class="footer-legal-links">
+          <a href="/ru/privacy-policy.html">Политика конфиденциальности</a>
+          <span class="separator">•</span>
+          <a href="/ru/terms-of-use.html">Условия использования</a>
+          <span class="separator">•</span>
+          <a href="/ru/cookie-policy.html">Политика cookies</a>
+          <a href="/ru/impressum.html">Impressum</a>
+          <span class="separator">•</span>
+          <a href="#" onclick="localStorage.removeItem('cookie_consent'); location.reload(); return false;">Настройки cookies</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</footer>
+<!-- ══════════════════════════════════════════════════════ -->
+
+
+
+
+<!-- ── Pillar override — placed last to win cascade ── -->
+
+    <script defer src="/ru/scripts/search-index-ru.js"></script>
+  <script defer src="/ru/scripts/site.js"></script>
+  <script defer src="/ru/scripts/lx-reveal.js"></script>
+</body>
+</html>

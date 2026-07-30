@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Permanent Establishment in Digital and Remote Models — Deep Dive | LEXONYX</title>
+  <meta name="description" content="Where the line lies between remote activity and the creation of taxable presence. A practical analysis for international structures.">
+  <meta name="view-transition" content="same-origin">
+  <link rel="stylesheet" href="/ru/styles.css">
+  <link rel="canonical" href="https://lexonyx.com/en/insights/deep-dives/deep-dive-pe-remote.html">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Permanent Establishment in Digital and Remote Models",
+    "description": "Where the line lies between remote activity and the creation of taxable presence.",
+    "author": { "@type": "Organization", "name": "LEXONYX" },
+    "publisher": { "@type": "Organization", "name": "LEXONYX" },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://lexonyx.com/en/insights/deep-dives/deep-dive-pe-remote.html"
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does permanent establishment risk arise in remote models?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The risk arises when people in another country perform key functions: negotiate, conclude contracts, manage or create economic value. In digital and remote models there may be no physical office, but the actual presence of people with authority can create a permanent establishment and taxable presence in their jurisdiction."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the absence of an office enough to avoid PE?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The absence of an office does not remove the risk automatically. A permanent establishment is determined not by the existence of premises, but by the functions and authority of people: if an employee in fact concludes transactions or manages the business from their country, PE-risk arises regardless of whether the company has a physical office there."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How should PE-risk be managed in a distributed team?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Management starts with a map of the team by country, function and authority: where people are, what they actually do and who makes decisions. The allocation of functions must be aligned with the group structure, contractual model and tax logic. PE-risk is analysed together with residency and substance, not as a separate hiring issue."
+      }
+    }
+  ]
+}
+  </script>
+  <link rel="alternate" hreflang="ru" href="https://lexonyx.com/ru/insayty/razbory/deep-dive-pe-remote.html" />
+  <link rel="alternate" hreflang="en" href="https://lexonyx.com/en/insights/deep-dives/deep-dive-pe-remote.html" />
+  <link rel="alternate" hreflang="uk" href="https://lexonyx.com/uk/insaity/rozbory/deep-dive-pe-remote.html" />
+  <link rel="alternate" hreflang="x-default" href="https://lexonyx.com/ru/insayty/razbory/deep-dive-pe-remote.html" />
+</head>
+
+<body>
+
+<!-- ═══════════════════════════════════════════ NAV ═══ -->
+
+<header class="site-header" id="main-header">
+  <div class="container">
+    <div class="header-container">
+
+  <a href="index.html" class="logo">
+    <svg class="logo-icon-standard" width="160" height="42" viewBox="0 0 160 42" fill="none">
+      <text x="0" y="30" font-family="Georgia, serif" font-size="26" font-weight="500" fill="#f5f2ea" letter-spacing="2">LEXONYX</text>
+      <line x1="0" y1="38" x2="145" y2="38" stroke="#b8956a" stroke-width="1.5" />
+    </svg>
+  </a>
+
+  <nav class="nav">
+    <a href="/en/about/" class="nav-link">About</a>
+
+    <div class="nav-dropdown">
+      <a href="/en/expertise/" class="nav-link nav-link-dropdown">Practices
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left:4px;"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </a>
+      <div class="dropdown-menu dropdown-practices">
+        <div class="dropdown-content">
+          <div class="dropdown-section"><div class="dropdown-practice-card">
+            <h4>Structuring and Tax Risk</h4>
+            <p>International structures, tax residency, CFC, treaty-risk, governance and substance</p>
+            <a href="/en/expertise/#corporate" class="dropdown-link">Learn More →</a>
+          </div></div>
+          <div class="dropdown-section"><div class="dropdown-practice-card">
+            <h4>Banking Readiness and FinTech</h4>
+            <p>Preparation for onboarding, reviews, KYC / AML, regulator-facing structure and licensing readiness</p>
+            <a href="/en/expertise/#banking" class="dropdown-link">Learn More →</a>
+          </div></div>
+          <div class="dropdown-section"><div class="dropdown-practice-card">
+            <h4>VAT, e-commerce and PE-risk</h4>
+            <p>VAT / OSS / IOSS, marketplace and fulfilment models, fixed establishment, PE-risk and international teams</p>
+            <a href="/en/expertise/#compliance" class="dropdown-link">Learn More →</a>
+          </div></div>
+          <div class="dropdown-section"><div class="dropdown-practice-card">
+            <h4>Contracts and Operational Support</h4>
+            <p>Commercial contracts, IP / brand, document alignment and coordination between advisers</p>
+            <a href="/en/expertise/#contracts" class="dropdown-link">Learn More →</a>
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-dropdown">
+      <a href="/en/work-formats/" class="nav-link nav-link-dropdown">Services
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left:4px;"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </a>
+      <div class="dropdown-menu" style="min-width:680px;">
+        <div class="dropdown-content" style="grid-template-columns:repeat(4,1fr);">
+          <div class="dropdown-section"><h4>Structuring and Tax</h4>
+            <a href="/en/expertise/group-structuring.html">International Business Structuring</a>
+            <a href="/en/expertise/tax-residency-cfc.html">Tax Residency, CFC and treaty-risk</a>
+          </div>
+          <div class="dropdown-section"><h4>Banking Readiness and FinTech</h4>
+            <a href="/en/expertise/banking-readiness.html">Banking Readiness</a>
+            <a href="/en/expertise/regulatory-licensing.html">Licensing for FinTech Projects</a>
+          </div>
+          <div class="dropdown-section"><h4>VAT and PE-risk</h4>
+            <a href="/en/expertise/vat-cross-border.html">VAT / OSS / IOSS</a>
+            <a href="/en/expertise/pe-risk-international-teams.html">PE-risk and International Teams</a>
+          </div>
+          <div class="dropdown-section"><h4>Governance and Operational Support</h4>
+            <a href="/en/expertise/substance-governance.html">Substance and governance</a>
+            <a href="/en/for-ukrainian-business.html">For Ukrainian Business in Europe</a>
+            <a href="/en/expertise/">Contracts and Operational Support</a>
+          </div>
+          <div class="dropdown-footer"><a href="/en/work-formats/" class="btn-dropdown-all">All Services →</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-dropdown">
+      <a href="/en/jurisdictions/" class="nav-link nav-link-dropdown">Jurisdictions
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left:4px;"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </a>
+      <div class="dropdown-menu dropdown-jurisdictions">
+        <div class="dropdown-content" style="grid-template-columns:1fr 1fr;min-width:520px;">
+          <div class="dropdown-section"><h4>EU</h4>
+            <a href="/en/jurisdictions/cyprus.html"><span class="jur-code">CY</span> Cyprus</a>
+            <a href="/en/jurisdictions/estonia.html"><span class="jur-code">EE</span> Estonia</a>
+            <a href="/en/jurisdictions/lithuania.html"><span class="jur-code">LT</span> Lithuania</a>
+            <a href="/en/jurisdictions/ireland.html"><span class="jur-code">IE</span> Ireland</a>
+            <a href="/en/jurisdictions/netherlands.html"><span class="jur-code">NL</span> Netherlands</a>
+            <a href="/en/jurisdictions/malta.html"><span class="jur-code">MT</span> Malta</a>
+            <a href="/en/jurisdictions/poland.html"><span class="jur-code">PL</span> Poland</a>
+            <a href="/en/jurisdictions/czechia.html"><span class="jur-code">CZ</span> Czechia</a>
+          </div>
+          <div class="dropdown-section"><h4>United Kingdom and Others</h4>
+            <a href="/en/jurisdictions/united-kingdom.html"><span class="jur-code">UK</span> United Kingdom</a>
+            <a href="/en/jurisdictions/uae.html"><span class="jur-code">AE</span> UAE</a>
+            <a href="/en/jurisdictions/switzerland.html"><span class="jur-code">CH</span> Switzerland</a>
+          </div>
+          <div class="dropdown-footer"><a href="/en/jurisdictions/" class="btn-dropdown-all">All Jurisdictions →</a></div>
+        </div>
+      </div>
+    </div>
+
+    <a href="/en/work-formats/" class="nav-link">Tasks</a>
+
+    <div class="nav-dropdown">
+      <a href="/en/insights/" class="nav-link nav-link-dropdown">Resources
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left:4px;"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </a>
+      <div class="dropdown-menu" style="min-width:360px;">
+        <div class="dropdown-content" style="grid-template-columns:1fr;">
+          <div class="dropdown-section"><h4>Resources</h4>
+            <a href="/en/insights/briefings/">Briefings</a>
+            <a href="/en/insights/deep-dives/" class="nav-link active">Deep Dives</a>
+            <a href="/en/insights/tools/">Tools</a>
+          </div>
+          <div class="dropdown-footer"><a href="/en/insights/" class="btn-dropdown-all">All Resources →</a></div>
+        </div>
+      </div>
+    </div>
+
+    <a href="/en/about/how-we-work.html" class="nav-link">How We Work</a>
+    <a href="/en/contact.html" class="nav-link">Contact</a>
+  </nav>
+
+  <div class="header-right">
+    <button class="search-toggle" aria-label="Search" id="search-toggle">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+        <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div class="header-lang-switch" aria-label="Language">
+            <a href="/ru/insayty/razbory/deep-dive-pe-remote.html" class="lang-option" lang="ru">RU</a>
+            <span class="lang-divider">|</span>
+            <a href="/en/insights/deep-dives/deep-dive-pe-remote.html" class="lang-option active" lang="en">EN</a>
+            <span class="lang-divider">|</span>
+            <a href="/uk/insaity/rozbory/deep-dive-pe-remote.html" class="lang-option" lang="uk">UK</a>
+          </div>
+    <a href="/en/intake/intake.html" class="btn btn-sm btn-primary">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="margin-right:6px;">
+        <path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" stroke="currentColor" stroke-width="2"/>
+      </svg>
+      Request a Review
+    </a>
+    <button class="mobile-menu-toggle" aria-label="Menu" id="mobile-menu-toggle">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+</div>
+
+  </div>
+
+  <div class="search-overlay" id="search-overlay">
+    <div class="search-container">
+      <div class="search-box">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+          <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <input type="text" placeholder="Search services, deep dives, resources..." id="search-input" autocomplete="off">
+        <button class="search-close" id="search-close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="search-results" id="search-results"></div>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════ MOBILE MENU ══ -->
+
+<div class="mobile-menu" id="mobile-menu">
+  <div class="mobile-menu-header">
+    <a href="index.html" class="logo">
+      <svg width="140" height="36" viewBox="0 0 140 36" fill="none">
+        <text x="0" y="26" font-family="Georgia, serif" font-size="22" font-weight="500" fill="#f5f2ea" letter-spacing="2">LEXONYX</text>
+        <line x1="0" y1="32" x2="125" y2="32" stroke="#b8956a" stroke-width="1.5"/>
+      </svg>
+    </a>
+    <button class="mobile-menu-close" id="mobile-menu-close">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+  <nav class="mobile-nav">
+    <a href="/en/about/" class="mobile-nav-link">About</a>
+    <div class="mobile-nav-accordion">
+      <button class="mobile-nav-link mobile-accordion-trigger" id="mobile-practices-trigger">Practices
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left:auto;"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <div class="mobile-accordion-content" id="mobile-practices-content">
+        <a href="/en/expertise/#corporate" class="mobile-sub-link">Structuring and Tax Risk</a>
+        <a href="/en/expertise/#banking" class="mobile-sub-link">Banking Readiness and FinTech</a>
+        <a href="/en/expertise/#compliance" class="mobile-sub-link">VAT, e-commerce and PE-risk</a>
+        <a href="/en/expertise/#contracts" class="mobile-sub-link">Contracts and Operational Support</a>
+        <a href="/en/expertise/" class="mobile-sub-link mobile-sub-all">All Practices →</a>
+      </div>
+    </div>
+    <div class="mobile-nav-accordion">
+      <button class="mobile-nav-link mobile-accordion-trigger" id="mobile-services-trigger">Services
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left:auto;"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <div class="mobile-accordion-content" id="mobile-services-content">
+        <a href="/en/expertise/group-structuring.html" class="mobile-sub-link">International Business Structuring</a>
+        <a href="/en/expertise/tax-residency-cfc.html" class="mobile-sub-link">Tax Residency, CFC and treaty-risk</a>
+        <a href="/en/expertise/banking-readiness.html" class="mobile-sub-link">Banking Readiness</a>
+        <a href="/en/expertise/regulatory-licensing.html" class="mobile-sub-link">Licensing for FinTech Projects</a>
+        <a href="/en/expertise/vat-cross-border.html" class="mobile-sub-link">VAT / OSS / IOSS</a>
+        <a href="/en/expertise/pe-risk-international-teams.html" class="mobile-sub-link">PE-risk and International Teams</a>
+        <a href="/en/work-formats/" class="mobile-sub-link mobile-sub-all">All Services →</a>
+      </div>
+    </div>
+    <div class="mobile-nav-accordion">
+      <button class="mobile-nav-link mobile-accordion-trigger" id="mobile-jurisdictions-trigger">Jurisdictions
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left:auto;"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <div class="mobile-accordion-content" id="mobile-jurisdictions-content">
+        <a href="/en/jurisdictions/cyprus.html" class="mobile-sub-link"><span class="jur-code">CY</span> Cyprus</a>
+        <a href="/en/jurisdictions/estonia.html" class="mobile-sub-link"><span class="jur-code">EE</span> Estonia</a>
+        <a href="/en/jurisdictions/lithuania.html" class="mobile-sub-link"><span class="jur-code">LT</span> Lithuania</a>
+        <a href="/en/jurisdictions/ireland.html" class="mobile-sub-link"><span class="jur-code">IE</span> Ireland</a>
+        <a href="/en/jurisdictions/netherlands.html" class="mobile-sub-link"><span class="jur-code">NL</span> Netherlands</a>
+        <a href="/en/jurisdictions/malta.html" class="mobile-sub-link"><span class="jur-code">MT</span> Malta</a>
+        <a href="/en/jurisdictions/poland.html" class="mobile-sub-link"><span class="jur-code">PL</span> Poland</a>
+        <a href="/en/jurisdictions/czechia.html" class="mobile-sub-link"><span class="jur-code">CZ</span> Czechia</a>
+        <a href="/en/jurisdictions/united-kingdom.html" class="mobile-sub-link"><span class="jur-code">UK</span> United Kingdom</a>
+        <a href="/en/jurisdictions/uae.html" class="mobile-sub-link"><span class="jur-code">AE</span> UAE</a>
+        <a href="/en/jurisdictions/switzerland.html" class="mobile-sub-link"><span class="jur-code">CH</span> Switzerland</a>
+        <a href="/en/jurisdictions/" class="mobile-sub-link mobile-sub-all">All Jurisdictions →</a>
+      </div>
+    </div>
+    <div class="mobile-nav-accordion">
+      <button class="mobile-nav-link mobile-accordion-trigger" id="mobile-materials-trigger">Resources
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left:auto;"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <div class="mobile-accordion-content" id="mobile-materials-content">
+        <a href="/en/insights/briefings/" class="mobile-sub-link">Briefings</a>
+        <a href="/en/insights/deep-dives/" class="mobile-sub-link">Deep Dives</a>
+        <a href="/en/insights/tools/" class="mobile-sub-link">Tools</a>
+        <a href="/en/insights/" class="mobile-sub-link mobile-sub-all">All Resources →</a>
+      </div>
+    </div>
+    <a href="/en/about/how-we-work.html" class="mobile-nav-link">How We Work</a>
+    <a href="/en/contact.html" class="mobile-nav-link">Contact</a>
+  </nav>
+  <div class="mobile-menu-footer">
+    <div class="mobile-lang-switch">
+        <a href="/ru/insayty/razbory/deep-dive-pe-remote.html" class="lang-option" lang="ru">RU</a>
+        <span class="lang-divider">|</span>
+        <a href="/en/insights/deep-dives/deep-dive-pe-remote.html" class="lang-option active" lang="en">EN</a>
+        <span class="lang-divider">|</span>
+        <a href="/uk/insayty/razbory/deep-dive-pe-remote.html" class="lang-option" lang="uk">UK</a>
+      </div>
+    <a href="/en/intake/intake.html" class="btn btn-primary" style="width:100%;margin-top:16px;justify-content:center;">Request a Review</a>
+  </div>
+</div>
+<!-- ══════════════════════════════════════════════════════ -->
+
+<!-- BREADCRUMBS -->
+
+<section class="section section-light hero-bg-light--insayty-razbory-deep-dive-pe-remote" style="padding:20px 0 0;">
+  <div class="container container-narrow">
+    <div style="font-size:13px;color:rgba(26,26,26,0.45);">
+      <a href="index.html" style="color:rgba(26,26,26,0.45);text-decoration:none;">Home</a>
+      <span style="margin:0 8px;">→</span>
+      <a href="/en/insights/" style="color:rgba(26,26,26,0.45);text-decoration:none;">Resources</a>
+      <span style="margin:0 8px;">→</span>
+      <a href="/en/insights/deep-dives/" style="color:rgba(26,26,26,0.45);text-decoration:none;">Deep Dives</a>
+      <span style="margin:0 8px;">→</span>
+      <a href="deep-dives.html" style="color:rgba(26,26,26,0.45);text-decoration:none;">Deep Dive</a>
+      <span style="margin:0 8px;">→</span>
+      <span style="color:rgba(26,26,26,0.65);">PE Risk</span>
+    </div>
+  </div>
+</section>
+
+<main class="pillar-page">
+<div class="pillar-layout">
+
+<!-- SIDE NAV -->
+
+<aside class="pillar-toc">
+  <div class="pillar-toc-inner">
+    <a href="#context">Context</a>
+    <a href="#definition">What PE Is</a>
+    <a href="#digital">Digital Reality</a>
+    <a href="#scenarios">Risk Scenarios</a>
+    <a href="#dependent">Dependent Agent PE</a>
+    <a href="#banking">Banking Perspective</a>
+    <a href="#control">How to Control Risk</a>
+  </div>
+</aside>
+
+<div class="pillar-content">
+
+<!-- HERO -->
+
+<section id="context" class="pillar-hero pillar-section">
+  <div class="container container-narrow">
+    <div class="pillar-label">DEEP DIVE · PE RISK</div>
+    <h1 class="pillar-title">
+      Permanent Establishment<br>
+      in digital and remote models
+    </h1>
+    <p class="pillar-subtitle">
+      Where the line lies between remote activity
+      and the creation of taxable presence.
+      A practical analysis for international structures.
+    </p>
+  </div>
+</section>
+
+<!-- DEFINITION -->
+
+<section id="definition" class="pillar-section">
+  <div class="container container-narrow">
+    <h2 class="pillar-heading">What Permanent Establishment is</h2>
+    <p class="pillar-text">
+      PE arises when a foreign company
+      creates a sufficient degree of economic presence
+      in another jurisdiction.
+    </p>
+    <div class="pillar-insight">
+      <div class="pillar-insight-line"></div>
+      <p>
+        The key question is not “is there an employee”,
+        but “is business carried on through this country”.
+      </p>
+    </div>
+    <ul class="pillar-list">
+      <li>Fixed place of business</li>
+      <li>Dependent agent</li>
+      <li>Actual management</li>
+      <li>Regular commercial activity</li>
+    </ul>
+  </div>
+</section>
+
+<!-- DIGITAL REALITY -->
+
+<section id="digital" class="pillar-section pillar-muted">
+  <div class="container container-narrow">
+    <h2 class="pillar-heading">Digital reality has changed the picture</h2>
+    <p class="pillar-text">
+      SaaS, e-commerce and remote teams
+      have blurred geography.
+    </p>
+    <p class="pillar-text">
+      But tax authorities increasingly assess
+      where value is actually created.
+    </p>
+  </div>
+</section>
+
+<!-- SCENARIO 1 -->
+
+<section id="scenarios" class="pillar-section">
+  <div class="container container-narrow">
+    <h2 class="pillar-heading">Scenario 1 — Remote developer</h2>
+
+<!-- HTML/CSS diagram — no SVG class dependency -->
+<div style="display:flex;align-items:center;justify-content:center;gap:0;margin:32px auto;max-width:480px;flex-wrap:wrap;">
+  <div style="padding:14px 24px;border:1px solid rgba(184,149,106,0.50);background:rgba(184,149,106,0.05);text-align:center;min-width:160px;">
+    <div style="font-family:Georgia,serif;font-size:15px;color:rgba(26,26,26,0.85);font-weight:400;">Estonian OÜ</div>
+    <div style="font-size:11px;color:rgba(26,26,26,0.50);margin-top:4px;letter-spacing:0.02em;">SaaS Revenue</div>
+  </div>
+  <div style="display:flex;align-items:center;padding:0 8px;">
+    <div style="height:1px;width:40px;border-top:1px dashed rgba(184,149,106,0.40);"></div>
+    <div style="font-size:11px;color:rgba(184,149,106,0.60);padding:0 6px;">→</div>
+    <div style="height:1px;width:40px;border-top:1px dashed rgba(184,149,106,0.40);"></div>
+  </div>
+  <div style="padding:14px 24px;border:1px solid rgba(184,149,106,0.50);background:rgba(184,149,106,0.05);text-align:center;min-width:160px;">
+    <div style="font-family:Georgia,serif;font-size:15px;color:rgba(26,26,26,0.85);font-weight:400;">Developer</div>
+    <div style="font-size:11px;color:rgba(26,26,26,0.50);margin-top:4px;letter-spacing:0.02em;">Poland</div>
+  </div>
+</div>
+
+<p class="pillar-text">
+  A single developer rarely creates PE.
+  But if the person:
+</p>
+<ul class="pillar-list">
+  <li>conducts negotiations</li>
+  <li>signs contracts</li>
+  <li>in fact manages the project</li>
+</ul>
+<p class="pillar-text">
+  the risk increases materially.
+</p>
+
+  </div>
+</section>
+
+<!-- DEPENDENT AGENT -->
+
+<section id="dependent" class="pillar-section pillar-muted">
+  <div class="container container-narrow">
+    <h2 class="pillar-heading">Dependent Agent PE</h2>
+    <p class="pillar-text">
+      If a person in a country:
+    </p>
+    <ul class="pillar-list">
+      <li>regularly concludes contracts</li>
+      <li>negotiates on behalf of the company</li>
+      <li>does not act as an independent contractor</li>
+    </ul>
+    <div class="pillar-insight">
+      <div class="pillar-insight-line"></div>
+      <p>
+        then taxable presence may arise,
+        even without an office.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- BANKING -->
+
+<section id="banking" class="pillar-section">
+  <div class="container container-narrow">
+    <h2 class="pillar-heading">Banking Perspective</h2>
+    <p class="pillar-text">
+      A bank analyses the team footprint.
+    </p>
+    <p class="pillar-text">
+      If 80% of the team is in one country,
+      while the company is incorporated in another,
+      the question arises as to the real centre of management.
+    </p>
+  </div>
+</section>
+
+<!-- CONTROL -->
+
+<section id="control" class="pillar-section pillar-muted">
+  <div class="container container-narrow">
+    <h2 class="pillar-heading">How to control the risk</h2>
+    <ul class="pillar-list">
+      <li>Separate employee functions clearly</li>
+      <li>Document the decision-making process</li>
+      <li>Do not concentrate management outside the jurisdiction</li>
+      <li>Assess the structure during scaling</li>
+    </ul>
+  </div>
+</section>
+
+<!-- CTA -->
+
+<section class="pillar-cta">
+  <div class="container container-narrow">
+    <h2 class="pillar-cta-title">
+      Do you have a remote team?
+    </h2>
+    <p class="pillar-cta-text">
+      We will assess PE-risk before
+      the tax authority does.
+    </p>
+    <a href="/en/intake/intake.html"
+       style="font-size:14px;font-weight:500;color:rgba(184,149,106,0.8);text-decoration:none;letter-spacing:0.04em;text-transform:uppercase;">
+      Request an Analysis →
+    </a>
+  </div>
+</section>
+
+<!-- Связанные материалы -->
+
+<section class="pillar-section" style="padding:48px 0;">
+  <div class="container container-narrow">
+    <div style="border-top:0.5px solid rgba(10,17,24,0.10);padding-top:40px;">
+      <div style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(184,149,106,0.65);margin-bottom:20px;">
+        Related Materials
+      </div>
+      <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;">
+        <li><a href="/en/insights/briefings/" style="font-size:14px;font-weight:500;color:rgba(184,149,106,0.8);text-decoration:none;">PE-risk and Management &amp; Control →</a></li>
+        <li><a href="deep-dive-holdco-opco.html" style="font-size:14px;font-weight:500;color:rgba(184,149,106,0.8);text-decoration:none;">HoldCo / OpCo: when the model works →</a></li>
+        <li><a href="deep-dive-banking-readiness.html" style="font-size:14px;font-weight:500;color:rgba(184,149,106,0.8);text-decoration:none;">Banking Readiness as a Structural Stress Test →</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Disclaimer -->
+
+<section class="pillar-section" style="padding:0 0 48px;">
+  <div class="container container-narrow">
+    <p style="font-size:13px;color:#718096;line-height:1.7;">
+      This material is analytical and does not constitute individual
+      legal or tax advice.
+    </p>
+  </div>
+</section>
+
+</div><!-- /pillar-content -->
+</div><!-- /pillar-layout -->
+</main>
+
+<!-- ═══════════════════════════════════════════ FOOTER ═══ -->
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-main">
+
+  <div class="footer-column footer-brand">
+    <a href="index.html" class="footer-logo">
+      <svg width="180" height="46" viewBox="0 0 180 46" fill="none">
+        <text x="0" y="34" font-family="Georgia, serif" font-size="28" font-weight="500" fill="#f5f2ea" letter-spacing="2.5">LEXONYX</text>
+        <line x1="0" y1="42" x2="165" y2="42" stroke="#b8956a" stroke-width="2"/>
+      </svg>
+    </a>
+    <p class="footer-tagline">International Business Structuring</p>
+    <p class="footer-description">An independent advisory practice: international structuring, tax risk, banking readiness, VAT, PE-risk and regulatory readiness in EU / UK / UAE.</p>
+    <div class="footer-social">
+      <a href="https://linkedin.com/company/lexonyx" class="social-link" target="_blank" aria-label="LinkedIn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+      </a>
+      <a href="https://t.me/liudmyla_mir" class="social-link" target="_blank" aria-label="Telegram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+      </a>
+    </div>
+          <p class="footer-phones">
+            <a href="tel:+380980198800">+38 098 019 88 00</a>
+            <a href="tel:+4917610198800">+49 1761 019 88 00</a>
+          </p>
+  </div>
+
+  <div class="footer-column">
+    <h3 class="footer-heading">Practice Areas</h3>
+    <ul class="footer-links">
+      <li><a href="/en/expertise/#corporate">Structuring and Tax Risk</a></li>
+      <li><a href="/en/expertise/#banking">Banking Readiness and FinTech</a></li>
+      <li><a href="/en/expertise/#compliance">VAT, e-commerce and PE-risk</a></li>
+      <li><a href="/en/expertise/#contracts">Contracts and Operational Support</a></li>
+    </ul>
+  </div>
+
+  <div class="footer-column">
+    <h3 class="footer-heading">Key Services</h3>
+    <ul class="footer-links">
+      <li><a href="/en/expertise/group-structuring.html">International Business Structuring</a></li>
+      <li><a href="/en/expertise/tax-residency-cfc.html">Tax Residency, CFC and treaty-risk</a></li>
+      <li><a href="/en/expertise/banking-readiness.html">Banking Readiness</a></li>
+      <li><a href="/en/expertise/private-capital-and-family-office.html">Private Capital and Family Office</a></li>
+            <li><a href="/en/expertise/source-of-funds.html">Source of Funds / Source of Wealth</a></li>
+      <li><a href="/en/expertise/vat-cross-border.html">VAT / OSS / IOSS</a></li>
+      <li><a href="/en/expertise/pe-risk-international-teams.html">PE-risk and International Teams</a></li>
+      <li><a href="/en/work-formats/" class="link-all">All Services →</a></li>
+    </ul>
+  </div>
+
+  <div class="footer-column">
+    <h3 class="footer-heading">Resources</h3>
+    <ul class="footer-links">
+      <li><a href="/en/insights/briefings/">Briefings</a></li>
+      <li><a href="/en/insights/deep-dives/">Deep Dives</a></li>
+      <li><a href="/en/insights/tools/">Tools</a></li>
+      <li><a href="/en/about/how-we-work.html">How We Work</a></li>
+      <li><a href="/en/about/">About</a></li>
+      <li><a href="/en/contact.html">Contact</a></li>
+    </ul>
+  </div>
+
+  <div class="footer-column footer-newsletter" id="footer-newsletter">
+    <h3 class="footer-heading">Newsletter</h3>
+    <p class="newsletter-description">Applied materials on international business only.<br>No spam and no “news for the sake of news”.</p>
+    <form class="newsletter-form" id="newsletter-form" name="newsletter" data-netlify="true" netlify-honeypot="bot-field">
+      <p style="display:none"><label>Do not fill in: <input name="bot-field"></label></p>
+      <div class="form-group">
+        <input type="email" class="newsletter-input" placeholder="Your email" required id="newsletter-email">
+        <button type="submit" class="newsletter-button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+      </div>
+      <p class="newsletter-note">No spam. Expert materials only.</p>
+    </form>
+    <div class="footer-badges">
+      <div class="badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+        <span>EU · UK · UAE</span>
+      </div>
+      <div class="badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        <span>Since 2012</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer-disclaimer">
+  <p>Materials are for general information only. They do not constitute legal advice. LEXONYX is an independent advisory company. We work with lawful structures. We do not participate in schemes that breach AML/KYC/FATF.</p>
+</div>
+
+<div class="footer-bottom">
+  <div class="footer-bottom-left">
+    <p class="footer-copyright">© 2024–2026 LEXONYX. All rights reserved.</p>
+    <div class="footer-legal-links">
+      <a href="/en/privacy-policy.html">Privacy Policy</a>
+      <span class="separator">•</span>
+      <a href="/en/terms-of-use.html">Terms of Use</a>
+      <span class="separator">•</span>
+      <a href="/en/cookie-policy.html">Cookie Policy</a>
+      <a href="/en/impressum.html">Legal Notice</a>
+      <span class="separator">•</span>
+      <a href="#" onclick="localStorage.removeItem('cookie_consent'); location.reload(); return false;">Cookie Settings</a>
+    </div>
+  </div>
+</div>
+
+  </div>
+</footer>
+<!-- ══════════════════════════════════════════════════════ -->
+
+
+
+<!-- ── Pillar override — placed last to win cascade ── -->
+
+    <script defer src="/en/scripts/search-index-en.js"></script>
+  <script defer src="/en/scripts/site.js"></script>
+  <script defer src="/ru/scripts/lx-reveal.js"></script>
+
+</body>
+</html>
