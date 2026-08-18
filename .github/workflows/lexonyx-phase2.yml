@@ -1,0 +1,133 @@
+name: Lexonyx Phase 2 compliance patch
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/lexonyx-phase2.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply Phase 2 patch
+        shell: python
+        run: |
+          from pathlib import Path
+
+          files = {
+              'ru/index.html': Path('ru/index.html'),
+              'tax': Path('ru/ekspertiza/nalogovoe-rezidentstvo-i-kik.html'),
+              'vat': Path('ru/ekspertiza/vat-i-transgranichnye-modeli.html'),
+              'pe': Path('ru/ekspertiza/pe-risk-i-mezhdunarodnye-komandy.html'),
+              'reg': Path('ru/ekspertiza/regulyatornaya-arhitektura-i-licenzirovanie.html'),
+          }
+
+          scope_block = '''\n    <section class="section section-light lexonyx-scope-note">\n      <div class="container container-narrow">\n        <div class="section-header-centered" data-reveal>\n          <div class="section-label">КАК МЫ РАБОТАЕМ С МЕЖДУНАРОДНЫМИ ВОПРОСАМИ</div>\n          <h2 class="section-title-main">Структурный анализ, координация и specialist sign-off</h2>\n          <p class="section-subtitle">LEXONYX проводит структурный и фактический анализ международных проектов, включая ownership, функции, governance, operational reality, banking и implementation. Консультации по украинскому праву оказываются непосредственно Advokat (Ukraine). Если проект требует заключения по праву, налогообложению или регулируемым вопросам другой юрисдикции, соответствующий вывод предоставляется или подтверждается квалифицированным local professional и интегрируется LEXONYX в общую архитектуру проекта.</p>\n        </div>\n      </div>\n    </section>\n'''
+
+          def read(p): return p.read_text(encoding='utf-8')
+          def write(p, s): p.write_text(s, encoding='utf-8')
+          def repl(s, old, new):
+              if old in s:
+                  return s.replace(old, new)
+              return s
+          def add_scope(s):
+              if 'lexonyx-scope-note' not in s:
+                  s = s.replace('\n  </main>', scope_block + '\n  </main>', 1)
+              return s
+
+          # HOME
+          p = files['ru/index.html']; s = read(p)
+          s = repl(s,
+              'content="LEXONYX проектирует международные структуры бизнеса: HoldCo, OpCo, ServiceCo, FinanceCo и IPCo, international tax, VAT, PE-risk, transfer pricing, substance, governance, banking и regulatory readiness в EU, UK и UAE."',
+              'content="LEXONYX проектирует международные структуры бизнеса: HoldCo, OpCo, ServiceCo, FinanceCo и IPCo, ownership, governance, substance, banking и координация tax, VAT, PE, transfer pricing и regulatory workstreams с профильными специалистами соответствующих юрисдикций."')
+          s = repl(s,
+              'content="Архитектура международной группы, international tax, VAT, PE, transfer pricing, substance, governance, banking и regulatory readiness — как единая система."',
+              'content="Архитектура международной группы, ownership, substance, governance и banking — с координацией tax, VAT, PE, transfer pricing и regulatory workstreams как единой системы."')
+          s = repl(s,
+              'content="Проектируем защищаемые международные структуры: group architecture, tax, VAT, PE, TP, banking, substance и governance."',
+              'content="Проектируем международные структуры: group architecture, ownership, banking, substance и governance; tax, VAT, PE, TP и regulatory conclusions подтверждаются профильными специалистами там, где это требуется."')
+          s = repl(s,
+              '"description":"Международное структурирование бизнеса: архитектура группы, international tax, VAT, PE-risk, transfer pricing, banking readiness, regulatory fit, substance и governance."',
+              '"description":"Международное структурирование бизнеса: архитектура группы, ownership, banking readiness, substance и governance с координацией tax, VAT, PE-risk, transfer pricing и regulatory workstreams."')
+          s = repl(s, '"Международное налогообложение",', '"Координация международных налоговых workstreams",')
+          s = repl(s, '"Соглашения об избежании двойного налогообложения",', '"Treaty и withholding-tax interfaces в международных структурах",')
+          s = repl(s, '"Налоги у источника выплаты",', '"Координация withholding-tax analysis",')
+          s = repl(s, '"Трансфертное ценообразование",', '"FAR и transfer-pricing workstream coordination",')
+          s = repl(s, '"Налоговое резидентство и КИК",', '"Residence и CFC fact mapping и coordination",')
+          s = repl(s, '"VAT, OSS и IOSS",', '"VAT transaction mapping и specialist coordination",')
+          s = repl(s, '"Риск постоянного представительства",', '"PE risk fact mapping и specialist coordination",')
+          s = repl(s, '"Регуляторная архитектура"', '"Regulatory scoping и specialist coordination"')
+          s = add_scope(s); write(p,s)
+
+          # TAX RESIDENCE / CFC
+          p = files['tax']; s = read(p)
+          s = repl(s,
+              'content="Налоговое резидентство и КИК как элемент системы международного структурирования: управление и контроль, КИК-экспозиция, договорная логика, система управления, фактическое присутствие и связь со структурой группы."',
+              'content="Налоговое резидентство и КИК в международной структуре: фактическое управление, ownership, control и evidence mapping. LEXONYX формирует структурную картину; применимые налоговые выводы подтверждаются профильными специалистами соответствующих юрисдикций."')
+          s = repl(s,
+              'content="Оценка налогового резидентства и КИК как части международной структуры: управление, контроль, договорная логика, фактическое присутствие и красные зоны."',
+              'content="Фактическая карта управления, ownership и control для residence/CFC analysis с координацией профильных налоговых специалистов по применимым юрисдикциям."')
+          s = repl(s,
+              'Резидентство определяется не регистрацией, а фактическим управлением и контролем. От них зависит КИК-экспозиция и личная налоговая нагрузка.',
+              'Регистрация компании — только один из факторов. LEXONYX реконструирует, где фактически находятся управление, контроль, собственник и ключевые функции; конкретный residence/CFC вывод определяется применимым налоговым правом и подтверждается профильным специалистом соответствующей юрисдикции.')
+          s = add_scope(s); write(p,s)
+
+          # VAT
+          p = files['vat']; s = read(p)
+          s = repl(s,
+              'content="VAT и трансграничные модели как элемент системы международного структурирования: OSS, IOSS, маркетплейсы, склады, исполнение заказов, fixed establishment, движение выручки и связь со структурой группы."',
+              'content="VAT и трансграничные модели: карта продаж, B2B/B2C, маркетплейсы, склады, исполнение, seller-of-record и движение выручки. LEXONYX строит transaction map; конкретный VAT treatment подтверждается профильным налоговым специалистом."')
+          s = repl(s,
+              'content="VAT-логика международных продаж: OSS, IOSS, fixed establishment, маркетплейсы, склады и движение выручки как часть структуры бизнеса."',
+              'content="Transaction mapping для VAT: продажи, склады, маркетплейсы, seller-of-record и движение выручки; jurisdiction-specific VAT conclusions подтверждаются профильными специалистами."')
+          s = repl(s,
+              'VAT-риск возникает не в ставке, а в несогласованности продаж, складов, площадок и реального исполнения.',
+              'LEXONYX реконструирует фактическую цепочку продаж, складов, площадок, исполнения и движения выручки. Какой именно VAT treatment применяется в конкретной стране, подтверждается соответствующим налоговым специалистом.')
+          s = add_scope(s); write(p,s)
+
+          # PE
+          p = files['pe']; s = read(p)
+          s = repl(s,
+              'content="Риск постоянного представительства и международные команды как элемент системы международного структурирования: распределение людей и функций, полномочия, управление, подрядчики, сотрудники, EOR-модель и связь со структурой группы."',
+              'content="PE-risk и международные команды: people/function map, полномочия, управление, contractors, employees и EOR. LEXONYX формирует фактическую карту; jurisdiction-specific PE conclusion подтверждается профильным налоговым специалистом."')
+          s = repl(s,
+              'content="Международная команда как источник риска постоянного представительства: функции, полномочия, управление и след фактического присутствия."',
+              'content="People/function mapping для PE analysis: функции, полномочия, управление и фактическое присутствие; применимый PE вывод подтверждается специалистом соответствующей юрисдикции."')
+          s = repl(s,
+              'Риск постоянного представительства как следствие распределения людей, полномочий и управления в международной группе.',
+              'LEXONYX картирует людей, функции, полномочия и управление в международной группе; конкретный вывод о наличии или отсутствии PE подтверждается профильным налоговым специалистом соответствующей юрисдикции.')
+          s = add_scope(s); write(p,s)
+
+          # REGULATORY
+          p = files['reg']; s = read(p)
+          s = repl(s,
+              'content="Регуляторная архитектура и лицензирование как элемент системы международного структурирования: EMI, PI, CASP (MiCA), regulatory scoping, выбор юрисдикции, compliance framework и licensing roadmap."',
+              'content="Регуляторная архитектура международного бизнеса: business-model mapping, regulatory issue spotting, jurisdiction comparison и coordination. Конкретная квалификация и licensing conclusions подтверждаются профильными local regulatory professionals."')
+          s = repl(s,
+              'content="EMI, PI, CASP (MiCA), regulatory scoping, выбор юрисдикции и compliance framework как часть международной структуры бизнеса."',
+              'content="Business-model mapping, regulatory scoping и coordination для EMI, PI, CASP/MiCA и других регулируемых моделей; local-law conclusions подтверждаются соответствующими специалистами."')
+          s = repl(s,
+              'content="Licensing как regulatory architecture: scope, jurisdiction choice, compliance design и scalability logic."',
+              'content="Regulatory architecture: factual scoping, jurisdiction comparison, compliance design и coordination; regulated legal conclusions принадлежат специалистам соответствующей юрисдикции."')
+          s = add_scope(s); write(p,s)
+
+      - name: Remove temporary workflow and commit
+        run: |
+          rm -f .github/workflows/lexonyx-phase2.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Apply Phase 2 professional perimeter updates"
+            git push
+          fi
