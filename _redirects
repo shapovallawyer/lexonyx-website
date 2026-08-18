@@ -1,6 +1,12 @@
 # LEXONYX — Netlify redirects
 # Permanent redirects from legacy routes to the current canonical architecture.
 
+# Root language entry — temporary default to EN; forced so the legacy root index.html is not served.
+/                               /en/index.html                                                302!
+
+# Canonical EN work-format URL backed by the existing legacy source file.
+/en/work-formats/external-legal-function.html   /en/expertise/external-legal-function.html     200!
+
 # RU legacy flat routes
 /ru/o-praktike/podhod.html        /ru/podhod/                                                  301
 /ru/about.html                    /ru/o-praktike/                                              301
@@ -17,15 +23,16 @@
 /ru/united-kingdom.html           /ru/yurisdikcii/velikobritaniya.html                         301
 /ru/irlandiya.html                /ru/yurisdikcii/irlandiya.html                               301
 
-# Retired jurisdiction pages → curated jurisdiction hub
-/ru/czechia.html                  /ru/yurisdikcii/                                             301
-/ru/lithuania.html                /ru/yurisdikcii/                                             301
-/ru/malta.html                    /ru/yurisdikcii/                                             301
-/ru/yurisdikcii/chehiya.html      /ru/yurisdikcii/                                             301
-/ru/yurisdikcii/litva.html        /ru/yurisdikcii/                                             301
-/ru/yurisdikcii/malta.html        /ru/yurisdikcii/                                             301
-/ru/yurisdikcii/es/               /ru/yurisdikcii/                                             301
-/ru/yurisdikcii/es/index.html     /ru/yurisdikcii/                                             301
+# Retired jurisdiction pages → curated jurisdiction hub.
+# Forced because these legacy files still physically exist in the repository.
+/ru/czechia.html                  /ru/yurisdikcii/                                             301!
+/ru/lithuania.html                /ru/yurisdikcii/                                             301!
+/ru/malta.html                    /ru/yurisdikcii/                                             301!
+/ru/yurisdikcii/chehiya.html      /ru/yurisdikcii/                                             301!
+/ru/yurisdikcii/litva.html        /ru/yurisdikcii/                                             301!
+/ru/yurisdikcii/malta.html        /ru/yurisdikcii/                                             301!
+/ru/yurisdikcii/es/               /ru/yurisdikcii/                                             301!
+/ru/yurisdikcii/es/index.html     /ru/yurisdikcii/                                             301!
 
 # RU expertise
 /ru/practices.html                /ru/ekspertiza/                                              301
@@ -63,19 +70,19 @@
 /ru/intake/*                      /ru/zaprosit-razbor.html                                     301
 /ru/intake                        /ru/zaprosit-razbor.html                                     301
 
-# EN retired jurisdiction pages
-/en/jurisdictions/czechia.html    /en/jurisdictions/                                           301
-/en/jurisdictions/lithuania.html  /en/jurisdictions/                                           301
-/en/jurisdictions/malta.html      /en/jurisdictions/                                           301
-/en/jurisdictions/eu/             /en/jurisdictions/                                           301
-/en/jurisdictions/eu/index.html   /en/jurisdictions/                                           301
+# EN retired jurisdiction pages — forced because the legacy files remain in the repo.
+/en/jurisdictions/czechia.html    /en/jurisdictions/                                           301!
+/en/jurisdictions/lithuania.html  /en/jurisdictions/                                           301!
+/en/jurisdictions/malta.html      /en/jurisdictions/                                           301!
+/en/jurisdictions/eu/             /en/jurisdictions/                                           301!
+/en/jurisdictions/eu/index.html   /en/jurisdictions/                                           301!
 
-# UK retired jurisdiction pages
-/uk/yurysdyktsiyi/chehiya.html    /uk/yurysdyktsiyi/                                           301
-/uk/yurysdyktsiyi/lytva.html      /uk/yurysdyktsiyi/                                           301
-/uk/yurysdyktsiyi/malta.html      /uk/yurysdyktsiyi/                                           301
-/uk/yurysdyktsiyi/es/             /uk/yurysdyktsiyi/                                           301
-/uk/yurysdyktsiyi/es/index.html   /uk/yurysdyktsiyi/                                           301
+# UK retired jurisdiction pages — forced because the legacy files remain in the repo.
+/uk/yurysdyktsiyi/chehiya.html    /uk/yurysdyktsiyi/                                           301!
+/uk/yurysdyktsiyi/lytva.html      /uk/yurysdyktsiyi/                                           301!
+/uk/yurysdyktsiyi/malta.html      /uk/yurysdyktsiyi/                                           301!
+/uk/yurysdyktsiyi/es/             /uk/yurysdyktsiyi/                                           301!
+/uk/yurysdyktsiyi/es/index.html   /uk/yurysdyktsiyi/                                           301!
 
 # Very old root routes
 /about.html                       /ru/o-praktike/                                              301
