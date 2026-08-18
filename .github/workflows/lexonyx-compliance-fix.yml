@@ -1,0 +1,159 @@
+name: Lexonyx professional perimeter fix
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/lexonyx-compliance-fix.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply EN/UK compliance fixes
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          def replace_exact(path, old, new, required=True):
+              p = Path(path)
+              s = p.read_text(encoding='utf-8')
+              if old not in s:
+                  if required:
+                      raise SystemExit(f'Expected text not found in {path}: {old[:120]!r}')
+                  return False
+              p.write_text(s.replace(old, new), encoding='utf-8')
+              print('updated', path)
+              return True
+
+          def replace_regex(path, pattern, repl, count=0, required=False):
+              p = Path(path)
+              s = p.read_text(encoding='utf-8')
+              ns, n = re.subn(pattern, repl, s, count=count, flags=re.S)
+              if required and n == 0:
+                  raise SystemExit(f'Pattern not found in {path}: {pattern}')
+              if n:
+                  p.write_text(ns, encoding='utf-8')
+                  print('updated', path, 'matches', n)
+              return n
+
+          # EN home: mirror the RU professional-perimeter model.
+          p='en/index.html'
+          replace_exact(p,
+            'LEXONYX designs and supports international structures as a system: group architecture, tax logic, VAT/OSS/IOSS, PE-risk for international teams, banking/PSP readiness, regulatory fit, substance and governance.',
+            'LEXONYX designs international business structures: group architecture, ownership, governance, substance and banking readiness, while coordinating tax, VAT, PE, transfer-pricing and regulatory workstreams with appropriately qualified specialists in the relevant jurisdictions.')
+          replace_exact(p,
+            'Structure as a system: group architecture, tax/VAT/PE risks, banking readiness, regulatory fit, substance and governance — without formalistic solutions or empty promises.',
+            'International structure architecture, ownership, banking readiness, substance and governance — with tax, VAT, PE, transfer-pricing and regulatory workstreams coordinated with appropriately qualified specialists where required.')
+          replace_exact(p,
+            'Systemic advisory: group structure, tax logic, VAT/OSS/IOSS, PE-risk, banking readiness, regulation, substance and governance.',
+            'International structuring: group architecture, ownership, banking readiness, substance and governance; jurisdiction-specific tax, VAT, PE, transfer-pricing and regulatory conclusions are coordinated with appropriately qualified specialists where required.')
+          replace_exact(p,
+            'International business structure architecture: group architecture, tax logic, VAT/OSS/IOSS, PE-risk, banking readiness, regulatory fit, substance and governance.',
+            'International business structure architecture: group architecture, ownership, banking readiness, substance and governance, with coordination of tax, VAT, PE-risk, transfer-pricing and regulatory workstreams.')
+          replace_exact(p, '"Tax Residency and CFC",', '"Tax residency and CFC fact mapping and specialist coordination",')
+          replace_exact(p, '"VAT and cross-border models",', '"VAT transaction mapping and specialist coordination",')
+          replace_exact(p, '"Permanent establishment risk",', '"PE-risk fact mapping and specialist coordination",')
+          replace_exact(p, '"Regulatory architecture",', '"Regulatory scoping and specialist coordination",')
+          replace_exact(p, '<link rel="alternate" hreflang="x-default" href="https://lexonyx.com/ru/index.html" />', '<link rel="alternate" hreflang="x-default" href="https://lexonyx.com/en/index.html" />')
+
+          # UK home: equivalent perimeter wording.
+          p='uk/index.html'
+          replace_exact(p,
+            'LEXONYX проєктує та супроводжує міжнародні структури як систему: group architecture, податкова логіка, VAT/OSS/IOSS, PE-risk міжнародних команд, banking/PSP readiness, regulatory fit, substance і governance.',
+            'LEXONYX проєктує міжнародні структури бізнесу: group architecture, ownership, governance, substance і banking readiness, а tax, VAT, PE, transfer pricing та regulatory workstreams координує з належно кваліфікованими фахівцями відповідних юрисдикцій.')
+          replace_exact(p,
+            'Структура як система: group architecture, tax/VAT/PE ризики, banking readiness, regulatory fit, substance і governance — без формальних рішень і порожніх обіцянок.',
+            'Архітектура міжнародної структури, ownership, banking readiness, substance і governance — з координацією tax, VAT, PE, transfer pricing та regulatory workstreams із належно кваліфікованими фахівцями там, де це потрібно.')
+          replace_exact(p,
+            'Системний advisory: структура групи, податкова логіка, VAT/OSS/IOSS, PE-risk, банківська готовність, регулювання, substance і governance.',
+            'Міжнародне структурування: архітектура групи, ownership, banking readiness, substance і governance; юрисдикційні tax, VAT, PE, transfer pricing та regulatory висновки координуються з належно кваліфікованими фахівцями там, де це потрібно.')
+          replace_exact(p,
+            'Архітектура міжнародної структури бізнесу: group architecture, податкова логіка, VAT/OSS/IOSS, PE-risk, banking readiness, regulatory fit, substance і governance.',
+            'Архітектура міжнародної структури бізнесу: group architecture, ownership, banking readiness, substance і governance з координацією tax, VAT, PE-risk, transfer pricing та regulatory workstreams.')
+          replace_exact(p, '<link rel="alternate" hreflang="x-default" href="https://lexonyx.com/ru/index.html" />', '<link rel="alternate" hreflang="x-default" href="https://lexonyx.com/en/index.html" />', required=False)
+
+          # Sensitive expertise pages: correct language metadata and add explicit perimeter notice.
+          en_pages = [
+              'en/expertise/tax-residency-cfc.html',
+              'en/expertise/vat-cross-border.html',
+              'en/expertise/pe-risk-international-teams.html',
+              'en/expertise/regulatory-licensing.html',
+          ]
+          uk_pages = [
+              'uk/ekspertyza/podatkove-rezydentstvo-ta-kik.html',
+              'uk/ekspertyza/vat-ta-transkordonni-modeli.html',
+              'uk/ekspertyza/pe-ryzyk-ta-mizhnarodni-komandy.html',
+              'uk/ekspertyza/regulyatorna-arhitektura-ta-litsenzuvannya.html',
+          ]
+
+          en_note = '''\n<section class="section section-compact" aria-label="Professional perimeter">\n  <div class="container">\n    <div class="callout callout-muted">\n      <strong>Professional perimeter.</strong> LEXONYX performs international structure design, fact mapping, project coordination and integration of specialist conclusions. Where a matter requires jurisdiction-specific legal, tax, regulatory or other reserved professional advice, the relevant conclusion is provided or confirmed by an appropriately qualified professional in that jurisdiction. Ukrainian-law advice may be provided directly within the founder’s professional authorisation.\n    </div>\n  </div>\n</section>\n'''
+          uk_note = '''\n<section class="section section-compact" aria-label="Професійний периметр">\n  <div class="container">\n    <div class="callout callout-muted">\n      <strong>Професійний периметр.</strong> LEXONYX виконує проєктування міжнародної структури, fact mapping, координацію проєкту та інтеграцію висновків профільних фахівців. Якщо питання потребує юрисдикційної юридичної, податкової, регуляторної або іншої зарезервованої професійної консультації, відповідний висновок надається або підтверджується належно кваліфікованим фахівцем у відповідній юрисдикції. Консультації з права України можуть надаватися безпосередньо в межах професійного допуску засновниці.\n    </div>\n  </div>\n</section>\n'''
+
+          for path in en_pages:
+              replace_exact(path, '"inLanguage":"ru"', '"inLanguage":"en"', required=False)
+              s=Path(path).read_text(encoding='utf-8')
+              if 'Professional perimeter.</strong>' not in s:
+                  ns,n=re.subn(r'(<main\b[^>]*>)', r'\1'+en_note, s, count=1, flags=re.S)
+                  if n != 1: raise SystemExit(f'Could not insert perimeter note in {path}')
+                  Path(path).write_text(ns,encoding='utf-8')
+                  print('inserted perimeter note', path)
+
+          for path in uk_pages:
+              replace_exact(path, '"inLanguage":"ru"', '"inLanguage":"uk"', required=False)
+              s=Path(path).read_text(encoding='utf-8')
+              if 'Професійний периметр.</strong>' not in s:
+                  ns,n=re.subn(r'(<main\b[^>]*>)', r'\1'+uk_note, s, count=1, flags=re.S)
+                  if n != 1: raise SystemExit(f'Could not insert perimeter note in {path}')
+                  Path(path).write_text(ns,encoding='utf-8')
+                  print('inserted perimeter note', path)
+
+          # Replace high-risk meta descriptions on EN specialist pages with coordination language.
+          replacements = {
+          'en/expertise/tax-residency-cfc.html': [
+            ('Tax residency and CFC as an element of the international structuring system: management and control, CFC exposure, treaty logic, governance, substance and the link to group structure.',
+             'Tax residency and CFC within international structuring: fact mapping, ownership and governance analysis, and coordination of jurisdiction-specific tax conclusions with appropriately qualified specialists.'),
+            ('Assessment of tax residency and CFC as part of an international structure: management, control, treaty logic, substance and red flags.',
+             'Fact mapping and coordination of tax-residency and CFC workstreams within an international structure; jurisdiction-specific tax conclusions are provided or confirmed by appropriately qualified specialists.'),
+            ('Systemic assessment of tax residency and CFC as part of an international business structure.',
+             'Tax-residency and CFC fact mapping and specialist coordination within an international business structure.')],
+          'en/expertise/vat-cross-border.html': [
+            ('VAT and cross-border models as an element of the international structuring system: OSS, IOSS, marketplaces, warehouses, fulfilment, fixed establishment, revenue flows and connection with the group structure.',
+             'Cross-border VAT workstreams within international structuring: transaction and operational mapping, with jurisdiction-specific VAT conclusions and filings handled by appropriately qualified specialists.'),
+            ('VAT logic for international sales: OSS, IOSS, fixed establishment, marketplaces, warehouses and revenue flows as part of the business structure.',
+             'Transaction mapping for international sales, marketplaces, warehouses and fulfilment, with jurisdiction-specific VAT conclusions coordinated with appropriately qualified specialists.'),
+            ('VAT as an element of the international structure: sales, supplies, warehouses, platforms and fulfilment.',
+             'Cross-border transaction mapping and specialist coordination for VAT workstreams within an international structure.')],
+          }
+          for path, pairs in replacements.items():
+              for old,new in pairs:
+                  replace_exact(path,old,new,required=False)
+
+          # CTA pages: language and x-default consistency.
+          replace_exact('en/request-review.html', '"inLanguage": "ru"', '"inLanguage": "en"', required=False)
+          replace_exact('en/request-review.html', '"inLanguage":"ru"', '"inLanguage":"en"', required=False)
+          replace_exact('uk/zapytaty-rozbir.html', '"inLanguage":"ru"', '"inLanguage":"uk"', required=False)
+          replace_exact('uk/zapytaty-rozbir.html', '<link rel="alternate" hreflang="x-default" href="https://lexonyx.com/ru/zaprosit-razbor.html" />', '<link rel="alternate" hreflang="x-default" href="https://lexonyx.com/en/request-review.html" />', required=False)
+
+          # Remove this one-shot workflow after successful patching.
+          Path('.github/workflows/lexonyx-compliance-fix.yml').unlink()
+          PY
+
+      - name: Commit compliance fixes
+        shell: bash
+        run: |
+          git config user.name "lexonyx-compliance-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "Finalize EN/UK professional perimeter compliance"
+          git push
