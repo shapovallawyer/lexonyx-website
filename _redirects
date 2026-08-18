@@ -1,32 +1,33 @@
-# ══════════════════════════════════════════════════════════════
-# LEXONYX — Netlify _redirects
-# Старая плоская архитектура (англ. слаги в /ru/) → новая вложенная.
-# Файл кладётся В КОРЕНЬ деплоя (рядом с index.html, не в /ru/).
-# Правила читаются сверху вниз, срабатывает первое совпадение.
-# 301 — постоянный перенос (для SEO).
-# ══════════════════════════════════════════════════════════════
-# ── 1. ПЕРЕЕХАВШАЯ СТРАНИЦА
+# LEXONYX — Netlify redirects
+# Permanent redirects from legacy routes to the current canonical architecture.
+
+# RU legacy flat routes
 /ru/o-praktike/podhod.html        /ru/podhod/                                                  301
-# ── 2. СТАРЫЕ ПЛОСКИЕ URL /ru/<слаг>.html → НОВЫЕ ВЛОЖЕННЫЕ
-# О практике / контакты / intake
 /ru/about.html                    /ru/o-praktike/                                              301
 /ru/how-we-work.html              /ru/o-praktike/kak-my-rabotaem.html                          301
 /ru/contacts.html                 /ru/kontakty.html                                            301
-/ru/intake.html                   /ru/intake/intake.html                                       301
-# Юрисдикции (англ. слаг → рус. слаг)
+/ru/intake.html                   /ru/zaprosit-razbor.html                                     301
 /ru/jurisdictions.html            /ru/yurisdikcii/                                             301
 /ru/cyprus.html                   /ru/yurisdikcii/kipr.html                                    301
-/ru/czechia.html                  /ru/yurisdikcii/chehiya.html                                 301
 /ru/estonia.html                  /ru/yurisdikcii/estoniya.html                                301
-/ru/lithuania.html                /ru/yurisdikcii/litva.html                                   301
 /ru/netherlands.html              /ru/yurisdikcii/niderlandy.html                              301
 /ru/poland.html                   /ru/yurisdikcii/polsha.html                                  301
 /ru/switzerland.html              /ru/yurisdikcii/shveycariya.html                             301
 /ru/uae.html                      /ru/yurisdikcii/oae.html                                     301
 /ru/united-kingdom.html           /ru/yurisdikcii/velikobritaniya.html                         301
 /ru/irlandiya.html                /ru/yurisdikcii/irlandiya.html                               301
-/ru/malta.html                    /ru/yurisdikcii/malta.html                                   301
-# Экспертиза
+
+# Retired jurisdiction pages → curated jurisdiction hub
+/ru/czechia.html                  /ru/yurisdikcii/                                             301
+/ru/lithuania.html                /ru/yurisdikcii/                                             301
+/ru/malta.html                    /ru/yurisdikcii/                                             301
+/ru/yurisdikcii/chehiya.html      /ru/yurisdikcii/                                             301
+/ru/yurisdikcii/litva.html        /ru/yurisdikcii/                                             301
+/ru/yurisdikcii/malta.html        /ru/yurisdikcii/                                             301
+/ru/yurisdikcii/es/               /ru/yurisdikcii/                                             301
+/ru/yurisdikcii/es/index.html     /ru/yurisdikcii/                                             301
+
+# RU expertise
 /ru/practices.html                /ru/ekspertiza/                                              301
 /ru/tax-residency.html            /ru/ekspertiza/nalogovoe-rezidentstvo-i-kik.html             301
 /ru/corporate-structuring.html    /ru/ekspertiza/strukturirovanie-gruppy.html                  301
@@ -36,11 +37,13 @@
 /ru/cross-border-hiring.html      /ru/ekspertiza/pe-risk-i-mezhdunarodnye-komandy.html         301
 /ru/licensing-roadmaps.html       /ru/ekspertiza/regulyatornaya-arhitektura-i-licenzirovanie.html 301
 /ru/contracts-operations.html     /ru/ekspertiza/                                              301
-# Форматы работы
+
+# RU work formats
 /ru/services.html                 /ru/formaty-raboty/                                          301
 /ru/needs.html                    /ru/formaty-raboty/                                          301
 /ru/kak-nachat.html               /ru/formaty-raboty/kak-nachat.html                           301
-# Инсайты
+
+# RU insights
 /ru/resources.html                /ru/insayty/                                                 301
 /ru/materialy.html                /ru/insayty/                                                 301
 /ru/analytics.html                /ru/insayty/razbory/                                         301
@@ -51,7 +54,30 @@
 /ru/checklists.html               /ru/insayty/instrumenty/checklists.html                      301
 /ru/signals.html                  /ru/podhod/karta-riskov.html                                 301
 /ru/glossary.html                 /ru/insayty/                                                 301
-# ── 3. СОВСЕМ СТАРЫЕ КОРНЕВЫЕ URL (без языкового префикса)
+
+# Canonical RU intake / thank-you routes
+/ru/intake/ruspasibo.html         /ru/spasibo.html                                             301
+/ru/intake/thank-you/             /ru/spasibo.html                                             301
+/ru/intake/thank-you              /ru/spasibo.html                                             301
+/ru/intake/intake.html            /ru/zaprosit-razbor.html                                     301
+/ru/intake/*                      /ru/zaprosit-razbor.html                                     301
+/ru/intake                        /ru/zaprosit-razbor.html                                     301
+
+# EN retired jurisdiction pages
+/en/jurisdictions/czechia.html    /en/jurisdictions/                                           301
+/en/jurisdictions/lithuania.html  /en/jurisdictions/                                           301
+/en/jurisdictions/malta.html      /en/jurisdictions/                                           301
+/en/jurisdictions/eu/             /en/jurisdictions/                                           301
+/en/jurisdictions/eu/index.html   /en/jurisdictions/                                           301
+
+# UK retired jurisdiction pages
+/uk/yurysdyktsiyi/chehiya.html    /uk/yurysdyktsiyi/                                           301
+/uk/yurysdyktsiyi/lytva.html      /uk/yurysdyktsiyi/                                           301
+/uk/yurysdyktsiyi/malta.html      /uk/yurysdyktsiyi/                                           301
+/uk/yurysdyktsiyi/es/             /uk/yurysdyktsiyi/                                           301
+/uk/yurysdyktsiyi/es/index.html   /uk/yurysdyktsiyi/                                           301
+
+# Very old root routes
 /about.html                       /ru/o-praktike/                                              301
 /contacts.html                    /ru/kontakty.html                                            301
 /how-we-work.html                 /ru/o-praktike/kak-my-rabotaem.html                          301
@@ -68,13 +94,4 @@
 /cookie-policy.html               /ru/cookie-policy.html                                       301
 /privacy-policy.html              /ru/privacy-policy.html                                      301
 /terms-of-use.html                /ru/terms-of-use.html                                        301
-# Подстраховка для старых ссылок на ассеты из корня
 /styles.css                       /ru/styles.css                                               301
-
-# Canonical thank-you and intake routes
-/ru/intake/ruspasibo.html    /ru/spasibo.html            301
-/ru/intake/thank-you/        /ru/spasibo.html            301
-/ru/intake/thank-you         /ru/spasibo.html            301
-/ru/intake/intake.html       /ru/zaprosit-razbor.html    301
-/ru/intake/*                 /ru/zaprosit-razbor.html    301
-/ru/intake                   /ru/zaprosit-razbor.html    301
