@@ -18,11 +18,97 @@
 
   const cookieSettingsLinks = document.querySelectorAll('[data-cookie-settings]');
 
-  // Search index
-  const searchData =
+  // Search index: replace legacy jurisdiction records with the curated 6+4 library.
+  let searchData =
     (window.LEXONYX_SEARCH_INDEX_RU && Array.isArray(window.LEXONYX_SEARCH_INDEX_RU))
-      ? window.LEXONYX_SEARCH_INDEX_RU
+      ? window.LEXONYX_SEARCH_INDEX_RU.slice()
       : [];
+
+  const jurisdictionSearchData = [
+    { title: 'Юрисдикции и структурные сценарии', category: 'Юрисдикции', url: '/ru/yurisdikcii/index.html' },
+    { title: 'Украина и международный бизнес', category: 'Юрисдикции', url: '/ru/yurisdikcii/ukraina.html' },
+    { title: 'Германия в международной структуре бизнеса', category: 'Юрисдикции', url: '/ru/yurisdikcii/germaniya.html' },
+    { title: 'Кипр: HoldCo, ownership и IP в международной структуре', category: 'Юрисдикции', url: '/ru/yurisdikcii/kipr.html' },
+    { title: 'Польша: workforce, DevelopmentCo и EU operations', category: 'Юрисдикции', url: '/ru/yurisdikcii/polsha.html' },
+    { title: 'Нидерланды: Investor HoldCo и архитектура международной группы', category: 'Юрисдикции', url: '/ru/yurisdikcii/niderlandy.html' },
+    { title: 'ОАЭ: relocation, operating company и MENA', category: 'Юрисдикции', url: '/ru/yurisdikcii/oae.html' },
+    { title: 'Эстония: digital, SaaS и remote business', category: 'Юрисдикции', url: '/ru/yurisdikcii/estoniya.html' },
+    { title: 'Ирландия: technology, IP и R&D', category: 'Юрисдикции', url: '/ru/yurisdikcii/irlandiya.html' },
+    { title: 'Великобритания: international business и investment', category: 'Юрисдикции', url: '/ru/yurisdikcii/velikobritaniya.html' },
+    { title: 'Швейцария: private capital, HQ и founder structures', category: 'Юрисдикции', url: '/ru/yurisdikcii/shveycariya.html' }
+  ];
+
+  searchData = searchData
+    .filter(item => (item.category || '') !== 'Юрисдикции')
+    .concat(jurisdictionSearchData);
+
+  function normalizeJurisdictionNavigation() {
+    const desktop = document.querySelector('.dropdown-menu.dropdown-jurisdictions .jurisdictions-two-col');
+    if (desktop) {
+      desktop.innerHTML = `
+        <div class="dropdown-section">
+          <h4>Ключевые</h4>
+          <a href="/ru/yurisdikcii/ukraina.html"><span class="jur-code">UA</span> Украина</a>
+          <a href="/ru/yurisdikcii/germaniya.html"><span class="jur-code">DE</span> Германия</a>
+          <a href="/ru/yurisdikcii/kipr.html"><span class="jur-code">CY</span> Кипр</a>
+          <a href="/ru/yurisdikcii/polsha.html"><span class="jur-code">PL</span> Польша</a>
+          <a href="/ru/yurisdikcii/niderlandy.html"><span class="jur-code">NL</span> Нидерланды</a>
+          <a href="/ru/yurisdikcii/oae.html"><span class="jur-code">AE</span> ОАЭ</a>
+        </div>
+        <div class="dropdown-section">
+          <h4>Дополнительные</h4>
+          <a href="/ru/yurisdikcii/estoniya.html"><span class="jur-code">EE</span> Эстония</a>
+          <a href="/ru/yurisdikcii/irlandiya.html"><span class="jur-code">IE</span> Ирландия</a>
+          <a href="/ru/yurisdikcii/velikobritaniya.html"><span class="jur-code">UK</span> Великобритания</a>
+          <a href="/ru/yurisdikcii/shveycariya.html"><span class="jur-code">CH</span> Швейцария</a>
+        </div>
+        <div class="dropdown-footer">
+          <a href="/ru/yurisdikcii/index.html" class="btn-dropdown-all">Все юрисдикции →</a>
+        </div>`;
+    }
+
+    const mobileJurisdictions = document.getElementById('mobile-yurisdikcii-content');
+    if (mobileJurisdictions) {
+      mobileJurisdictions.innerHTML = `
+        <div class="mobile-sub-group">
+          <div class="mobile-sub-group-title">Ключевые</div>
+          <a href="/ru/yurisdikcii/ukraina.html" class="mobile-sub-link">Украина</a>
+          <a href="/ru/yurisdikcii/germaniya.html" class="mobile-sub-link">Германия</a>
+          <a href="/ru/yurisdikcii/kipr.html" class="mobile-sub-link">Кипр</a>
+          <a href="/ru/yurisdikcii/polsha.html" class="mobile-sub-link">Польша</a>
+          <a href="/ru/yurisdikcii/niderlandy.html" class="mobile-sub-link">Нидерланды</a>
+          <a href="/ru/yurisdikcii/oae.html" class="mobile-sub-link">ОАЭ</a>
+        </div>
+        <div class="mobile-sub-group">
+          <div class="mobile-sub-group-title">Дополнительные</div>
+          <a href="/ru/yurisdikcii/estoniya.html" class="mobile-sub-link">Эстония</a>
+          <a href="/ru/yurisdikcii/irlandiya.html" class="mobile-sub-link">Ирландия</a>
+          <a href="/ru/yurisdikcii/velikobritaniya.html" class="mobile-sub-link">Великобритания</a>
+          <a href="/ru/yurisdikcii/shveycariya.html" class="mobile-sub-link">Швейцария</a>
+        </div>
+        <a href="/ru/yurisdikcii/index.html" class="mobile-sub-link">Все юрисдикции →</a>`;
+    }
+
+    document.querySelectorAll('.footer-col').forEach(col => {
+      const heading = col.querySelector('.footer-heading');
+      const links = col.querySelector('ul.footer-links');
+      if (!heading || !links || heading.textContent.trim() !== 'Юрисдикции') return;
+      links.innerHTML = `
+        <li><a href="/ru/yurisdikcii/index.html">Все юрисдикции</a></li>
+        <li><a href="/ru/yurisdikcii/ukraina.html">Украина</a></li>
+        <li><a href="/ru/yurisdikcii/germaniya.html">Германия</a></li>
+        <li><a href="/ru/yurisdikcii/kipr.html">Кипр</a></li>
+        <li><a href="/ru/yurisdikcii/polsha.html">Польша</a></li>
+        <li><a href="/ru/yurisdikcii/niderlandy.html">Нидерланды</a></li>
+        <li><a href="/ru/yurisdikcii/oae.html">ОАЭ</a></li>
+        <li><a href="/ru/yurisdikcii/estoniya.html">Эстония</a></li>
+        <li><a href="/ru/yurisdikcii/irlandiya.html">Ирландия</a></li>
+        <li><a href="/ru/yurisdikcii/velikobritaniya.html">Великобритания</a></li>
+        <li><a href="/ru/yurisdikcii/shveycariya.html">Швейцария</a></li>`;
+    });
+  }
+
+  normalizeJurisdictionNavigation();
 
   function renderResults(items) {
     if (!searchResults) return;
@@ -76,14 +162,12 @@
     document.body.classList.remove('menu-open');
   }
 
-  // Header scroll state
   window.addEventListener('scroll', function () {
     if (!header) return;
     if (window.pageYOffset > 24) header.classList.add('scrolled');
     else header.classList.remove('scrolled');
   }, { passive: true });
 
-  // Search events
   if (searchToggle) searchToggle.addEventListener('click', openSearch);
   if (searchClose) searchClose.addEventListener('click', closeSearch);
 
@@ -111,7 +195,6 @@
     });
   }
 
-  // Mobile menu events
   if (mobileMenuToggle) mobileMenuToggle.addEventListener('click', openMobileMenu);
   if (mobileMenuClose) mobileMenuClose.addEventListener('click', closeMobileMenu);
 
@@ -127,7 +210,6 @@
     });
   });
 
-  // Cookie settings links (placeholder)
   cookieSettingsLinks.forEach(link => {
     link.addEventListener('click', function (e) {
       e.preventDefault();
@@ -136,7 +218,6 @@
     });
   });
 
-  // ESC closes overlays
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
       closeSearch();
@@ -144,9 +225,6 @@
     }
   });
 
-  // =========================
-  // Intake helpers (optional)
-  // =========================
   function getParam(name) {
     try { return new URL(window.location.href).searchParams.get(name) || ''; }
     catch (e) { return ''; }
@@ -181,7 +259,6 @@
     });
   }
 
-  // Run only if intake fields exist on the page
   const hasIntakeFields = document.getElementById('timestamp_iso') || document.querySelector('form[name="intake"]');
   if (hasIntakeFields) {
     fillMetaFields();
