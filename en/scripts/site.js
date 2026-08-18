@@ -62,7 +62,7 @@
         </div>`;
     }
 
-    const mobileJurisdictions = document.getElementById('mobile-jurisdictions-content');
+    const mobileJurisdictions = document.getElementById('mobile-yurisdikcii-content');
     if (mobileJurisdictions) {
       mobileJurisdictions.innerHTML = `
         <div class="mobile-sub-group">
@@ -150,7 +150,7 @@
   function closeMobileMenu() {
     if (!mobileMenu) return;
     mobileMenu.classList.remove('active');
-    mobileMenu.setAttribute('aria-hidden', 'false');
+    mobileMenu.setAttribute('aria-hidden', 'true');
     if (mobileMenuToggle) mobileMenuToggle.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('menu-open');
   }
