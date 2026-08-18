@@ -3,9 +3,9 @@
 # Старая плоская архитектура (англ. слаги в /ru/) → новая вложенная.
 # Файл кладётся В КОРЕНЬ деплоя (рядом с index.html, не в /ru/).
 # Правила читаются сверху вниз, срабатывает первое совпадение.
-# 301 — постоянный перенос (для SEO), 302 — временный (языки-заглушки).
+# 301 — постоянный перенос (для SEO).
 # ══════════════════════════════════════════════════════════════
-# ── 1. ПЕРЕЕХАВШАЯ СТРАНИЦА (на неё до сих пор ссылаются 45 страниц сайта)
+# ── 1. ПЕРЕЕХАВШАЯ СТРАНИЦА
 /ru/o-praktike/podhod.html        /ru/podhod/                                                  301
 # ── 2. СТАРЫЕ ПЛОСКИЕ URL /ru/<слаг>.html → НОВЫЕ ВЛОЖЕННЫЕ
 # О практике / контакты / intake
@@ -24,7 +24,6 @@
 /ru/switzerland.html              /ru/yurisdikcii/shveycariya.html                             301
 /ru/uae.html                      /ru/yurisdikcii/oae.html                                     301
 /ru/united-kingdom.html           /ru/yurisdikcii/velikobritaniya.html                         301
-# у Ирландии и Мальты слаг не менялся — меняется только папка
 /ru/irlandiya.html                /ru/yurisdikcii/irlandiya.html                               301
 /ru/malta.html                    /ru/yurisdikcii/malta.html                                   301
 # Экспертиза
@@ -41,7 +40,7 @@
 /ru/services.html                 /ru/formaty-raboty/                                          301
 /ru/needs.html                    /ru/formaty-raboty/                                          301
 /ru/kak-nachat.html               /ru/formaty-raboty/kak-nachat.html                           301
-# Инсайты (старые разделы материалов)
+# Инсайты
 /ru/resources.html                /ru/insayty/                                                 301
 /ru/materialy.html                /ru/insayty/                                                 301
 /ru/analytics.html                /ru/insayty/razbory/                                         301
@@ -53,7 +52,6 @@
 /ru/signals.html                  /ru/podhod/karta-riskov.html                                 301
 /ru/glossary.html                 /ru/insayty/                                                 301
 # ── 3. СОВСЕМ СТАРЫЕ КОРНЕВЫЕ URL (без языкового префикса)
-# Когда выйдет EN-версия — эти цели можно переключить на /en/…
 /about.html                       /ru/o-praktike/                                              301
 /contacts.html                    /ru/kontakty.html                                            301
 /how-we-work.html                 /ru/o-praktike/kak-my-rabotaem.html                          301
@@ -72,15 +70,6 @@
 /terms-of-use.html                /ru/terms-of-use.html                                        301
 # Подстраховка для старых ссылок на ассеты из корня
 /styles.css                       /ru/styles.css                                               301
-# ══════════════════════════════════════════════════════════════
-# ЯЗЫКОВЫЕ ВЕРСИИ — временные заглушки (302) пока страницы не готовы.
-# По мере публикации EN/UK-страницы удаляйте её строку отсюда,
-# чтобы Netlify отдавал реальную страницу вместо редиректа на RU.
-# ══════════════════════════════════════════════════════════════
-# — EN (пути с англ. слагами) —
-# — UK (зеркало RU-слагов, финализируем после EN) —
-# Языковые корни
-/en/                                                  /ru/                                                302
 
 # Canonical thank-you and intake routes
 /ru/intake/ruspasibo.html    /ru/spasibo.html            301
