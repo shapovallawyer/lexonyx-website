@@ -13,7 +13,6 @@
 /ru/how-we-work.html              /ru/o-praktike/kak-my-rabotaem.html                          301
 /ru/contacts.html                 /ru/kontakty.html                                            301
 /ru/intake.html                   /ru/intake/intake.html                                       301
-/ru/spasibo.html                  /ru/intake/ruspasibo.html                                    301
 # Юрисдикции (англ. слаг → рус. слаг)
 /ru/jurisdictions.html            /ru/yurisdikcii/                                             301
 /ru/cyprus.html                   /ru/yurisdikcii/kipr.html                                    301
@@ -83,6 +82,7 @@
 # Языковые корни
 /en/                                                  /ru/                                                302
 
+# Canonical thank-you and intake routes
 /ru/intake/ruspasibo.html    /ru/spasibo.html            301
 /ru/intake/thank-you/        /ru/spasibo.html            301
 /ru/intake/thank-you         /ru/spasibo.html            301
