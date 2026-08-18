@@ -4,8 +4,9 @@
 # Root language entry — temporary default to EN; forced so the legacy root index.html is not served.
 /                               /en/index.html                                                302!
 
-# Canonical EN work-format URL backed by the existing legacy source file.
+# Canonical URLs backed by legacy source-file locations.
 /en/work-formats/external-legal-function.html   /en/expertise/external-legal-function.html     200!
+/ru/spasibo.html                                /ru/intake/spasibo.html                        200!
 
 # RU legacy flat routes
 /ru/o-praktike/podhod.html        /ru/podhod/                                                  301
