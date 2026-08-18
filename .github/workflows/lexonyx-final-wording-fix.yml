@@ -1,0 +1,52 @@
+name: Lexonyx final wording fix
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/lexonyx-final-wording-fix.yml']
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tighten remaining EN wording
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          def rep(path, old, new, required=True):
+              p=Path(path); s=p.read_text(encoding='utf-8')
+              if old not in s:
+                  if required: raise SystemExit(f'missing expected phrase in {path}: {old}')
+                  return
+              p.write_text(s.replace(old,new),encoding='utf-8')
+
+          rep('en/approach/index.html',
+              '<p>We assess PE-risk, VAT triggers, banking applicability, regulatory perimeter and governance consistency.</p>',
+              '<p>We map PE and VAT risk indicators, banking applicability, regulatory perimeter and governance consistency. Jurisdiction-specific tax, legal and regulatory conclusions are provided or confirmed by appropriately qualified specialists where required.</p>')
+
+          rep('en/expertise/pe-risk-international-teams.html',
+              '<p>We assess PE-risk, local employer obligations, contractor reclassification risk and the suitability of the EOR model.</p>',
+              '<p>We map the facts and risk indicators relevant to PE, local employer obligations, contractor classification and the EOR model. Jurisdiction-specific PE, employment-law and tax conclusions are provided or confirmed by appropriately qualified local specialists.</p>')
+
+          # These are permitted factual / banking / governance assessments, but make the distinction explicit.
+          rep('en/expertise/banking-readiness.html',
+              '<p>We assess where decisions are actually made and how this is reflected in documents and corporate logic. </p>',
+              '<p>We map where decisions are actually made and how this is reflected in documents and corporate logic. </p>', required=False)
+          rep('en/expertise/substance-governance.html',
+              '<p>We assess where value is created, who performs operational and strategic functions, and where the people footprint accumulates.</p>',
+              '<p>We map where value is created, who performs operational and strategic functions, and where the people footprint accumulates.</p>', required=False)
+
+          Path('.github/workflows/lexonyx-final-wording-fix.yml').unlink()
+          PY
+      - name: Commit
+        shell: bash
+        run: |
+          git config user.name "lexonyx-compliance-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "Tighten remaining EN professional-perimeter wording"
+          git push
