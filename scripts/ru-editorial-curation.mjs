@@ -284,7 +284,7 @@ const pages = {
     main: `<main id="main-content">
     <section class="section section-dark"><div class="container container-narrow">
       ${breadcrumbs('Эстония')}
-      <div class="section-label">ЭСТОНИЯ · ЦИФРОВОЙ БИЗНЕС · SAAS · РАСПРЕДЕЛЁННЫЕ КОМАНДЫ</div>
+      <div class="section-label">ЭСТОНИЯ · ЦИФРОВОЙ БИЗНЕС · SaaS · РАСПРЕДЕЛЁННЫЕ КОМАНДЫ</div>
       <h1 class="page-title page-title-wide">Эстония для цифрового бизнеса, SaaS и распределённых команд</h1>
       <p class="page-subtitle page-subtitle-wide">Эстонская OÜ может быть удобной юридической платформой для цифрового бизнеса, однако регистрация компании и программа e-Residency сами по себе не отвечают на вопросы фактического управления, налогового резидентства, экономического присутствия собственника или места ведения бизнеса.</p>
       ${actions()}
