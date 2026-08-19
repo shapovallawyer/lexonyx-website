@@ -1,0 +1,38 @@
+name: One-off persist canonical SEO source
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/one-off-persist-seo-source.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  persist-source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Normalize canonical source files
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/normalize-i18n-map.mjs
+          node scripts/final-seo-source-normalizer.mjs
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _url-map-i18n.json sitemap.xml _redirects
+          if git diff --cached --quiet; then
+            echo "Canonical SEO source is already current."
+            exit 0
+          fi
+          git commit -m "Persist canonical multilingual SEO source"
+          git push origin HEAD:main
