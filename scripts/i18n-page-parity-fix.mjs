@@ -110,15 +110,24 @@ enHome = addOnceAfter(
   '<a href="/en/work-formats/ongoing-advisory.html" class="mobile-sub-link">Ongoing Advisory</a>',
   '\n          <a href="/en/work-formats/external-legal-function.html" class="mobile-sub-link">External International Legal Function</a>'
 );
-
 fs.writeFileSync(enHomePath, enHome, 'utf8');
+
+// UK desktop already exposed How to Start, but the mobile Work Formats accordion did not.
+const ukHomePath = path.join(ROOT, 'uk/index.html');
+let ukHome = fs.readFileSync(ukHomePath, 'utf8');
+ukHome = addOnceBefore(
+  ukHome,
+  '<a href="/uk/formaty-roboty/strategichnyy-strukturnyy-audyt.html" class="mobile-sub-link">',
+  '<a href="/uk/yak-pochaty.html" class="mobile-sub-link">Як почати</a>\n          '
+);
+fs.writeFileSync(ukHomePath, ukHome, 'utf8');
 
 // Propagate each language's canonical header to every page that has a full site header,
 // then restore page-specific language-switch targets from the canonical i18n map.
 const homes = {
   ru: fs.readFileSync(path.join(ROOT, 'ru/index.html'), 'utf8'),
   en: enHome,
-  uk: fs.readFileSync(path.join(ROOT, 'uk/index.html'), 'utf8')
+  uk: ukHome
 };
 const headers = Object.fromEntries(Object.entries(homes).map(([lang, html]) => [lang, extractHeader(html)]));
 
