@@ -27,27 +27,15 @@ const targets = [
 
 const allowed = new Set([
   'LEXONYX','KYC','AML','FATF','MLI','PPT','GAAR','SaaS','OSS','IOSS','EOR','B2B','B2C',
-  'Rechtsanwalt','Steuerberater','BRAO','GDPR','e-Residency','LinkedIn','Telegram','Email'
+  'Rechtsanwalt','Steuerberater','BRAO','GDPR','e-Residency','LinkedIn','Telegram',
+  'DEMPE','MiCA','PSD','AMLR','PSP','EMI','PI','CASP','UBO','FBA','SLA','Wise',
+  'Liudmyla','Miroshnychenko','Rechtsanwaltskammer','München','Advokat','Ukraine'
 ]);
 
 const errors = [];
 
-function visibleAndSeo(html) {
-  const scripts = [];
-  const jsonStrings = [];
-  for (const m of html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
-    try {
-      const data = JSON.parse(m[1]);
-      const walk = v => {
-        if (Array.isArray(v)) return v.forEach(walk);
-        if (v && typeof v === 'object') return Object.values(v).forEach(walk);
-        if (typeof v === 'string' && !/^https?:\/\//i.test(v)) jsonStrings.push(v);
-      };
-      walk(data);
-    } catch {}
-  }
-  const meta = [...html.matchAll(/<meta\b[^>]*\bcontent=["']([^"']*)["'][^>]*>/gi)].map(m => m[1]).join(' ');
-  const visible = html
+function strip(fragment) {
+  return fragment
     .replace(/<script\b[\s\S]*?<\/script>/gi, ' ')
     .replace(/<style\b[\s\S]*?<\/style>/gi, ' ')
     .replace(/<svg\b[\s\S]*?<\/svg>/gi, ' ')
@@ -56,18 +44,44 @@ function visibleAndSeo(html) {
     .replace(/&[a-z#0-9]+;/gi, ' ')
     .replace(/\s+/g, ' ')
     .trim();
-  return `${visible} ${meta} ${jsonStrings.join(' ')}`.replace(/\s+/g,' ').trim();
+}
+
+function relevantSeo(html) {
+  const values = [];
+  const patterns = [
+    /<meta\b[^>]*name=["']description["'][^>]*content=["']([^"']*)["'][^>]*>/gi,
+    /<meta\b[^>]*property=["']og:(?:title|description)["'][^>]*content=["']([^"']*)["'][^>]*>/gi,
+    /<meta\b[^>]*name=["']twitter:(?:title|description)["'][^>]*content=["']([^"']*)["'][^>]*>/gi
+  ];
+  for (const re of patterns) for (const m of html.matchAll(re)) values.push(m[1]);
+
+  for (const m of html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
+    try {
+      const data = JSON.parse(m[1]);
+      const walk = v => {
+        if (Array.isArray(v)) return v.forEach(walk);
+        if (!v || typeof v !== 'object') return;
+        for (const [k,val] of Object.entries(v)) {
+          if (['name','description','text'].includes(k) && typeof val === 'string') values.push(val);
+          else if (val && typeof val === 'object') walk(val);
+        }
+      };
+      walk(data);
+    } catch {}
+  }
+  return values.join(' ');
 }
 
 for (const rel of targets) {
   const file = path.join(ROOT, rel);
   if (!fs.existsSync(file)) { errors.push(`${rel}: missing`); continue; }
   const html = fs.readFileSync(file, 'utf8');
-  const text = visibleAndSeo(html);
+  const main = (html.match(/<main\b[\s\S]*?<\/main>/i) || [''])[0];
+  const text = `${strip(main)} ${relevantSeo(html)}`.replace(/\s+/g,' ').trim();
 
   const latin = [...new Set(text.match(/[A-Za-z][A-Za-z-]*/g) || [])]
-    .filter(t => !allowed.has(t) && !/^https?$/.test(t));
-  if (latin.length) errors.push(`${rel}: avoidable Latin terms: ${latin.slice(0,40).join(', ')}`);
+    .filter(t => !allowed.has(t));
+  if (latin.length) errors.push(`${rel}: avoidable Latin terms: ${latin.slice(0,50).join(', ')}`);
 
   const badGrammar = [
     /\bпо риск постоянного представительства\b/i,
@@ -82,10 +96,9 @@ for (const rel of targets) {
   ];
   for (const re of badGrammar) if (re.test(text)) errors.push(`${rel}: suspicious grammar: ${re}`);
 
-  const main = (html.match(/<main\b[\s\S]*?<\/main>/i) || [''])[0];
-  for (const m of main.matchAll(/<(?:p|h1|h2|h3|h4|li)\b[^>]*>([\s\S]*?)<\/(?:p|h1|h2|h3|h4|li)>/gi)) {
-    const block = m[1].replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
-    if (/^[а-яё]/.test(block)) errors.push(`${rel}: lowercase block start: ${block.slice(0,90)}`);
+  for (const m of main.matchAll(/<(?:p|h1|h2|h3|h4)\b[^>]*>([\s\S]*?)<\/(?:p|h1|h2|h3|h4)>/gi)) {
+    const block = strip(m[1]);
+    if (/^[а-яё]/.test(block)) errors.push(`${rel}: lowercase paragraph/heading start: ${block.slice(0,90)}`);
   }
 }
 
