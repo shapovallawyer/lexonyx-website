@@ -22,5 +22,7 @@ jobs:
           node scripts/final-content-sanitizer.mjs
           node scripts/layout-normalizer.mjs
           node scripts/normalize-i18n-map.mjs
+          node scripts/ru-localization-cleanup.mjs
           node scripts/final-production-check.mjs
           node scripts/seo-ui-audit.mjs
+          node scripts/ru-language-audit.mjs
