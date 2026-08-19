@@ -29,6 +29,7 @@ jobs:
           node scripts/ru-core-third-pass.mjs
           node scripts/ru-core-final-polish.mjs
           node scripts/ru-core-last-mile.mjs
+          node scripts/ru-insights-language-curation.mjs
           node scripts/ru-editorial-curation.mjs
           node scripts/jurisdiction-ui-fix.mjs
           node scripts/final-production-check.mjs
