@@ -43,3 +43,4 @@ jobs:
           node scripts/ru-core-editorial-audit.mjs
           node scripts/ru-insights-editorial-audit.mjs
           node scripts/ru-remaining-editorial-audit.mjs
+          node scripts/uk-editorial-audit.mjs
