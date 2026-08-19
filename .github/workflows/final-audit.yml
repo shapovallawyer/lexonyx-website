@@ -19,4 +19,5 @@ jobs:
           node scripts/final-legal-cleanup.mjs
           node scripts/final-i18n-marketing-cleanup.mjs
           node scripts/final-fixes.mjs
+          node scripts/final-content-sanitizer.mjs
           node scripts/final-production-check.mjs
