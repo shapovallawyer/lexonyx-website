@@ -1,0 +1,104 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
+const ROOT = process.cwd();
+
+const replacements = [
+  ['правильную точку входа', 'подходящий формат работы'],
+  ['правильной точки входа', 'подходящего формата работы'],
+  ['правильная точка входа', 'подходящий формат работы'],
+  ['первичная квалификация запроса', 'первичная оценка запроса'],
+  ['Первичная квалификация запроса', 'Первичная оценка запроса'],
+  ['первичной квалификации запроса', 'первичной оценки запроса'],
+  ['на стадии первичной квалификации', 'на этапе первичной оценки запроса'],
+  ['для первичной квалификации', 'для первичной оценки запроса'],
+  ['Первичная квалификация ·', 'Первичная оценка запроса ·'],
+  ['первичная квалификация ·', 'первичная оценка запроса ·'],
+  ['Предварительная Карта фактических и структурных вопросов', 'Предварительная карта фактических и структурных вопросов'],
+  ['Готовите структуру к банковскому банковская проверка при открытии счёта?', 'Готовите структуру к банковской проверке?'],
+  ['Что анализируется при банковская проверка при открытии счёта', 'Что банк анализирует при открытии счёта'],
+  ['в процессе банковская проверка при открытии счёта', 'в процессе банковской проверки при открытии счёта'],
+  ['Группа структура', 'Структура группы'],
+  ['Несоответствие сайт ↔ структура', 'Несоответствие между сайтом и фактической структурой'],
+  ['Банковская готовность проверка часто выявляет', 'Банковская проверка часто выявляет'],
+  ['Банковская готовность готовность — это не финальный шаг.', 'Банковская готовность — не финальный шаг.'],
+  ['Банковски воспринимаемой', 'Понятной для банка'],
+  ['банковски воспринимаемой', 'понятной для банка'],
+  ['Интеллектуальная собственность: передачи', 'Передача прав на интеллектуальную собственность'],
+  ['Управление & Контроль', 'Управление и контроль'],
+  ['управление & контроль', 'управление и контроль'],
+  ['Готовность подтвердить фактическое присутствие чек-лист', 'Чек-лист фактического присутствия'],
+  ['Newsletter', 'Подписка на обновления'],
+  ['LEXONYX — независимая консультационная компания.', 'LEXONYX — независимая профессиональная практика.'],
+  ['LEXONYX — независимая консультационная компания', 'LEXONYX — независимая профессиональная практика'],
+  ['разовая диагностика / проект / сопровождение', 'разовая проверка / проект / сопровождение'],
+  ['объём работы после анализа запроса', 'объём работы определяется после анализа запроса']
+];
+
+function cleanHtml(html) {
+  let out = html;
+  for (const [from, to] of replacements) out = out.split(from).join(to);
+
+  // Legacy badge introduced an unverified practice-age claim on older article footers.
+  out = out.replace(/<div\b[^>]*class=["'][^"']*badge[^"']*["'][^>]*>[\s\S]*?(?:С|C)\s*2012\s*(?:ГОДА|года)[\s\S]*?<\/div>/gi, '');
+  out = out.replace(/(?:С|C)\s*2012\s*(?:ГОДА|года)/g, '');
+
+  return out;
+}
+
+let scanned = 0;
+let changed = 0;
+for (const dirent of fs.readdirSync(path.join(ROOT, 'ru'), { recursive: true, withFileTypes: true })) {
+  if (!dirent.isFile() || !dirent.name.endsWith('.html')) continue;
+  // Node's recursive Dirent exposes parentPath on current runtimes.
+  const parent = dirent.parentPath || dirent.path;
+  if (!parent) continue;
+  const file = path.join(parent, dirent.name);
+  scanned++;
+  const before = fs.readFileSync(file, 'utf8');
+  const after = cleanHtml(before);
+  if (after !== before) {
+    fs.writeFileSync(file, after, 'utf8');
+    changed++;
+  }
+}
+
+// Compatibility fallback for Node versions without recursive Dirent parentPath.
+if (scanned === 0) {
+  const walk = dir => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const file = path.join(dir, entry.name);
+      if (entry.isDirectory()) walk(file);
+      else if (entry.isFile() && entry.name.endsWith('.html')) {
+        scanned++;
+        const before = fs.readFileSync(file, 'utf8');
+        const after = cleanHtml(before);
+        if (after !== before) { fs.writeFileSync(file, after, 'utf8'); changed++; }
+      }
+    }
+  };
+  walk(path.join(ROOT, 'ru'));
+}
+
+const critical = [
+  'ru/zaprosit-razbor.html',
+  'ru/podhod/index.html',
+  'ru/insayty/razbory/deep-dive-banking-readiness.html'
+];
+const forbidden = [
+  'правильную точку входа', 'первичной квалификации', 'Предварительная Карта',
+  'банковскому банковская', 'при банковская', 'Группа структура',
+  'Банковская готовность проверка', 'Банковская готовность готовность',
+  'Интеллектуальная собственность: передачи', 'Управление & Контроль',
+  'Готовность подтвердить фактическое присутствие чек-лист', 'Newsletter',
+  'независимая консультационная компания', 'С 2012 года', 'С 2012 ГОДА', 'C 2012 ГОДА'
+];
+for (const rel of critical) {
+  const file = path.join(ROOT, rel);
+  if (!fs.existsSync(file)) continue;
+  const text = fs.readFileSync(file, 'utf8');
+  const hit = forbidden.filter(x => text.includes(x));
+  if (hit.length) throw new Error(`${rel}: residual RU copy defects: ${hit.join(' | ')}`);
+}
+
+console.log(`[LEXONYX RU final copy QA] scanned=${scanned} changed=${changed}`);
