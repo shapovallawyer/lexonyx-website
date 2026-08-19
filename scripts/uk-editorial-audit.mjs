@@ -6,7 +6,7 @@ const sitemap=fs.readFileSync(path.join(ROOT,'sitemap.xml'),'utf8');
 const targets=[...sitemap.matchAll(/<loc>https:\/\/lexonyx\.com\/(uk\/[^<]+)<\/loc>/g)].map(m=>m[1]);
 
 const allowed=new Set([
-'LEXONYX','KYC','AML','FATF','MLI','PPT','GAAR','DEMPE','MiCA','SaaS','OSS','IOSS','EOR','PSP','EMI','UBO','GDPR','CRS','NDA','Web3',
+'LEXONYX','KYC','AML','FATF','MLI','PPT','GAAR','DEMPE','MiCA','SaaS','OSS','IOSS','EOR','PSP','EMI','UBO','GDPR','CRS','NDA','Web3','PI','CASP','AMLR','PSR','FCA','LOB','SLA','FBA','Wise','Brexit',
 'BRAO','RAK','DSGVO','TTDSG','TMG','DDG','BGB','VSBG','MStV','BORA','RVG','CCBE','ePrivacy','GA4','IP','CTF','DPA','SCC','TLS','SSL',
 'WCAG','AA','ARIA','EAA','localStorage','ID','Google','Analytics','Netlify','GitHub','LinkedIn','Telegram','WhatsApp','Instagram','Microsoft','Cloudflare','OpenAI','Amazon','Etsy',
 'Rechtsanwaltskammer','München','Rechtsanwalt','Steuerberater','Bundesrechtsanwaltsordnung','Berufsordnung','Rechtsanwälte','Rechtsanwaltsvergütungsgesetz','Berufsregeln','Bundesrechtsanwaltskammer','Schlichtungsstelle','Rechtsanwaltschaft','Impressum',
