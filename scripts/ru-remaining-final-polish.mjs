@@ -1,62 +1,22 @@
 import fs from 'node:fs';
 import path from 'node:path';
-
-const ROOT = process.cwd();
-const targets = [
-  'ru/podhod/index.html','ru/podhod/strukturnaya-model.html','ru/podhod/principy-mezhdunarodnyh-struktur.html','ru/podhod/karta-riskov.html',
-  'ru/dlya-ukrainskogo-biznesa.html','ru/kontakty.html','ru/zaprosit-razbor.html','ru/accessibility.html','ru/cookie-policy.html','ru/impressum.html','ru/privacy-policy.html','ru/terms-of-use.html',
-  'ru/intake/intake.html','ru/intake/intake_thankyou.html','ru/intake/spasibo.html','ru/intake/spasibo-newsletter.html'
-];
-
-const pairs = [
-  ['defendable-', 'защищаемый '], ['defendable', 'защищаемый'], ['Defendable', 'Защищаемый'],
-  ['International tax', 'Международное налогообложение'], ['international tax', 'международное налогообложение'], [' tax ', ' налоги '],
-  ['marketplaces', 'маркетплейсы'], ['Marketplaces', 'Маркетплейсы'],
-  ['UAE', 'ОАЭ'], ['United Arab Emirates', 'Объединённые Арабские Эмираты'], ['Arab Emirates', 'Арабские Эмираты'],
-  ['European Union', 'Европейский союз'], ['United Kingdom', 'Великобритания'],
-  ['due diligence', 'комплексная проверка'], ['Due diligence', 'Комплексная проверка'],
-  ['local counsel', 'местный профильный специалист'], ['Local counsel', 'Местный профильный специалист'],
-  ['local professionals', 'местные профильные специалисты'], ['Local professionals', 'Местные профильные специалисты'],
-  ['German professional', 'немецкий профильный специалист'], ['German professionals', 'немецкие профильные специалисты'],
-  ['Email', 'Электронная почта'], ['E-mail', 'Электронная почта'], ['email address', 'адрес электронной почты'],
-  ['engagement letter', 'письмо-соглашение об условиях работы'], ['Engagement letter', 'Письмо-соглашение об условиях работы'],
-  ['engagement', 'взаимодействие'], ['Engagement', 'Взаимодействие'],
-  ['structured intake', 'структурированный первичный опрос'], ['Structured intake', 'Структурированный первичный опрос'],
-  ['regulatory fit', 'соответствие регуляторным требованиям'], ['Regulatory fit', 'Соответствие регуляторным требованиям'],
-  ['regulatory readiness', 'регуляторная готовность'], ['Regulatory readiness', 'Регуляторная готовность'],
-  ['banking readiness', 'банковская готовность'], ['Banking readiness', 'Банковская готовность'],
-  ['High-level', 'Предварительный'], ['high-level', 'предварительный'],
-  ['specialist confirmation', 'подтверждение профильным специалистом'], ['Specialist confirmation', 'Подтверждение профильным специалистом'],
-  ['employee', 'сотрудник'], ['Employee', 'Сотрудник'], ['contractor', 'подрядчик'], ['Contractor', 'Подрядчик'],
-  ['fintech', 'финтех'], ['FinTech', 'финтех'], ['payments', 'платежи'], ['Payments', 'Платежи'],
-  ['crypto', 'криптоактивы'], ['Crypto', 'Криптоактивы'], ['custody', 'хранение активов'], ['Custody', 'Хранение активов'],
-  ['Founder', 'Основатель'], ['Co-Founder', 'Сооснователь'], ['founders', 'основатели'], ['Founders', 'Основатели'],
-  ['CFO', 'финансовый директор'], ['Finance', 'Финансы'], ['Legal', 'Юридическая функция'], ['Compliance', 'Комплаенс'], ['compliance', 'комплаенс'],
-  ['COO', 'операционный директор'], ['Ops', 'операционная деятельность'], ['Head of', 'Руководитель'],
-  ['Signal', 'Сигнал'], ['Signals', 'Сигналы'], ['directors', 'директора'], ['Directors', 'Директора'], ['seller', 'продавец'], ['Seller', 'Продавец'],
-  ['Platform', 'Платформа'], ['perimeter check', 'проверка периметра'], ['Perimeter check', 'Проверка периметра'],
-  ['management fees', 'управленческие комиссии'], ['Management fees', 'Управленческие комиссии'],
-  ['FAQ', 'Частые вопросы'],
-  ['European Accessibility Act', 'Европейский акт о доступности'], ['reduced motion', 'уменьшение анимации'],
-  ['tracking identifier', 'идентификатор отслеживания'], ['Tracking identifier', 'Идентификатор отслеживания'],
-  ['measurement ID', 'идентификатор измерения'], ['Measurement ID', 'Идентификатор измерения'], ['GA property', 'ресурс Google Analytics'],
-  ['pixels', 'пиксели'], ['Pixels', 'Пиксели'], ['footer', 'нижняя часть сайта'], ['Footer', 'Нижняя часть сайта'],
-  ['corporate', 'корпоративный'], ['Corporate', 'Корпоративный'], ['Matter limitation', 'ограничение предмета поручения'], ['Matter', 'Поручение'],
-  ['professional', 'профессиональный'], ['professionals', 'специалисты'], ['counsel', 'специалист'], ['Counsel', 'Специалист'],
-  ['health', 'здоровье'], ['financial', 'финансовые'], ['Playbooks', 'Практические руководства'], ['Checklists', 'Чек-листы'],
-  ['Standard Contractual Clauses', 'стандартные договорные положения'], ['privacy', 'конфиденциальность'],
-  ['workstreams', 'направления работы'], ['as is', 'как есть'], ['available', 'доступный'],
-  ['Intake', 'Первичный опрос'], ['Diagnostic', 'Диагностика'], ['Blueprint', 'Проект модели'], ['Implementation', 'Внедрение'], ['Retainer', 'Регулярное сопровождение'],
-  ['retainer', 'регулярное сопровождение'], ['Pre-revenue', 'До выручки'], ['tax model', 'налоговая модель'], ['scoping', 'определение объёма работы'],
-  ['Licensing readiness', 'Готовность к лицензированию'], ['licensing readiness', 'готовность к лицензированию'], ['blueprint gate', 'этап проектирования'], ['contracts', 'договоры'],
-  ['footprint', 'фактическое присутствие'], ['Risk Scan', 'Экспресс-проверка рисков'], ['risk scan', 'экспресс-проверка рисков'],
-  ['outcome', 'результат'], ['scope', 'объём работы'], ['deliverables', 'результаты работы'], ['NEWSLETTER', 'РАССЫЛКА'], ['Newsletter', 'Рассылка'],
-  ['Structured', 'Структурированный']
-];
-
+const ROOT=process.cwd();
+const targets=['ru/podhod/index.html','ru/podhod/strukturnaya-model.html','ru/podhod/principy-mezhdunarodnyh-struktur.html','ru/podhod/karta-riskov.html','ru/dlya-ukrainskogo-biznesa.html','ru/kontakty.html','ru/zaprosit-razbor.html','ru/accessibility.html','ru/cookie-policy.html','ru/impressum.html','ru/privacy-policy.html','ru/terms-of-use.html','ru/intake/intake.html','ru/intake/intake_thankyou.html','ru/intake/spasibo.html','ru/intake/spasibo-newsletter.html'];
+const pairs=[
+['defendable-','защищаемый '],['defendable','защищаемый'],['Defendable','Защищаемый'],
+['International tax','Международное налогообложение'],['international tax','международное налогообложение'],['Tax','Налоги'],['tax','налоги'],
+['marketplaces','маркетплейсы'],['Marketplaces','Маркетплейсы'],['UAE','ОАЭ'],['United Arab Emirates','Объединённые Арабские Эмираты'],['Arab Emirates','Арабские Эмираты'],['European Union','Европейский союз'],['United Kingdom','Великобритания'],
+['due diligence','комплексная проверка'],['Due diligence','Комплексная проверка'],['local counsel','местный профильный специалист'],['Local counsel','Местный профильный специалист'],['local professionals','местные профильные специалисты'],['Local professionals','Местные профильные специалисты'],['German professional','немецкий профильный специалист'],['German professionals','немецкие профильные специалисты'],
+['Email','Электронная почта'],['E-mail','Электронная почта'],['email address','адрес электронной почты'],['engagement letter','письмо-соглашение об условиях работы'],['Engagement letter','Письмо-соглашение об условиях работы'],['engagement','взаимодействие'],['Engagement','Взаимодействие'],['structured intake','структурированный первичный опрос'],['Structured intake','Структурированный первичный опрос'],['intake','первичный опрос'],['Intake','Первичный опрос'],
+['regulatory fit','соответствие регуляторным требованиям'],['Regulatory fit','Соответствие регуляторным требованиям'],['regulatory readiness','регуляторная готовность'],['Regulatory readiness','Регуляторная готовность'],['banking readiness','банковская готовность'],['Banking readiness','Банковская готовность'],['Banking','Банковская сфера'],['banking','банковская сфера'],['readiness','готовность'],['Readiness','Готовность'],
+['High-level','Предварительный'],['high-level','предварительный'],['specialist confirmation','подтверждение профильным специалистом'],['Specialist confirmation','Подтверждение профильным специалистом'],['employee','сотрудник'],['Employee','Сотрудник'],['contractor','подрядчик'],['Contractor','Подрядчик'],['fintech','финтех'],['FinTech','финтех'],['payments','платежи'],['Payments','Платежи'],['crypto','криптоактивы'],['Crypto','Криптоактивы'],['custody','хранение активов'],['Custody','Хранение активов'],
+['Co-Founder','Сооснователь'],['Founder','Основатель'],['founders','основатели'],['Founders','Основатели'],['CFO','финансовый директор'],['Finance','Финансы'],['Legal','Юридическая функция'],['Compliance','Комплаенс'],['compliance','комплаенс'],['COO','операционный директор'],['Ops','операционная деятельность'],['Head of','Руководитель'],['Signal','Сигнал'],['Signals','Сигналы'],['directors','директора'],['Directors','Директора'],['seller','продавец'],['Seller','Продавец'],['Platform','Платформа'],['perimeter check','проверка периметра'],['Perimeter check','Проверка периметра'],['perimeter','периметр'],['management fees','управленческие комиссии'],['Management fees','Управленческие комиссии'],['FAQ','Частые вопросы'],
+['European Accessibility Act','Европейский акт о доступности'],['reduced motion','уменьшение анимации'],['tracking identifier','идентификатор отслеживания'],['Tracking identifier','Идентификатор отслеживания'],['measurement ID','идентификатор измерения'],['Measurement ID','Идентификатор измерения'],['GA property','ресурс Google Analytics'],['ga property','ресурс Google Analytics'],['pixels','пиксели'],['Pixels','Пиксели'],['footer','нижняя часть сайта'],['Footer','Нижняя часть сайта'],
+['corporate','корпоративный'],['Corporate','Корпоративный'],['Matter limitation','ограничение предмета поручения'],['Matter','Поручение'],['professional','профессиональный'],['professionals','специалисты'],['counsel','специалист'],['Counsel','Специалист'],['health','здоровье'],['financial','финансовые'],['Playbooks','Практические руководства'],['Checklists','Чек-листы'],['Standard Contractual Clauses','стандартные договорные положения'],['privacy','конфиденциальность'],['workstreams','направления работы'],['as is','как есть'],['available','доступный'],
+['Diagnostic','Диагностика'],['Blueprint','Проект модели'],['blueprint','проект модели'],['Implementation','Внедрение'],['Retainer','Регулярное сопровождение'],['retainer','регулярное сопровождение'],['Pre-revenue','До выручки'],['tax model','налоговая модель'],['model','модель'],['scoping','определение объёма работы'],['Licensing readiness','Готовность к лицензированию'],['licensing readiness','готовность к лицензированию'],['blueprint gate','этап проектирования'],['gate','этап'],['contracts','договоры'],['footprint','фактическое присутствие'],['Risk Scan','Экспресс-проверка рисков'],['risk scan','экспресс-проверка рисков'],['outcome','результат'],['scope','объём работы'],['deliverables','результаты работы'],['SOF','происхождение средств'],['SOW','происхождение капитала'],['NEWSLETTER','РАССЫЛКА'],['Newsletter','Рассылка'],['Structured','Структурированный']];
 function esc(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
-function rep(text, from, to){const l=/^[A-Za-z0-9]/.test(from)?'(?<![A-Za-z0-9])':'';const r=/[A-Za-z0-9]$/.test(from)?'(?![A-Za-z0-9])':'';return text.replace(new RegExp(l+esc(from)+r,'g'),to);}
-function clean(text){let out=text;for(const [a,b] of pairs) out=rep(out,a,b);return out.replace(/\s{2,}/g,' ').replace(/\s+([,.;:!?])/g,'$1');}
-function json(html){return html.replace(/(<script\b[^>]*type=["']application\/ld\+json["'][^>]*>)([\s\S]*?)(<\/script>)/gi,(all,a,b,c)=>{try{const d=JSON.parse(b);const walk=v=>{if(Array.isArray(v))return v.map(walk);if(v&&typeof v==='object'){for(const k of Object.keys(v))v[k]=walk(v[k]);return v;}if(typeof v==='string'&&!/^https?:\/\//i.test(v))return clean(v);return v;};return a+JSON.stringify(walk(d),null,2)+c;}catch{return all;}})}
-for(const rel of targets){const file=path.join(ROOT,rel);if(!fs.existsSync(file))continue;let html=fs.readFileSync(file,'utf8');const held=[];html=html.replace(/<(?:script|style)\b[\s\S]*?<\/(?:script|style)>/gi,x=>{held.push(x);return `__RU_REMAIN_FINAL_${held.length-1}__`;});html=html.replace(/>([^<>]+)</g,(m,t)=>`>${clean(t)}<`);html=html.replace(/(<meta\b[^>]*\bcontent=["'])([^"']*)(["'][^>]*>)/gi,(m,a,v,b)=>a+clean(v)+b);html=html.replace(/\b(placeholder|aria-label|title)=(['"])(.*?)\2/gi,(m,a,q,v)=>`${a}=${q}${clean(v)}${q}`);html=html.replace(/__RU_REMAIN_FINAL_(\d+)__/g,(_,i)=>held[Number(i)]);html=json(html);fs.writeFileSync(file,html,'utf8');}
+function rep(t,a,b){const l=/^[A-Za-z0-9]/.test(a)?'(?<![A-Za-z0-9])':'';const r=/[A-Za-z0-9]$/.test(a)?'(?![A-Za-z0-9])':'';return t.replace(new RegExp(l+esc(a)+r,'g'),b);}
+function clean(t){let o=t;for(const [a,b] of pairs)o=rep(o,a,b);return o.replace(/\s{2,}/g,' ').replace(/\s+([,.;:!?])/g,'$1');}
+function json(h){return h.replace(/(<script\b[^>]*type=["']application\/ld\+json["'][^>]*>)([\s\S]*?)(<\/script>)/gi,(all,a,b,c)=>{try{const d=JSON.parse(b);const w=v=>{if(Array.isArray(v))return v.map(w);if(v&&typeof v==='object'){for(const k of Object.keys(v))v[k]=w(v[k]);return v;}if(typeof v==='string'&&!/^https?:\/\//i.test(v))return clean(v);return v;};return a+JSON.stringify(w(d),null,2)+c;}catch{return all;}})}
+for(const rel of targets){const f=path.join(ROOT,rel);if(!fs.existsSync(f))continue;let h=fs.readFileSync(f,'utf8');const held=[];h=h.replace(/<(?:script|style)\b[\s\S]*?<\/(?:script|style)>/gi,x=>{held.push(x);return `__RU_REMAIN_FINAL_${held.length-1}__`;});h=h.replace(/>([^<>]+)</g,(m,t)=>`>${clean(t)}<`);h=h.replace(/(<meta\b[^>]*\bcontent=["'])([^"']*)(["'][^>]*>)/gi,(m,a,v,b)=>a+clean(v)+b);h=h.replace(/\b(placeholder|aria-label|title)=(['"])(.*?)\2/gi,(m,a,q,v)=>`${a}=${q}${clean(v)}${q}`);h=h.replace(/__RU_REMAIN_FINAL_(\d+)__/g,(_,i)=>held[Number(i)]);h=json(h);fs.writeFileSync(f,h,'utf8');}
 console.log('[LEXONYX RU remaining final polish] PASS');
