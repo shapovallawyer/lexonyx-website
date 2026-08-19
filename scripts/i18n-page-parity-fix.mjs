@@ -65,56 +65,50 @@ function replaceHeader(html, header) {
   return html.slice(0, start) + header + html.slice(main);
 }
 
-function addOnceAfter(html, needle, insertion, marker) {
-  if (html.includes(marker)) return html;
+function addOnceAfter(html, needle, insertion) {
+  if (html.includes(needle + insertion)) return html;
   return html.includes(needle) ? html.replace(needle, needle + insertion) : html;
 }
-function addOnceBefore(html, needle, insertion, marker) {
-  if (html.includes(marker)) return html;
+function addOnceBefore(html, needle, insertion) {
+  if (html.includes(insertion + needle)) return html;
   return html.includes(needle) ? html.replace(needle, insertion + needle) : html;
 }
 
 const enHomePath = path.join(ROOT, 'en/index.html');
 let enHome = fs.readFileSync(enHomePath, 'utf8');
 
-// EN Expertise parity: the physical page existed but was not exposed in desktop/mobile navigation.
+// EN Expertise parity: the page existed, but Private Capital / Family Office was not exposed in desktop/mobile navigation.
 enHome = addOnceAfter(
   enHome,
   '<a href="/en/expertise/source-of-funds.html">Source of Funds / Source of Wealth</a>',
-  '\n                  <a href="/en/expertise/private-capital-and-family-office.html">Private Capital &amp; Family Office</a>',
-  '/en/expertise/private-capital-and-family-office.html'
+  '\n                  <a href="/en/expertise/private-capital-and-family-office.html">Private Capital &amp; Family Office</a>'
 );
 enHome = addOnceAfter(
   enHome,
   '<a href="/en/expertise/source-of-funds.html" class="mobile-sub-link">Source of Funds / Source of Wealth</a>',
-  '\n          <a href="/en/expertise/private-capital-and-family-office.html" class="mobile-sub-link">Private Capital &amp; Family Office</a>',
-  'href="/en/expertise/private-capital-and-family-office.html" class="mobile-sub-link"'
+  '\n          <a href="/en/expertise/private-capital-and-family-office.html" class="mobile-sub-link">Private Capital &amp; Family Office</a>'
 );
 
 // EN Work Formats parity: match RU/UK by exposing How to Start and External Legal Function.
 enHome = addOnceBefore(
   enHome,
   '<a href="/en/work-formats/strategic-structural-audit.html">Strategic Structure Audit</a>',
-  '<a href="/en/how-to-start.html">How to Start</a>\n                  ',
-  '<a href="/en/how-to-start.html">How to Start</a>'
+  '<a href="/en/how-to-start.html">How to Start</a>\n                  '
 );
 enHome = addOnceAfter(
   enHome,
   '<a href="/en/work-formats/ongoing-advisory.html">Ongoing Advisory</a>',
-  '\n                  <a href="/en/work-formats/external-legal-function.html">External International Legal Function</a>',
-  '<a href="/en/work-formats/external-legal-function.html">External International Legal Function</a>'
+  '\n                  <a href="/en/work-formats/external-legal-function.html">External International Legal Function</a>'
 );
 enHome = addOnceBefore(
   enHome,
   '<a href="/en/work-formats/strategic-structural-audit.html" class="mobile-sub-link">Strategic Structure',
-  '<a href="/en/how-to-start.html" class="mobile-sub-link">How to Start</a>\n          ',
-  'href="/en/how-to-start.html" class="mobile-sub-link"'
+  '<a href="/en/how-to-start.html" class="mobile-sub-link">How to Start</a>\n          '
 );
 enHome = addOnceAfter(
   enHome,
   '<a href="/en/work-formats/ongoing-advisory.html" class="mobile-sub-link">Ongoing Advisory</a>',
-  '\n          <a href="/en/work-formats/external-legal-function.html" class="mobile-sub-link">External International Legal Function</a>',
-  'href="/en/work-formats/external-legal-function.html" class="mobile-sub-link"'
+  '\n          <a href="/en/work-formats/external-legal-function.html" class="mobile-sub-link">External International Legal Function</a>'
 );
 
 fs.writeFileSync(enHomePath, enHome, 'utf8');
