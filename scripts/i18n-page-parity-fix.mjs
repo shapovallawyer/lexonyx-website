@@ -122,6 +122,27 @@ ukHome = addOnceBefore(
 );
 fs.writeFileSync(ukHomePath, ukHome, 'utf8');
 
+// Newsletter confirmations are noindex utility pages, but their language graph must still be consistent.
+const newsletter = {
+  ru: 'https://lexonyx.com/ru/spasibo-newsletter.html',
+  en: 'https://lexonyx.com/en/thank-you-newsletter.html',
+  uk: 'https://lexonyx.com/uk/dyakuyemo-newsletter.html'
+};
+function normalizeNewsletterAlternates(rel) {
+  const file = path.join(ROOT, rel);
+  if (!fs.existsSync(file)) return;
+  let html = fs.readFileSync(file, 'utf8');
+  html = html.replace(/^\s*<link\b[^>]*rel=["']alternate["'][^>]*>\s*$/gmi, '');
+  const block = `\n  <link rel="alternate" hreflang="ru" href="${newsletter.ru}" />\n  <link rel="alternate" hreflang="en" href="${newsletter.en}" />\n  <link rel="alternate" hreflang="uk" href="${newsletter.uk}" />\n  <link rel="alternate" hreflang="x-default" href="${newsletter.en}" />`;
+  const canonical = html.match(/<link\b[^>]*rel=["']canonical["'][^>]*>/i);
+  if (canonical) html = html.replace(canonical[0], canonical[0] + block);
+  html = html.replaceAll('/ru/ruspasibo-newsletter.html', '/ru/spasibo-newsletter.html');
+  fs.writeFileSync(file, html, 'utf8');
+}
+normalizeNewsletterAlternates('ru/intake/spasibo-newsletter.html');
+normalizeNewsletterAlternates('en/thank-you-newsletter.html');
+normalizeNewsletterAlternates('uk/dyakuyemo-newsletter.html');
+
 // Propagate each language's canonical header to every page that has a full site header,
 // then restore page-specific language-switch targets from the canonical i18n map.
 const homes = {
@@ -146,4 +167,4 @@ for (const lang of ['ru', 'en', 'uk']) {
   }
 }
 
-console.log(`[LEXONYX i18n page parity fix] headers normalized=${changed}`);
+console.log(`[LEXONYX i18n page parity fix] headers normalized=${changed}; newsletter alternates normalized=3`);

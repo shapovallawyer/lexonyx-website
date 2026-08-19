@@ -19,6 +19,15 @@ function publicExists(rel) { return exists(rel) || routeBacked(rel); }
 function read(rel) { return exists(rel) ? fs.readFileSync(path.join(ROOT, rel), 'utf8') : ''; }
 function sitemapHas(rel) { return sitemap.includes(`<loc>https://lexonyx.com/${rel}</loc>`); }
 function count(haystack, needle) { return haystack.split(needle).length - 1; }
+function walkHtml(dir, out = []) {
+  if (!fs.existsSync(dir)) return out;
+  for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, ent.name);
+    if (ent.isDirectory()) walkHtml(p, out);
+    else if (ent.isFile() && ent.name.endsWith('.html')) out.push(p);
+  }
+  return out;
+}
 
 const families = [];
 for (const [ru, en] of Object.entries(map.en || {})) {
@@ -46,8 +55,9 @@ for (const family of families) {
     const html = read(rel);
     for (const alt of ['ru','en','uk']) {
       const target = `https://lexonyx.com/${family[alt]}`;
-      const reA = new RegExp(`<link\\b[^>]*hreflang=["']${alt}["'][^>]*href=["']${target.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}["']`, 'i');
-      const reB = new RegExp(`<link\\b[^>]*href=["']${target.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}["'][^>]*hreflang=["']${alt}["']`, 'i');
+      const escaped = target.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+      const reA = new RegExp(`<link\\b[^>]*hreflang=["']${alt}["'][^>]*href=["']${escaped}["']`, 'i');
+      const reB = new RegExp(`<link\\b[^>]*href=["']${escaped}["'][^>]*hreflang=["']${alt}["']`, 'i');
       if (!reA.test(html) && !reB.test(html)) errors.push(`hreflang ${alt} missing/mismatched: ${rel}`);
     }
   }
@@ -84,10 +94,41 @@ const newsletterRoutes = [
 ];
 for (const rel of newsletterRoutes) if (!publicExists(rel)) errors.push(`newsletter success route missing: ${rel}`);
 
+const newsletterPhysical = [
+  'ru/intake/spasibo-newsletter.html',
+  'en/thank-you-newsletter.html',
+  'uk/dyakuyemo-newsletter.html'
+];
+const newsletterTargets = {
+  ru: 'https://lexonyx.com/ru/spasibo-newsletter.html',
+  en: 'https://lexonyx.com/en/thank-you-newsletter.html',
+  uk: 'https://lexonyx.com/uk/dyakuyemo-newsletter.html',
+  'x-default': 'https://lexonyx.com/en/thank-you-newsletter.html'
+};
+for (const rel of newsletterPhysical) {
+  const html = read(rel);
+  for (const [lang, target] of Object.entries(newsletterTargets)) {
+    const a = `hreflang="${lang}" href="${target}"`;
+    const b = `href="${target}" hreflang="${lang}"`;
+    if (!html.includes(a) && !html.includes(b)) errors.push(`newsletter hreflang ${lang} missing/mismatched: ${rel}`);
+  }
+  if (html.includes('/ru/ruspasibo-newsletter.html')) errors.push(`legacy malformed newsletter route remains: ${rel}`);
+}
+
 // The two RU-only historical duplicates are not independent language families.
 // They must not survive in the publish output as active pages.
 for (const rel of ['ru/ekspertiza/dlya-ukrainskogo-biznesa.html','ru/source-of-funds2.html']) {
   if (exists(rel)) errors.push(`legacy RU duplicate still published: ${rel}`);
+}
+
+// Diagnostic inventory: keep visibility over HTML files that are not part of the 55 canonical mapped families.
+const mapped = new Set(families.flatMap(f => [f.ru, f.en, f.uk]));
+for (const lang of ['ru','en','uk']) {
+  const extras = walkHtml(path.join(ROOT, lang))
+    .map(file => path.relative(ROOT, file).split(path.sep).join('/'))
+    .filter(rel => !mapped.has(rel))
+    .sort();
+  console.log(`[LEXONYX i18n parity inventory] ${lang.toUpperCase()} unmapped=${extras.length}: ${extras.join(', ')}`);
 }
 
 if (errors.length) {
