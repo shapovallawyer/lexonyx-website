@@ -24,6 +24,9 @@ jobs:
           node scripts/normalize-i18n-map.mjs
           node scripts/ru-localization-cleanup.mjs
           node scripts/ru-localization-postfix.mjs
+          node scripts/ru-editorial-curation.mjs
+          node scripts/jurisdiction-ui-fix.mjs
           node scripts/final-production-check.mjs
           node scripts/seo-ui-audit.mjs
           node scripts/ru-language-audit.mjs
+          node scripts/ru-mixed-script-audit.mjs
