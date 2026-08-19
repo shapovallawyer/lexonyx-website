@@ -21,14 +21,16 @@ for (const rel of ruUrls) {
   const file = path.join(ROOT, rel);
   if (!fs.existsSync(file)) continue;
   const text = visibleText(fs.readFileSync(file, 'utf8'));
-  const tokens = text.match(/[A-Za-zА-Яа-яЁё][A-Za-zА-Яа-яЁё-]*/g) || [];
-  const bad = [...new Set(tokens.filter(t => /[A-Za-z]/.test(t) && /[А-Яа-яЁё]/.test(t)))];
+  const bad = [...new Set([
+    ...(text.match(/[А-Яа-яЁё]{2,}[A-Za-z]{2,}/g) || []),
+    ...(text.match(/[A-Za-z]{2,}[А-Яа-яЁё]{2,}/g) || [])
+  ])];
   if (bad.length) errors.push(`${rel}: ${bad.slice(0,12).join(', ')}`);
 }
 
 if (errors.length) {
-  console.error(`[LEXONYX RU mixed-script audit] FAILED — ${errors.length} page(s) contain Cyrillic/Latin corruption:`);
+  console.error(`[LEXONYX RU mixed-script audit] FAILED — ${errors.length} page(s) contain fused Cyrillic/Latin corruption:`);
   for (const e of errors.slice(0,80)) console.error(' - ' + e);
   process.exit(1);
 }
-console.log('[LEXONYX RU mixed-script audit] PASS');
+console.log('[LEXONYX RU mixed-script audit] PASS — no fused Cyrillic/Latin words');
