@@ -1,0 +1,194 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
+const ROOT = process.cwd();
+const map = JSON.parse(fs.readFileSync(path.join(ROOT, '_url-map-i18n.json'), 'utf8'));
+function buildInverse(obj) {
+  const out = new Map();
+  for (const [ru, target] of Object.entries(obj || {})) if (ru.startsWith('ru/')) out.set(target, ru);
+  return out;
+}
+const invEn = buildInverse(map.en);
+const invUk = buildInverse(map.uk);
+
+const cfg = {
+  en: {
+    home: 'en/index.html',
+    jurDir: 'en/jurisdictions/',
+    commonScripts: ['/en/scripts/search-index-en.js','/en/scripts/site.js','/ru/scripts/lx-reveal.js','/ru/scripts/lx-consent.js','/ru/scripts/lx-to-top.js','/scripts/ui-runtime.js']
+  },
+  ru: {
+    home: 'ru/index.html',
+    jurDir: 'ru/yurisdikcii/',
+    commonScripts: ['/ru/scripts/search-index-ru.js','/ru/scripts/site.js','/ru/scripts/lx-reveal.js','/ru/scripts/lx-consent.js','/ru/scripts/lx-to-top.js','/scripts/ui-runtime.js']
+  },
+  uk: {
+    home: 'uk/index.html',
+    jurDir: 'uk/yurysdyktsiyi/',
+    commonScripts: ['/uk/scripts/search-index-uk.js','/uk/scripts/site.js','/ru/scripts/lx-reveal.js','/ru/scripts/lx-consent.js','/ru/scripts/lx-to-top.js','/scripts/ui-runtime.js']
+  }
+};
+
+const legalNames = new Set(['privacy-policy.html','cookie-policy.html','terms-of-use.html','impressum.html','accessibility.html']);
+
+function read(rel) { return fs.readFileSync(path.join(ROOT, rel), 'utf8'); }
+function write(rel, content) { fs.writeFileSync(path.join(ROOT, rel), content, 'utf8'); }
+
+function expectedLangLinks(rel) {
+  let ruKey = null;
+  if (rel.startsWith('ru/')) ruKey = rel;
+  else if (rel.startsWith('en/')) ruKey = invEn.get(rel) || null;
+  else if (rel.startsWith('uk/')) ruKey = invUk.get(rel) || null;
+  if (!ruKey) return null;
+  const en = map.en?.[ruKey];
+  const uk = map.uk?.[ruKey];
+  if (!en || !uk) return null;
+  return {
+    ru: '/' + ruKey,
+    en: '/' + en,
+    uk: '/' + uk,
+    abs: {
+      ru: 'https://lexonyx.com/' + ruKey,
+      en: 'https://lexonyx.com/' + en,
+      uk: 'https://lexonyx.com/' + uk,
+      'x-default': 'https://lexonyx.com/' + en
+    }
+  };
+}
+
+function normalizeLangOptions(html, links) {
+  if (!links) return html;
+  return html.replace(/<a\b[^>]*class=["'][^"']*lang-option[^"']*["'][^>]*>/gi, tag => {
+    const m = tag.match(/lang=["'](ru|en|uk)["']/i);
+    if (!m) return tag;
+    const href = links[m[1].toLowerCase()];
+    if (!href) return tag;
+    return /href=/i.test(tag)
+      ? tag.replace(/href=["'][^"']*["']/i, `href="${href}"`)
+      : tag.replace(/>$/, ` href="${href}">`);
+  });
+}
+
+function normalizeHreflangs(html, links) {
+  if (!links?.abs || !/<\/head>/i.test(html)) return html;
+  html = html.replace(/\s*<link\b[^>]*rel=["']alternate["'][^>]*hreflang=["'](?:ru|en|uk|x-default)["'][^>]*\/?>(?:\s*)/gi, '\n');
+  const block = [
+    `<link rel="alternate" hreflang="ru" href="${links.abs.ru}" />`,
+    `<link rel="alternate" hreflang="en" href="${links.abs.en}" />`,
+    `<link rel="alternate" hreflang="uk" href="${links.abs.uk}" />`,
+    `<link rel="alternate" hreflang="x-default" href="${links.abs['x-default']}" />`
+  ].join('\n  ');
+  return html.replace(/<\/head>/i, `  ${block}\n</head>`);
+}
+
+function extractHeaderZone(html, rel) {
+  const headerStart = html.search(/<header\b[^>]*class=["'][^"']*site-header[^"']*["'][^>]*>/i);
+  const mainStart = html.search(/<main\b/i);
+  if (headerStart < 0 || mainStart < 0 || mainStart <= headerStart) throw new Error(`Cannot extract header zone from ${rel}`);
+  return html.slice(headerStart, mainStart);
+}
+
+function extractFooter(html, rel) {
+  const footerStart = html.search(/<footer\b[^>]*class=["'][^"']*site-footer[^"']*["'][^>]*>/i);
+  if (footerStart < 0) throw new Error(`Cannot extract footer from ${rel}`);
+  const close = html.indexOf('</footer>', footerStart);
+  if (close < 0) throw new Error(`Cannot find footer close in ${rel}`);
+  return html.slice(footerStart, close + '</footer>'.length);
+}
+
+function replaceHeaderZone(html, zone, rel) {
+  const headerStart = html.search(/<header\b[^>]*class=["'][^"']*site-header[^"']*["'][^>]*>/i);
+  const mainStart = html.search(/<main\b/i);
+  if (headerStart < 0 || mainStart < 0 || mainStart <= headerStart) throw new Error(`Cannot replace header zone in ${rel}`);
+  return html.slice(0, headerStart) + zone + html.slice(mainStart);
+}
+
+function replaceFooter(html, footer, rel) {
+  const footerStart = html.search(/<footer\b[^>]*class=["'][^"']*site-footer[^"']*["'][^>]*>/i);
+  if (footerStart < 0) {
+    const scriptStart = html.search(/<script\b[^>]*src=/i);
+    const bodyClose = html.search(/<\/body>/i);
+    const insertAt = scriptStart >= 0 ? scriptStart : bodyClose >= 0 ? bodyClose : html.length;
+    return html.slice(0, insertAt) + '\n' + footer + '\n' + html.slice(insertAt);
+  }
+  const close = html.indexOf('</footer>', footerStart);
+  if (close < 0) throw new Error(`Cannot find footer close in ${rel}`);
+  return html.slice(0, footerStart) + footer + html.slice(close + '</footer>'.length);
+}
+
+function ensureScript(html, src) {
+  const escaped = src.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  if (new RegExp(`<script\\b[^>]*src=["']${escaped}["']`, 'i').test(html)) return html;
+  const tag = `\n  <script defer src="${src}"></script>`;
+  return html.includes('</body>') ? html.replace('</body>', tag + '\n</body>') : html + tag;
+}
+
+function isTarget(rel, lang) {
+  const c = cfg[lang];
+  if (rel.startsWith(c.jurDir) && rel.endsWith('.html')) return true;
+  const base = rel.split('/').pop();
+  if (rel.startsWith(lang + '/') && !rel.slice(lang.length + 1).includes('/') && legalNames.has(base)) return true;
+  return false;
+}
+
+let changed = 0;
+let targets = 0;
+for (const [lang, c] of Object.entries(cfg)) {
+  let home = read(c.home);
+  if (lang === 'en') {
+    home = home.replace(/href=["']\/index\.html["'](?=[^>]*class=["'][^"']*lang-option[^"']*["'][^>]*lang=["']ru["'])/gi, 'href="/ru/index.html"');
+    home = home.replace(/"knowsLanguage"\s*:\s*\[\s*"ru"\s*,\s*"en"\s*\]/g, '"knowsLanguage":["ru","en","uk"]');
+    home = home.replace(/\s*,?\s*"potentialAction"\s*:\s*\{[\s\S]*?"query-input"\s*:\s*"required name=search_term_string"\s*\}/i, '');
+    home = normalizeHreflangs(home, expectedLangLinks(c.home));
+    home = normalizeLangOptions(home, expectedLangLinks(c.home));
+    write(c.home, home);
+  }
+
+  const canonicalHeader = extractHeaderZone(home, c.home);
+  const canonicalFooter = extractFooter(home, c.home);
+
+  const baseDir = path.join(ROOT, lang);
+  const stack = [baseDir];
+  while (stack.length) {
+    const dir = stack.pop();
+    for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+      const p = path.join(dir, ent.name);
+      if (ent.isDirectory()) { stack.push(p); continue; }
+      if (!ent.isFile() || !ent.name.endsWith('.html')) continue;
+      const rel = path.relative(ROOT, p).split(path.sep).join('/');
+      if (!isTarget(rel, lang)) continue;
+      targets++;
+      const original = fs.readFileSync(p, 'utf8');
+      let html = replaceHeaderZone(original, canonicalHeader, rel);
+      html = replaceFooter(html, canonicalFooter, rel);
+      const links = expectedLangLinks(rel);
+      html = normalizeLangOptions(html, links);
+      html = normalizeHreflangs(html, links);
+      for (const src of c.commonScripts) html = ensureScript(html, src);
+      if (html !== original) { fs.writeFileSync(p, html, 'utf8'); changed++; }
+    }
+  }
+}
+
+// Apply canonical hreflang + language-switch links to every mapped active language page.
+for (const lang of Object.keys(cfg)) {
+  const baseDir = path.join(ROOT, lang);
+  const stack = [baseDir];
+  while (stack.length) {
+    const dir = stack.pop();
+    for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+      const p = path.join(dir, ent.name);
+      if (ent.isDirectory()) { stack.push(p); continue; }
+      if (!ent.isFile() || !ent.name.endsWith('.html')) continue;
+      const rel = path.relative(ROOT, p).split(path.sep).join('/');
+      const original = fs.readFileSync(p, 'utf8');
+      const links = expectedLangLinks(rel);
+      let html = normalizeLangOptions(original, links);
+      html = normalizeHreflangs(html, links);
+      html = ensureScript(html, '/scripts/ui-runtime.js');
+      if (html !== original) { fs.writeFileSync(p, html, 'utf8'); changed++; }
+    }
+  }
+}
+
+console.log(`[LEXONYX layout normalizer] targets=${targets}, changed=${changed}`);
