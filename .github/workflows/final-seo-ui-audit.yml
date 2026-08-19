@@ -46,6 +46,7 @@ jobs:
           node scripts/ru-final-copy-qa.mjs
           node scripts/en-editorial-curation.mjs
           node scripts/en-runtime-copy-polish.mjs
+          node scripts/en-final-editorial-polish.mjs
           node scripts/en-final-copy-qa.mjs
           node scripts/final-production-check.mjs
           node scripts/seo-ui-audit.mjs
