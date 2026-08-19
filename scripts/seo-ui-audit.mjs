@@ -41,7 +41,7 @@ function readPage(rel) {
 }
 
 const urls = [...sitemap.matchAll(/<loc>https:\/\/lexonyx\.com\/([^<]+)<\/loc>/g)].map(m => m[1]);
-if (urls.length !== 105) fail(`sitemap URL count expected 105, got ${urls.length}`);
+if (urls.length !== 165) fail(`sitemap URL count expected 165, got ${urls.length}`);
 if (!/Sitemap:\s*https:\/\/lexonyx\.com\/sitemap\.xml/i.test(robots)) fail('robots.txt does not advertise the canonical sitemap');
 if (/Disallow:\s*\//i.test(robots)) fail('robots.txt blocks crawling');
 
