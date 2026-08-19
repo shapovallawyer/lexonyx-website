@@ -35,6 +35,7 @@ jobs:
           node scripts/ru-remaining-final-polish.mjs
           node scripts/ru-remaining-last-mile.mjs
           node scripts/ru-editorial-curation.mjs
+          node scripts/ru-four-page-manual-editorial-pass.mjs
           node scripts/jurisdiction-ui-fix.mjs
           node scripts/final-production-check.mjs
           node scripts/seo-ui-audit.mjs
