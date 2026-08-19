@@ -52,6 +52,8 @@ jobs:
           node scripts/uk-runtime-copy-polish.mjs
           node scripts/uk-final-editorial-polish.mjs
           node scripts/uk-final-copy-qa.mjs
+          node scripts/i18n-page-parity-fix.mjs
+          node scripts/i18n-page-parity-audit.mjs
           node scripts/final-production-check.mjs
           node scripts/seo-ui-audit.mjs
           node scripts/ru-mixed-script-audit.mjs
