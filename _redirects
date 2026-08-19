@@ -7,6 +7,7 @@
 # Canonical URLs backed by legacy source-file locations.
 /en/work-formats/external-legal-function.html   /en/expertise/external-legal-function.html     200!
 /ru/spasibo.html                                /ru/intake/spasibo.html                        200!
+/ru/spasibo-newsletter.html                     /ru/intake/spasibo-newsletter.html             200!
 
 # RU legacy flat routes
 /ru/o-praktike/podhod.html        /ru/podhod/                                                  301
@@ -45,6 +46,8 @@
 /ru/cross-border-hiring.html      /ru/ekspertiza/pe-risk-i-mezhdunarodnye-komandy.html         301
 /ru/licensing-roadmaps.html       /ru/ekspertiza/regulyatornaya-arhitektura-i-licenzirovanie.html 301
 /ru/contracts-operations.html     /ru/ekspertiza/                                              301
+/ru/ekspertiza/dlya-ukrainskogo-biznesa.html /ru/dlya-ukrainskogo-biznesa.html                301!
+/ru/source-of-funds2.html         /ru/ekspertiza/source-of-funds.html                           301!
 
 # RU work formats
 /ru/services.html                 /ru/formaty-raboty/                                          301
