@@ -24,6 +24,7 @@ jobs:
           node scripts/final-content-sanitizer.mjs
           node scripts/layout-normalizer.mjs
           node scripts/normalize-i18n-map.mjs
+          node scripts/final-seo-source-normalizer.mjs
           node scripts/ru-common-ui-curation.mjs
           node scripts/ru-core-language-curation.mjs
           node scripts/ru-core-language-postfix.mjs
