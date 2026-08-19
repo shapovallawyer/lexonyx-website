@@ -86,7 +86,8 @@ for (const [lang, c] of Object.entries(cfg)) {
 const retiredFiles = [
   'en/jurisdictions/lithuania.html','en/jurisdictions/malta.html','en/jurisdictions/czechia.html','en/jurisdictions/eu/index.html',
   'ru/lithuania.html','ru/malta.html','ru/czechia.html','ru/yurisdikcii/litva.html','ru/yurisdikcii/malta.html','ru/yurisdikcii/chehiya.html','ru/yurisdikcii/es/index.html',
-  'uk/yurysdyktsiyi/lytva.html','uk/yurysdyktsiyi/malta.html','uk/yurysdyktsiyi/chehiya.html','uk/yurysdyktsiyi/es/index.html'
+  'uk/yurysdyktsiyi/lytva.html','uk/yurysdyktsiyi/malta.html','uk/yurysdyktsiyi/chehiya.html','uk/yurysdyktsiyi/es/index.html',
+  'ru/ekspertiza/dlya-ukrainskogo-biznesa.html','ru/source-of-funds2.html'
 ];
 let removed = 0;
 for (const rel of retiredFiles) {
@@ -94,4 +95,4 @@ for (const rel of retiredFiles) {
   if (fs.existsSync(p)) { fs.rmSync(p, { force: true }); removed++; }
 }
 
-console.log(`[LEXONYX final content sanitizer] changed=${changed}, retired files removed from publish=${removed}`);
+console.log(`[LEXONYX final content sanitizer] changed=${changed}, retired/duplicate files removed from publish=${removed}`);
