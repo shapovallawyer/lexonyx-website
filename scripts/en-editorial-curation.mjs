@@ -36,7 +36,13 @@ const replacements = [
   ['so that it is defensible', 'so that it is coherent, supportable and review-ready'],
   ['Response after initial review of the request', 'Response after an initial review of the request'],
   ['Cross-border structuring intake & qualification', 'Cross-border structuring intake & initial review'],
-  ['Cross-border structuring intake &amp; qualification', 'Cross-border structuring intake &amp; initial review']
+  ['Cross-border structuring intake &amp; qualification', 'Cross-border structuring intake &amp; initial review'],
+  ['Ukrainian and international law', 'Ukrainian law and public international law'],
+  ['Ukrainian-law and international-law advice', 'Ukrainian-law and public-international-law advice'],
+  ['LEXONYX — independent consulting company.', 'LEXONYX — an independent professional practice.'],
+  ['LEXONYX — independent consulting company', 'LEXONYX — an independent professional practice'],
+  ['LEXONYX is an independent consulting company.', 'LEXONYX is an independent professional practice.'],
+  ['LEXONYX is an independent consulting company', 'LEXONYX is an independent professional practice']
 ];
 
 const pageSpecific = {
@@ -52,8 +58,7 @@ const pageSpecific = {
     ['A short form to understand your request and choose the appropriate work format:', 'A short form to understand your request and identify the appropriate work format:'],
     ['<strong>support</strong>.', '<strong>ongoing support</strong>.'],
     ['"name": "Request a Structure Review (initial qualification)"', '"name": "Request a Structure Review (initial review)"'],
-    ['"description": "Initial review of the request form for an international structure:', '"description": "Initial request form for an international structure:'],
-    ['<h2 class="section-title-main">Initial Request Form</h2>', '<h2 class="section-title-main">Initial Request Form</h2>']
+    ['"description": "Initial review of the request form for an international structure:', '"description": "Initial request form for an international structure:']
   ],
   'en/insights/deep-dives/deep-dive-banking-readiness.html': [
     ['<meta property="og:title" content="Deep Dives — LEXONYX">', '<meta property="og:title" content="Banking Readiness as a Structural Stress Test — LEXONYX">'],
@@ -63,8 +68,6 @@ const pageSpecific = {
     ['Banking readiness tests the model for coherence in the same way as any external observer would.', 'Banking readiness therefore functions as a practical test of whether the structure can be explained consistently to an external reviewer.']
   ],
   'en/approach/index.html': [
-    ['"inLanguage":"ru"', '"inLanguage":"en"'],
-    ['"inLanguage": "ru"', '"inLanguage": "en"'],
     ['the robustness of the model', 'the coherence and evidential support of the model'],
     ['what a robust international structure is built from', 'what a coherent international structure is built from']
   ]
@@ -99,12 +102,31 @@ function normaliseHead(html) {
       `<link rel="alternate" hreflang="x-default" href="${canonical}" />`);
     out = out.replace(/<link\b[^>]*hreflang=["']x-default["'][^>]*rel=["']alternate["'][^>]*>/gi,
       `<link rel="alternate" hreflang="x-default" href="${canonical}" />`);
+
+    // Keep one canonical tag if older source files contain duplicates.
+    const canonicalTags = out.match(/<link\b(?=[^>]*\brel=["']canonical["'])[^>]*>/gi) || [];
+    if (canonicalTags.length > 1) {
+      let seen = false;
+      out = out.replace(/<link\b(?=[^>]*\brel=["']canonical["'])[^>]*>/gi, tag => {
+        if (seen) return '';
+        seen = true;
+        return tag;
+      });
+    }
   }
 
-  // The English home page has no standalone /en/search.html. Remove stale structured search markup pointing to RU.
+  // The English home page has no standalone /en/search.html. Remove only the stale WebSite/SearchAction JSON-LD block.
   if (canonical === 'https://lexonyx.com/en/index.html') {
-    out = out.replace(/\n\s*<script type=["']application\/ld\+json["']>\s*\{[\s\S]*?"@type"\s*:\s*"WebSite"[\s\S]*?"SearchAction"[\s\S]*?<\/script>/i, '');
+    out = out.replace(/<script type=["']application\/ld\+json["']>[\s\S]*?<\/script>/gi, block => {
+      if (block.includes('"@type":"WebSite"') && block.includes('"SearchAction"')) return '';
+      if (block.includes('"@type": "WebSite"') && block.includes('"SearchAction"')) return '';
+      return block;
+    });
   }
+
+  // Remove legacy unverified practice-age badges if they survive upstream source transformations.
+  out = out.replace(/<div\b[^>]*class=["'][^"']*badge[^"']*["'][^>]*>[\s\S]*?Since\s+2012[\s\S]*?<\/div>/gi, '');
+  out = out.replace(/Since\s+2012/gi, '');
 
   return out;
 }
