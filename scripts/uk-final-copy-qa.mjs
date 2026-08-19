@@ -90,21 +90,33 @@ for (const file of walk(UK)) {
   }
 }
 
+// Runtime copy is multilingual. UK QA must inspect only the Ukrainian copy object;
+// otherwise valid English terms in the EN block create false failures.
 const runtime = fs.readFileSync(path.join(ROOT, 'scripts', 'compliance-runtime.js'), 'utf8');
+const ukStart = runtime.indexOf('\n      uk: {');
+const ukEnd = ukStart >= 0 ? runtime.indexOf('\n      }\n    };', ukStart) : -1;
+let ukRuntime = '';
+if (ukStart < 0 || ukEnd < 0) {
+  failures++;
+  console.error('FAIL scripts/compliance-runtime.js\n  runtime-structure:uk-copy-block-not-found');
+} else {
+  ukRuntime = runtime.slice(ukStart, ukEnd + '\n      }'.length);
+}
+
 const runtimeForbidden = [
-  "ownership, контроль, компанії та доходи",
-  "current-law workstreams",
-  "prudential requirements",
-  "re-authorisation",
-  "prudential safeguards",
-  "supervisory requirements",
-  "regulatory perimeter для підтвердження",
-  "кандидатних юрисдикціях"
+  'ownership, контроль, компанії та доходи',
+  'current-law workstreams',
+  'prudential requirements',
+  're-authorisation',
+  'prudential safeguards',
+  'supervisory requirements',
+  'regulatory perimeter для підтвердження',
+  'кандидатних юрисдикціях'
 ];
 for (const phrase of runtimeForbidden) {
-  if (runtime.includes(phrase)) {
+  if (ukRuntime.includes(phrase)) {
     failures++;
-    console.error(`FAIL scripts/compliance-runtime.js\n  runtime-copy:${phrase}`);
+    console.error(`FAIL scripts/compliance-runtime.js\n  uk-runtime-copy:${phrase}`);
   }
 }
 
