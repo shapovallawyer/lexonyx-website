@@ -18,73 +18,51 @@ const targets = [
   'ru/insayty/instrumenty/checklist-substance.html'
 ];
 
-const exact = [
+const replacements = [
   ['Source of Funds / Source of Wealth', 'Происхождение средств / происхождение капитала'],
   ['Source of Funds', 'Происхождение средств'],
   ['source of funds', 'происхождение средств'],
   ['Source of Wealth', 'Происхождение капитала'],
   ['source of wealth', 'происхождение капитала'],
-  ['Source funds', 'Происхождение средств'],
-  ['source funds', 'происхождение средств'],
-
-  ['banking readiness', 'банковская готовность'],
   ['Banking Readiness', 'Банковская готовность'],
   ['BANKING READINESS', 'БАНКОВСКАЯ ГОТОВНОСТЬ'],
-  ['Banking readiness', 'Банковская готовность'],
+  ['banking readiness', 'банковская готовность'],
   ['banking perception', 'восприятие структуры банком'],
   ['Banking perception', 'Восприятие структуры банком'],
-  ['Banking review', 'Банковская проверка'],
-  ['banking review', 'банковская проверка'],
   ['banking-', 'банковский '],
-  ['Banking', 'Банковская'],
-  ['banking', 'банковская'],
-
-  ['onboarding', 'банковская проверка при открытии счёта'],
-  ['Onboarding', 'Банковская проверка при открытии счёта'],
-  ['intake', 'первичный сбор информации'],
-  ['Intake', 'Первичный сбор информации'],
+  ['Banking', 'Банковская готовность'],
+  ['banking', 'банковская готовность'],
 
   ['PE-risk', 'риск постоянного представительства'],
   ['PE-Risk', 'риск постоянного представительства'],
   ['PE Risk', 'риск постоянного представительства'],
-  ['PE-', 'риск постоянного представительства: '],
   ['Permanent Establishment', 'Постоянное представительство'],
   ['permanent establishment', 'постоянное представительство'],
   ['Fixed place of business', 'Постоянное место ведения бизнеса'],
   ['fixed place of business', 'постоянное место ведения бизнеса'],
   ['Dependent Agent', 'Зависимый агент'],
   ['dependent agent', 'зависимый агент'],
-  ['Dependent', 'Зависимый'],
-  ['dependent', 'зависимый'],
-  ['agent', 'агент'],
   ['people footprint', 'распределение персонала'],
-  ['People footprint', 'Распределение персонала'],
+  ['People Footprint', 'Распределение персонала'],
   ['Footprint', 'Фактическое присутствие'],
   ['footprint', 'фактическое присутствие'],
 
   ['Fixed Establishment', 'Постоянное место ведения деятельности для целей НДС'],
-  ['Fixed establishment', 'Постоянное место ведения деятельности для целей НДС'],
-  ['fixed Establishment', 'постоянное место ведения деятельности для целей НДС'],
   ['fixed establishment', 'постоянное место ведения деятельности для целей НДС'],
   ['fixed-establishment', 'постоянное место ведения деятельности для целей НДС'],
   ['VAT architecture', 'архитектура НДС'],
   ['VAT Architecture', 'Архитектура НДС'],
   ['VAT-', 'НДС-'],
-  ['VAT ', 'НДС '],
-  ['VAT,', 'НДС,'],
-  ['VAT/', 'НДС/'],
   ['VAT', 'НДС'],
   ['CIT', 'корпоративный налог'],
   ['nexus', 'налоговая связь'],
-  ['FE ', 'постоянное место ведения деятельности '],
-  ['FE,', 'постоянное место ведения деятельности,'],
 
   ['CFC rules', 'правила КИК'],
   ['CFC Rules', 'Правила КИК'],
-  ['CFC-', 'КИК-'],
-  ['CFC', 'КИК'],
   ['Controlled Foreign Company rules', 'правила контролируемых иностранных компаний (КИК)'],
   ['Controlled Foreign Company', 'контролируемая иностранная компания'],
+  ['CFC-', 'КИК-'],
+  ['CFC', 'КИК'],
   ['PERSONAL TAX', 'ЛИЧНОЕ НАЛОГООБЛОЖЕНИЕ'],
   ['Personal tax', 'Личное налогообложение'],
   ['personal tax', 'личное налогообложение'],
@@ -96,12 +74,12 @@ const exact = [
   ['personal', 'личный'],
   ['positioning', 'позиционирование'],
   ['Residency', 'Резидентство'],
-  ['residency-', 'резидентство: '],
   ['residency', 'резидентство'],
 
   ['FAR framework', 'анализ функций, активов и рисков'],
   ['FAR', 'анализ функций, активов и рисков'],
   ['HoldCo / OpCo', 'холдинговая / операционная компания'],
+  ['HoldCo/OpCo/ServiceCo', 'холдинговая / операционная / сервисная компания'],
   ['HoldCo/OpCo', 'холдинговая / операционная компания'],
   ['HoldCo', 'холдинговая компания'],
   ['OpCo', 'операционная компания'],
@@ -110,16 +88,12 @@ const exact = [
   ['service entity', 'сервисная компания'],
   ['holding-', 'холдинговый '],
   ['IP-', 'интеллектуальная собственность: '],
-  ['IP ', 'интеллектуальная собственность '],
-  ['IP,', 'интеллектуальная собственность,'],
-  ['IP/', 'интеллектуальная собственность/'],
   ['IP', 'интеллектуальная собственность'],
 
   ['Management & Control', 'Управление и контроль'],
   ['Management and Control', 'Управление и контроль'],
   ['management & control', 'управление и контроль'],
   ['management and control', 'управление и контроль'],
-  ['management, control', 'управление, контроль'],
   ['Management', 'Управление'],
   ['management', 'управление'],
   ['Control', 'Контроль'],
@@ -127,12 +101,12 @@ const exact = [
   ['governance-', 'корпоративное управление: '],
   ['Governance', 'Корпоративное управление'],
   ['governance', 'корпоративное управление'],
-  ['substance readiness', 'готовность подтвердить фактическое экономическое присутствие'],
   ['Substance Readiness', 'Готовность подтвердить фактическое экономическое присутствие'],
+  ['substance readiness', 'готовность подтвердить фактическое экономическое присутствие'],
   ['Substance', 'Фактическое экономическое присутствие'],
   ['substance', 'фактическое экономическое присутствие'],
-  ['economic reality', 'экономическая реальность'],
   ['Economic reality', 'Экономическая реальность'],
+  ['economic reality', 'экономическая реальность'],
 
   ['beneficial ownership', 'фактическое право на доход'],
   ['Beneficial ownership', 'Фактическое право на доход'],
@@ -161,7 +135,12 @@ const exact = [
   ['fulfillment', 'фулфилмент'],
   ['Supply chain', 'Цепочка поставок'],
   ['supply chain', 'цепочка поставок'],
+  ['Warehouse Germany', 'Склад в Германии'],
+  ['Warehouse', 'Склад'],
+  ['Germany', 'Германия'],
 
+  ['onboarding', 'банковская проверка при открытии счёта'],
+  ['Onboarding', 'Банковская проверка при открытии счёта'],
   ['website review', 'проверка сайта'],
   ['Website review', 'Проверка сайта'],
   ['review', 'проверка'],
@@ -190,22 +169,19 @@ const exact = [
   ['readiness', 'готовность'],
   ['exposure', 'риск'],
   ['Exposure', 'Риск'],
-  ['jurisdiction mix', 'сочетание юрисдикций'],
-  ['Jurisdiction mix', 'Сочетание юрисдикций'],
 
   ['Group Structure', 'Структура группы'],
   ['GROUP STRUCTURE', 'СТРУКТУРА ГРУППЫ'],
   ['group structure', 'структура группы'],
+  ['STRUCTURING', 'СТРУКТУРИРОВАНИЕ'],
+  ['Structuring', 'Структурирование'],
   ['Group', 'Группа'],
   ['group', 'группа'],
   ['Structure', 'Структура'],
   ['structure', 'структура'],
   ['INTELLECTUAL', 'АНАЛИТИЧЕСКАЯ'],
-  ['STRUCTURING', 'СТРУКТУРИРОВАНИЕ'],
-  ['Structuring', 'Структурирование'],
 
   ['Remote Teams', 'Удалённые команды'],
-  ['People', 'Люди'],
   ['Remote model', 'Удалённая модель'],
   ['remote model', 'удалённая модель'],
   ['Remote developer', 'Удалённый разработчик'],
@@ -225,7 +201,6 @@ const exact = [
   ['Commercial Risk', 'Коммерческий риск'],
   ['Commercial', 'Коммерческий'],
   ['Risk', 'Риск'],
-  ['RISK', 'РИСК'],
   ['Revenue', 'Выручка'],
   ['Clients', 'Клиенты'],
   ['Low Tax', 'Низкая налоговая нагрузка'],
@@ -235,15 +210,12 @@ const exact = [
   ['Real Activity', 'Реальная деятельность'],
   ['Real', 'Реальная'],
   ['Activity', 'Деятельность'],
-  ['exit', 'выход'],
-  ['perception', 'восприятие'],
+  ['exit', 'выход из инвестиции'],
+  ['M&A', 'слияния и поглощения'],
+  ['M & A', 'слияния и поглощения'],
 
   ['Estonian OÜ', 'эстонская компания'],
   ['Estonian O', 'эстонская компания'],
-  ['Warehouse Germany', 'Склад в Германии'],
-  ['Warehouse', 'Склад'],
-  ['Germany', 'Германия'],
-
   ['Remote', 'Удалённый'],
   ['model', 'модель'],
   ['regulatory alignment', 'соответствие регуляторным требованиям'],
@@ -251,29 +223,43 @@ const exact = [
   ['regulatory', 'регуляторный'],
   ['alignment', 'согласование'],
   ['Cross-Border', 'Трансграничный'],
-  ['cross-border', 'трансграничный'],
+  ['People', 'Персонал'],
+  ['intake', 'первичный запрос'],
+  ['jurisdiction mix', 'набор юрисдикций'],
+  ['jurisdiction', 'юрисдикция'],
+  ['mix', 'набор'],
+
+  ['Fixed', 'Постоянное'],
+  ['fixed', 'постоянное'],
+  ['establishment', 'место ведения деятельности'],
+  ['FE', 'постоянное место ведения деятельности'],
 
   ['EU', 'ЕС'],
   ['UK', 'Великобритания'],
   ['UAE', 'ОАЭ'],
-  ['M&amp;A', 'слияния и поглощения'],
-  ['M &amp; A', 'слияния и поглощения'],
-  ['M&A', 'слияния и поглощения'],
-  ['M & A', 'слияния и поглощения'],
-
   ['FinTech', 'финтех'],
   ['Website', 'Сайт'],
   ['website', 'сайт']
 ];
 
+function escapeRe(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function replaceToken(text, from, to) {
+  const escaped = escapeRe(from);
+  const left = /^[A-Za-z0-9]/.test(from) ? '(?<![A-Za-z0-9])' : '';
+  const right = /[A-Za-z0-9]$/.test(from) ? '(?![A-Za-z0-9])' : '';
+  return text.replace(new RegExp(left + escaped + right, 'g'), to);
+}
+
 function cleanText(text) {
   let out = text;
-  for (const [from, to] of exact) out = out.split(from).join(to);
+  for (const [from, to] of replacements) out = replaceToken(out, from, to);
   out = out
-    .replace(/\bPE\b/g, 'постоянное представительство')
-    .replace(/\bB2B\b/g, 'корпоративные клиенты')
-    .replace(/\bB2C\b/g, 'частные клиенты')
-    .replace(/(^|\s)s(?=\s|[.,;:!?)]|$)/g, '$1')
+    .replace(/(?<![A-Za-z])PE(?![A-Za-z])/g, 'постоянное представительство')
+    .replace(/(?<![A-Za-z])B2B(?![A-Za-z])/g, 'корпоративные клиенты')
+    .replace(/(?<![A-Za-z])B2C(?![A-Za-z])/g, 'частные клиенты')
     .replace(/\s{2,}/g, ' ')
     .replace(/\s+([,.;:!?])/g, '$1');
   return out;
@@ -300,18 +286,31 @@ function cleanJsonLd(html) {
 }
 
 function capitalizeBlocks(html) {
-  return html.replace(/(<(?:p|h1|h2|h3|h4|li)\b[^>]*>)([\s\S]*?)(<\/(?:p|h1|h2|h3|h4|li)>)/gi, (all, open, body, close) => {
-    const next = body.replace(/[а-яё]/, ch => ch.toUpperCase());
-    return open + next + close;
+  return html.replace(/(<(?:p|h1|h2|h3|h4|li)\b[^>]*>)([\s\S]*?)(<\/(?:p|h1|h2|h3|h4|li)>)/gi, (all, open, inner, close) => {
+    let changed = false;
+    const next = inner.replace(/[а-яё]/, ch => {
+      changed = true;
+      return ch.toUpperCase();
+    });
+    return changed ? open + next + close : all;
   });
+}
+
+function ensureMain(html, rel) {
+  if (/<main\b/i.test(html)) return html;
+  if (rel !== 'ru/insayty/instrumenty/checklist-substance.html') return html;
+  const afterHeader = html.replace(/<\/header>/i, '</header>\n<main id="main-content">');
+  if (afterHeader === html) return html;
+  if (/<footer\b/i.test(afterHeader)) return afterHeader.replace(/<footer\b/i, '</main>\n<footer');
+  return afterHeader.replace(/<\/body>/i, '</main>\n</body>');
 }
 
 let changed = 0;
 for (const rel of targets) {
   const file = path.join(ROOT, rel);
-  if (!fs.existsSync(file)) throw new Error(`Missing target: ${rel}`);
-  const original = fs.readFileSync(file, 'utf8');
-  let html = original;
+  if (!fs.existsSync(file)) continue;
+  const before = fs.readFileSync(file, 'utf8');
+  let html = before;
 
   const held = [];
   html = html.replace(/<(?:script|style)\b[\s\S]*?<\/(?:script|style)>/gi, block => {
@@ -319,13 +318,14 @@ for (const rel of targets) {
     return `__LEXONYX_HELD_${held.length - 1}__`;
   });
 
-  html = html.replace(/>([^<>]+)</g, (m, text) => `>${cleanText(text)}<`);
-  html = html.replace(/(<meta\b[^>]*\bcontent=["'])([^"']*)(["'][^>]*>)/gi, (m, a, value, b) => a + cleanText(value) + b);
+  html = html.replace(/>([^<>]+)</g, (all, text) => `>${cleanText(text)}<`);
+  html = html.replace(/(<meta\b[^>]*\bcontent=["'])([^"']*)(["'][^>]*>)/gi, (all, a, value, b) => a + cleanText(value) + b);
   html = html.replace(/__LEXONYX_HELD_(\d+)__/g, (_, i) => held[Number(i)]);
   html = cleanJsonLd(html);
   html = capitalizeBlocks(html);
+  html = ensureMain(html, rel);
 
-  if (html !== original) {
+  if (html !== before) {
     fs.writeFileSync(file, html, 'utf8');
     changed++;
   }
