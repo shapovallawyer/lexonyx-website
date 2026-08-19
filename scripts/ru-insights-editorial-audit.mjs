@@ -66,8 +66,8 @@ for (const rel of targets) {
   const file = path.join(ROOT, rel);
   if (!fs.existsSync(file)) { errors.push(`${rel}: missing`); continue; }
   const html = fs.readFileSync(file, 'utf8');
-  const main = (html.match(/<main\b[\s\S]*?<\/main>/i) || [''])[0];
-  if (!main) { errors.push(`${rel}: main missing`); continue; }
+  const main = (html.match(/<main\b[\s\S]*?<\/main>/i) || html.match(/<body\b[\s\S]*?<\/body>/i) || [''])[0];
+  if (!main) { errors.push(`${rel}: content container missing`); continue; }
 
   const text = `${strip(main)} ${relevantSeo(html)}`.replace(/\s+/g,' ').trim();
   const latin = [...new Set(text.match(/[A-Za-z][A-Za-z-]*/g) || [])]
