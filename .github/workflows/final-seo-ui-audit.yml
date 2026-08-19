@@ -44,6 +44,10 @@ jobs:
           node scripts/ru-final-visual-fixes.mjs
           node scripts/ru-runtime-copy-polish.mjs
           node scripts/ru-final-copy-qa.mjs
+          node scripts/en-editorial-curation.mjs
+          node scripts/en-runtime-copy-polish.mjs
+          node scripts/en-final-editorial-polish.mjs
+          node scripts/en-final-copy-qa.mjs
           node scripts/final-production-check.mjs
           node scripts/seo-ui-audit.mjs
           node scripts/ru-mixed-script-audit.mjs
@@ -52,11 +56,20 @@ jobs:
           node scripts/ru-insights-editorial-audit.mjs
           node scripts/ru-remaining-editorial-audit.mjs
           node scripts/ru-live-layout-audit.mjs
+          node scripts/en-live-layout-audit.mjs
       - name: Upload RU layout QA screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ru-layout-qa
           path: artifacts/ru-layout-qa
+          if-no-files-found: ignore
+          retention-days: 7
+      - name: Upload EN layout QA screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: en-layout-qa
+          path: artifacts/en-layout-qa
           if-no-files-found: ignore
           retention-days: 7
