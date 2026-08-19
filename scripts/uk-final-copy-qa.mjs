@@ -90,11 +90,12 @@ for (const file of walk(UK)) {
   }
 }
 
-// Runtime copy is multilingual. UK QA must inspect only the Ukrainian copy object;
-// otherwise valid English terms in the EN block create false failures.
+// Runtime copy is multilingual. UK QA inspects only the Ukrainian copy object;
+// valid English terminology in the EN object must not create false failures.
 const runtime = fs.readFileSync(path.join(ROOT, 'scripts', 'compliance-runtime.js'), 'utf8');
 const ukStart = runtime.indexOf('\n      uk: {');
-const ukEnd = ukStart >= 0 ? runtime.indexOf('\n      }\n    };', ukStart) : -1;
+const ukEndMarker = '\n      }\n    }[lang];';
+const ukEnd = ukStart >= 0 ? runtime.indexOf(ukEndMarker, ukStart) : -1;
 let ukRuntime = '';
 if (ukStart < 0 || ukEnd < 0) {
   failures++;
