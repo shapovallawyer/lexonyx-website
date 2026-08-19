@@ -3,7 +3,6 @@ import path from 'node:path';
 
 const ROOT = process.cwd();
 const RU_ROOT = path.join(ROOT, 'ru');
-const protectedAllCaps = new Set(['НДС','КИК','РРТ','СИДН','ЕС','ОАЭ','ООО']);
 
 function walk(dir) {
   const out = [];
@@ -16,12 +15,10 @@ function walk(dir) {
 }
 
 function normalizeBrokenCaps(text) {
-  return text.replace(/(^|[^А-ЯЁа-яё])([А-ЯЁ])([А-ЯЁ])(?=[а-яё])/g, (m, prefix, first, second, offset, whole) => {
-    const tail = whole.slice(offset + m.length - 1).match(/^[а-яё-]*/)?.[0] || '';
-    const candidate = first + second + tail;
-    if (protectedAllCaps.has(candidate)) return m;
-    return prefix + first + second.toLowerCase();
-  });
+  return text.replace(
+    /(^|[^А-ЯЁа-яё])([А-ЯЁ])([А-ЯЁ])(?=[а-яё])/g,
+    (_, prefix, first, second) => prefix + first + second.toLowerCase()
+  );
 }
 
 function normalizeJsonLd(html) {
