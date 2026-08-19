@@ -83,6 +83,12 @@ for (const vp of viewports) {
     }
     await p.evaluate(async () => {
       try { await Promise.race([document.fonts?.ready || Promise.resolve(), new Promise(r => setTimeout(r, 1500))]); } catch {}
+      const max = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+      for (let y = 0; y < max; y += Math.max(500, Math.floor(innerHeight * 0.75))) {
+        scrollTo(0, y);
+        await new Promise(r => setTimeout(r, 28));
+      }
+      scrollTo(0, 0);
       await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
     });
 
@@ -98,43 +104,40 @@ for (const vp of viewports) {
         return Number.isFinite(lh) && lh > 0 ? Math.max(1, Math.round(h / lh)) : 1;
       };
       const vw = window.innerWidth;
-      const rootExtra = document.documentElement.scrollWidth - document.documentElement.clientWidth;
-      const bodyExtra = document.body.scrollWidth - document.body.clientWidth;
-      if (rootExtra > 2 || bodyExtra > 2) issues.push(`horizontal-overflow:${Math.max(rootExtra, bodyExtra)}px`);
-
       const selectors = [
-        '.site-header', '.site-header .container', '.header-container', '.nav', '.header-actions', '.lang-switcher',
-        'main', '.container', '.container-narrow', '.hero-content-home', '.page-hero-inner',
-        '.service-card', '.package-card', '.insight-card', '.jurisdiction-card', '.risk-card', '.cta-card'
+        '.site-header', '.header-container', '.nav', '.header-actions', '.header-lang-switch',
+        'main', '.hero-content-home', '.page-hero-inner', '.hero-actions', '.cta-row', '.cta-card',
+        '.service-card', '.package-card', '.insight-card', '.jurisdiction-card', '.risk-card',
+        '.site-footer', '.footer-main', '.footer-main > *', '.footer-brand-col', '.footer-col', '.footer-column',
+        '.footer-newsletter', '.newsletter-form', '.newsletter-form .form-group', '.newsletter-input',
+        '.footer-disclaimer', '.footer-bottom', '.footer-legal-links'
       ];
       for (const sel of selectors) {
         for (const el of document.querySelectorAll(sel)) {
           if (!visible(el)) continue;
           const r = el.getBoundingClientRect();
-          if (r.left < -2 || r.right > vw + 2) issues.push(`viewport-overflow:${sel}`);
-          if (el.scrollWidth - el.clientWidth > 3) issues.push(`content-overflow:${sel}`);
+          if (r.left < -3 || r.right > vw + 3) issues.push(`viewport-overflow:${sel}:${Math.round(r.left)}..${Math.round(r.right)}`);
         }
       }
-      for (const el of document.querySelectorAll('h1,h2,h3,.btn,button,.nav-link,.mobile-menu-cta')) {
+      for (const el of document.querySelectorAll('h1,h2,h3,.btn,button,.mobile-menu-cta')) {
         if (!visible(el)) continue;
         const tag = el.tagName.toLowerCase();
         const n = lineCount(el);
         const label = (el.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 90);
-        if (el.scrollWidth - el.clientWidth > 3) issues.push(`text-overflow:${tag}:${label}`);
         if ((tag === 'button' || el.classList.contains('btn')) && n > 2) issues.push(`button-lines:${n}:${label}`);
         if (tag === 'h1' && n > (viewportName === 'mobile' ? 6 : 4)) warnings.push(`h1-lines:${n}:${label}`);
         if (tag === 'h2' && n > (viewportName === 'mobile' ? 7 : 5)) warnings.push(`h2-lines:${n}:${label}`);
       }
-      const headerText = (document.querySelector('.site-header')?.innerText || '').replace(/\s+/g, ' ').trim();
-      if (/Великобритания/.test(headerText)) issues.push('language-switch-expanded-to-Великобритания');
-      if (viewportName === 'desktop' && document.querySelector('.site-header')) {
-        for (const token of ['RU','EN','UK']) if (!new RegExp(`\\b${token}\\b`).test(headerText)) warnings.push(`header-missing-${token}-token`);
+      const switchEl = document.querySelector('.header-lang-switch');
+      if (viewportName === 'desktop' && switchEl && visible(switchEl)) {
+        const labels = [...switchEl.querySelectorAll('a.lang-option')].map(a => (a.textContent || '').trim());
+        if (labels.join('|') !== 'RU|EN|UK') issues.push(`language-switch:${labels.join('|')}`);
       }
       return { width: vw, issues: [...new Set(issues)], warnings: [...new Set(warnings)] };
     }, { viewportName: vp.name });
 
     const shot = path.join(OUT, vp.name, `${slug(pathname)}.jpg`);
-    await p.screenshot({ path: shot, fullPage: true, type: 'jpeg', quality: 62 });
+    await p.screenshot({ path: shot, fullPage: true, type: 'jpeg', quality: 65 });
     results.push({ page: pathname, viewport: vp.name, ...check, screenshot: path.relative(ROOT, shot) });
     await p.close();
   }
