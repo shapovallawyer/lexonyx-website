@@ -19,7 +19,8 @@ const targets = [
 ];
 
 const allowed = new Set([
-  'LEXONYX','KYC','AML','FATF','MLI','PPT','GAAR','DEMPE','MiCA','SaaS','OSS','IOSS','EOR','PSP','EMI','UBO','GDPR'
+  'LEXONYX','KYC','AML','FATF','MLI','PPT','GAAR','DEMPE','MiCA','SaaS','OSS','IOSS','EOR','PSP','EMI','UBO','GDPR',
+  'UA','DE','CY','PL','NL','AE','EE','IE','CH','RU','EN'
 ]);
 
 const errors = [];
