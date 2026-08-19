@@ -1,0 +1,1 @@
+Scope: all ru/**/*.html visible copy after production cleanup; common English business jargon is translated, while genuine international abbreviations/professional titles are retained where useful.
