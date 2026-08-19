@@ -17,6 +17,7 @@
     const copy = {
       en: {
         perimeter: 'LEXONYX performs structural and factual cross-border analysis. Ukrainian-law advice is provided directly within the professional scope of Advokat (Ukraine). Jurisdiction-specific legal, tax and regulatory conclusions in other jurisdictions are provided or confirmed by appropriately qualified professionals.',
+        legalNotice: 'Legal Notice', privacy: 'Privacy Policy', terms: 'Terms of Use',
         homeHero: 'We design international structures for tax, banking, investment and regulatory review.',
         homeMeta: 'Tax, VAT & PE interfaces',
         cyprusTax: 'Cyprus corporate taxation is treated as one interface of the structure, not as its Business Purpose. The applicable tax treatment must be verified for the specific income, functions, residence, substance, treaty position and anti-abuse rules current at the time of the Matter.',
@@ -56,6 +57,7 @@
       },
       ru: {
         perimeter: 'LEXONYX проводит структурный и фактический анализ трансграничных вопросов. Консультации по украинскому праву предоставляются непосредственно в пределах профессиональных полномочий адвоката Украины. Юрисдикционно-специфические юридические, налоговые и регуляторные выводы по другим юрисдикциям предоставляются или подтверждаются надлежащим образом квалифицированными специалистами.',
+        legalNotice: 'Правовая информация', privacy: 'Политика конфиденциальности', terms: 'Условия использования',
         cyprusTax: 'Налогообложение на Кипре рассматривается как один из интерфейсов структуры, а не как её Business Purpose. Применимый налоговый режим необходимо проверять для конкретного дохода, функций, резидентства, substance, treaty-позиции и anti-abuse правил, действующих на момент проекта.',
         estoniaTax: 'В Эстонии действует модель корпоративного налогообложения, связанная с распределением прибыли. Применимый режим необходимо проверять с учётом конкретного распределения, управления, резидентства, PE, налогообложения собственника и фактической операционной модели на момент проекта.',
         taxHero: 'Анализ налогового резидентства и КИК начинается с фактов об инкорпорации, управлении, контроле и ownership. Юрисдикционно-специфические выводы о резидентстве, КИК и личном налогообложении подтверждаются квалифицированными налоговыми специалистами.',
@@ -93,6 +95,7 @@
       },
       uk: {
         perimeter: 'LEXONYX проводить структурний та фактичний аналіз транскордонних питань. Консультації з українського права надаються безпосередньо в межах професійних повноважень адвоката України. Юрисдикційно-специфічні юридичні, податкові та регуляторні висновки щодо інших юрисдикцій надаються або підтверджуються належно кваліфікованими фахівцями.',
+        legalNotice: 'Правова інформація', privacy: 'Політика конфіденційності', terms: 'Умови використання',
         cyprusTax: 'Оподаткування на Кіпрі розглядається як один з інтерфейсів структури, а не як її Business Purpose. Застосовний податковий режим потрібно перевіряти для конкретного доходу, функцій, резидентства, substance, treaty-позиції та anti-abuse правил, чинних на момент проєкту.',
         estoniaTax: 'В Естонії діє модель корпоративного оподаткування, пов’язана з розподілом прибутку. Застосовний режим потрібно перевіряти з урахуванням конкретного розподілу, управління, резидентства, PE, оподаткування власника та фактичної операційної моделі на момент проєкту.',
         taxHero: 'Аналіз податкового резидентства та КІК починається з фактів про інкорпорацію, управління, контроль і ownership. Юрисдикційно-специфічні висновки щодо резидентства, КІК та особистого оподаткування підтверджуються кваліфікованими податковими фахівцями.',
@@ -182,12 +185,13 @@
 
       const main = document.querySelector('main');
       if (!main) return;
+      const legalBase = lang === 'ru' ? '/ru/' : (lang === 'uk' ? '/uk/' : '/en/');
       const section = document.createElement('section');
       section.className = 'section section-light lx-compliance-perimeter';
       section.setAttribute('aria-label', lang === 'en' ? 'Professional perimeter' : (lang === 'ru' ? 'Профессиональный периметр' : 'Професійний периметр'));
       section.innerHTML = '<div class="container container-narrow"><div class="callout callout-muted"><strong>' +
         (lang === 'en' ? 'Professional perimeter. ' : (lang === 'ru' ? 'Профессиональный периметр. ' : 'Професійний периметр. ')) +
-        '</strong>' + copy.perimeter + '</div></div>';
+        '</strong>' + copy.perimeter + '</div><p class="section-note"><a href="' + legalBase + 'impressum.html">' + copy.legalNotice + '</a> · <a href="' + legalBase + 'privacy-policy.html">' + copy.privacy + '</a> · <a href="' + legalBase + 'terms-of-use.html">' + copy.terms + '</a></p></div>';
       main.appendChild(section);
     }
 
@@ -284,9 +288,9 @@
 
       const contextSection = document.querySelector('.regulatory-context-grid');
       if (contextSection) {
-        const heading = contextSection.closest('section');
-        if (heading) {
-          const intro = heading.querySelector('.section-subtitle');
+        const section = contextSection.closest('section');
+        if (section) {
+          const intro = section.querySelector('.section-subtitle');
           if (intro) setText(intro, copy.regContextIntro);
         }
         const contextCards = contextSection.querySelectorAll('.regulatory-context-card');
@@ -318,7 +322,7 @@
     function patchExternalLegalFunction() {
       const isPage = path.endsWith('/work-formats/external-legal-function.html') || path.endsWith('/formaty-raboty/vneshnyaya-yuridicheskaya-funkciya.html') || path.endsWith('/formaty-roboty/zovnishnia-yurydychna-funktsiia.html');
       if (!isPage) return;
-      textIncludes('main p, main li, main div', copy.extLawNeedle, copy.extLawReplacement);
+      textIncludes('main p, main li', copy.extLawNeedle, copy.extLawReplacement);
     }
 
     normalizeI18nMetadata();
