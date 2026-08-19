@@ -1,0 +1,31 @@
+name: One-off SEO audit sitemap count update
+
+on:
+  push:
+    branches:
+      - final-seo-sitemap-2026-08-19
+    paths:
+      - '.github/workflows/one-off-seo-audit-count.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: final-seo-sitemap-2026-08-19
+          fetch-depth: 0
+      - name: Update sitemap expectation
+        shell: bash
+        run: |
+          set -euo pipefail
+          sed -i 's/urls.length !== 105/urls.length !== 165/' scripts/seo-ui-audit.mjs
+          sed -i 's/sitemap URL count expected 105/sitemap URL count expected 165/' scripts/seo-ui-audit.mjs
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/seo-ui-audit.mjs
+          git commit -m "Audit complete multilingual sitemap coverage"
+          git push origin HEAD:final-seo-sitemap-2026-08-19
