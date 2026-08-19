@@ -1,9 +1,8 @@
 # LEXONYX — Netlify redirects
 # Permanent redirects from legacy routes to the current canonical architecture.
 
-# Root language entry — temporary default to EN; forced so the legacy root index.html is not served.
-/                               /en/index.html                                                302!
-
+# Root language entry — permanent default to EN; forced so the legacy root index.html is not served.
+/                               /en/index.html                                                301!
 # Canonical URLs backed by legacy source-file locations.
 /en/work-formats/external-legal-function.html   /en/expertise/external-legal-function.html     200!
 /ru/spasibo.html                                /ru/intake/spasibo.html                        200!

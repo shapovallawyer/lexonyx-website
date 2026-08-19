@@ -54,8 +54,7 @@
     "ru/cookie-policy.html": "en/cookie-policy.html",
     "ru/privacy-policy.html": "en/privacy-policy.html",
     "ru/terms-of-use.html": "en/terms-of-use.html",
-    "ru/accessibility.html": "en/accessibility.html",
-    "index.html": "en/index.html"
+    "ru/accessibility.html": "en/accessibility.html"
   },
   "uk": {
     "ru/index.html": "uk/index.html",
@@ -112,7 +111,6 @@
     "ru/privacy-policy.html": "uk/privacy-policy.html",
     "ru/terms-of-use.html": "uk/terms-of-use.html",
     "ru/cookie-policy.html": "uk/cookie-policy.html",
-    "ru/accessibility.html": "uk/accessibility.html",
-    "index.html": "uk/index.html"
+    "ru/accessibility.html": "uk/accessibility.html"
   }
 }
