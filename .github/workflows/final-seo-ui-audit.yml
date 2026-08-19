@@ -12,6 +12,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+      - name: Install rendered-layout audit dependency
+        run: npm install --no-save puppeteer-core@24
       - name: Run production build and audit
         run: |
           node scripts/static-source-cleanup.mjs
@@ -47,3 +49,11 @@ jobs:
           node scripts/ru-insights-editorial-audit.mjs
           node scripts/ru-remaining-editorial-audit.mjs
           node scripts/ru-live-layout-audit.mjs
+      - name: Upload RU layout QA screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ru-layout-qa
+          path: artifacts/ru-layout-qa
+          if-no-files-found: ignore
+          retention-days: 7
