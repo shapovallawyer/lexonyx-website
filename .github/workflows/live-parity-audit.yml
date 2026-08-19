@@ -1,0 +1,108 @@
+name: Live multilingual parity audit
+
+on:
+  push:
+    branches:
+      - live-parity-source-fix-2026-08-20
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Audit live RU/EN/UK parity
+        run: |
+          cat > /tmp/live-parity-audit.mjs <<'EOF'
+          import fs from 'node:fs';
+
+          const ORIGIN = 'https://lexonyx.com';
+          const map = JSON.parse(fs.readFileSync('_url-map-i18n.json','utf8'));
+          const families = Object.entries(map.en || {}).map(([ru,en]) => ({ru,en,uk:map.uk?.[ru]})).filter(x=>x.uk);
+          const failures = [];
+          const warnings = [];
+          const results = [];
+
+          const abs = rel => `${ORIGIN}/${rel}`;
+          const norm = u => { const x = new URL(u, ORIGIN); return x.origin + x.pathname; };
+          const attrs = (tag,name) => tag.match(new RegExp(`${name}\\s*=\\s*["']([^"']+)["']`,'i'))?.[1] || '';
+          const links = html => html.match(/<link\b[^>]*>/gi) || [];
+          const anchors = html => html.match(/<a\b[^>]*>/gi) || [];
+          const canonical = html => {
+            for (const t of links(html)) if (/rel\s*=\s*["'][^"']*canonical/i.test(t)) return norm(attrs(t,'href'));
+            return '';
+          };
+          const alternates = html => {
+            const out={};
+            for (const t of links(html)) if (/rel\s*=\s*["'][^"']*alternate/i.test(t)) {
+              const h=attrs(t,'hreflang').toLowerCase(), href=attrs(t,'href'); if(h&&href) out[h]=norm(href);
+            }
+            return out;
+          };
+          const hrefSet = html => new Set(anchors(html).map(t=>attrs(t,'href')).filter(Boolean).map(norm));
+          async function get(url){
+            for(let i=0;i<3;i++) try {
+              const r=await fetch(url,{redirect:'follow',headers:{'user-agent':'LEXONYX-live-parity-audit/1.0'}});
+              return {status:r.status,ok:r.ok,url:norm(r.url),html:await r.text()};
+            } catch(e){ if(i===2) return {status:0,ok:false,url,error:String(e),html:''}; await new Promise(r=>setTimeout(r,750)); }
+          }
+
+          const sm=await get(`${ORIGIN}/sitemap.xml`);
+          if(!sm.ok) throw new Error(`live sitemap unavailable: ${sm.status}`);
+          const sitemap=new Set([...sm.html.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>norm(m[1])));
+          const counts={ru:0,en:0,uk:0,other:0};
+          for(const u of sitemap){const p=new URL(u).pathname;if(p.startsWith('/ru/'))counts.ru++;else if(p.startsWith('/en/'))counts.en++;else if(p.startsWith('/uk/'))counts.uk++;else counts.other++;}
+
+          for(const fam of families){
+            const trip={};
+            for(const lang of ['ru','en','uk']){
+              const rel=fam[lang];
+              const r=await get(abs(rel)); trip[lang]=r;
+              if(!r.ok) failures.push({type:'http',lang,rel,status:r.status,error:r.error||''});
+              if(!sitemap.has(norm(abs(rel)))) failures.push({type:'sitemap',lang,rel});
+            }
+            for(const lang of ['ru','en','uk']){
+              const rel=fam[lang], r=trip[lang]; if(!r.ok) continue;
+              const can=canonical(r.html); if(can!==norm(abs(rel))) failures.push({type:'canonical',lang,rel,got:can,expected:norm(abs(rel))});
+              const alts=alternates(r.html);
+              for(const target of ['ru','en','uk']) if(alts[target]!==norm(abs(fam[target]))) failures.push({type:'hreflang',lang,rel,target,got:alts[target]||'',expected:norm(abs(fam[target]))});
+              if(alts['x-default']!==norm(abs(fam.en))) failures.push({type:'hreflang',lang,rel,target:'x-default',got:alts['x-default']||'',expected:norm(abs(fam.en))});
+              const hrefs=hrefSet(r.html);
+              for(const target of ['ru','en','uk']) if(!hrefs.has(norm(abs(fam[target])))) warnings.push({type:'language-switch',lang,rel,target});
+            }
+            results.push({family:fam,status:'checked'});
+          }
+
+          const criticalNav={
+            ru:['/ru/ekspertiza/chastnyy-kapital-i-family-office.html','/ru/formaty-raboty/kak-nachat.html','/ru/formaty-raboty/vneshnyaya-yuridicheskaya-funkciya.html'],
+            en:['/en/expertise/private-capital-and-family-office.html','/en/how-to-start.html','/en/work-formats/external-legal-function.html'],
+            uk:['/uk/ekspertyza/pryvatnyy-kapital-i-family-office.html','/uk/yak-pochaty.html','/uk/formaty-roboty/zovnishnia-yurydychna-funktsiia.html']
+          };
+          for(const lang of ['ru','en','uk']){
+            const r=await get(`${ORIGIN}/${lang}/index.html`); const h=hrefSet(r.html);
+            for(const p of criticalNav[lang]) if(!h.has(norm(ORIGIN+p))) failures.push({type:'critical-nav',lang,target:p});
+          }
+
+          const retired=[/\/en\/jurisdictions\/(malta|lithuania|czechia)(?:\.html|\/|$)/i,/\/ru\/yurisdikcii\/(malta|litva|chehiya)(?:\.html|\/|$)/i,/\/uk\/yurysdyktsiyi\/(malta|lytva|chehiya)(?:\.html|\/|$)/i];
+          for(const lang of ['ru','en','uk']){
+            const r=await get(`${ORIGIN}/${lang}/index.html`); for(const rx of retired) if(rx.test(r.html)) failures.push({type:'retired-nav',lang,pattern:String(rx)});
+          }
+
+          const report={timestamp:new Date().toISOString(),deployOrigin:ORIGIN,sitemap:{total:sitemap.size,counts},families:families.length,pagesChecked:families.length*3,failures,warnings,result:failures.length?'FAIL':'PASS'};
+          fs.writeFileSync('live-parity-report.json',JSON.stringify(report,null,2));
+          fs.writeFileSync('live-parity-report.md',[`# LEXONYX live parity audit`,``,`Result: **${report.result}**`,``,`Sitemap: ${sitemap.size} URLs — RU ${counts.ru}, EN ${counts.en}, UK ${counts.uk}, other ${counts.other}`,`Semantic families: ${families.length}`,`Pages checked: ${families.length*3}`,`Failures: ${failures.length}`,`Warnings: ${warnings.length}`,``,`## Failures`,...(failures.length?failures.map(x=>'- '+JSON.stringify(x)):['- none']),``,`## Warnings`,...(warnings.length?warnings.map(x=>'- '+JSON.stringify(x)):['- none'])].join('\n'));
+          console.log(JSON.stringify(report,null,2));
+          if(failures.length) process.exit(1);
+          EOF
+          node /tmp/live-parity-audit.mjs
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-parity-report
+          path: |
+            live-parity-report.json
+            live-parity-report.md
