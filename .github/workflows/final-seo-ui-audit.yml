@@ -20,7 +20,9 @@ jobs:
           node scripts/final-i18n-marketing-cleanup.mjs
           node scripts/final-fixes.mjs
           node scripts/final-content-sanitizer.mjs
+          node scripts/russian-localization-cleanup.mjs
           node scripts/layout-normalizer.mjs
           node scripts/normalize-i18n-map.mjs
           node scripts/final-production-check.mjs
           node scripts/seo-ui-audit.mjs
+          node scripts/russian-language-audit.mjs
