@@ -3,7 +3,7 @@ import path from 'node:path';
 const ROOT=process.cwd();
 const targets=['ru/kontakty.html','ru/zaprosit-razbor.html','ru/cookie-policy.html','ru/privacy-policy.html','ru/terms-of-use.html','ru/intake/intake.html','ru/intake/intake_thankyou.html','ru/intake/spasibo.html'];
 const pairs=[
-['International advisory','международное консультационное сопровождение'],['international advisory','международное консультационное сопровождение'],
+['International advisory','международное консультационное сопровождение'],['international advisory','международное консультационное сопровождение'],['International','Международный'],['international','международный'],
 ['tracking','отслеживание'],['Tracking','Отслеживание'],['property','ресурс'],['Property','Ресурс'],
 ['email','электронная почта'],['Email','Электронная почта'],['limitation','ограничение'],['Limitation','Ограничение'],
 ['Licensing','Лицензирование'],['licensing','лицензирование'],['as available','по мере доступности'],['As available','По мере доступности']
