@@ -1,5 +1,5 @@
 [build]
-  command = "node scripts/static-source-cleanup.mjs && node scripts/editorial-cleanup.mjs && node scripts/final-legal-cleanup.mjs"
+  command = "node scripts/static-source-cleanup.mjs && node scripts/editorial-cleanup.mjs && node scripts/final-legal-cleanup.mjs && node scripts/final-i18n-marketing-cleanup.mjs"
   publish = "."
 
 [build.environment]
