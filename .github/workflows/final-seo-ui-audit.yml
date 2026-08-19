@@ -27,6 +27,7 @@ jobs:
           node scripts/ru-core-language-postfix.mjs
           node scripts/ru-core-second-pass.mjs
           node scripts/ru-core-third-pass.mjs
+          node scripts/ru-core-final-polish.mjs
           node scripts/ru-editorial-curation.mjs
           node scripts/jurisdiction-ui-fix.mjs
           node scripts/final-production-check.mjs
