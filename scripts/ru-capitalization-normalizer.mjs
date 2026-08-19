@@ -24,10 +24,33 @@ function normalizeBrokenCaps(text) {
   });
 }
 
+function normalizeJsonLd(html) {
+  return html.replace(/(<script\b[^>]*type=["']application\/ld\+json["'][^>]*>)([\s\S]*?)(<\/script>)/gi, (all, open, body, close) => {
+    try {
+      const data = JSON.parse(body);
+      const walkJson = value => {
+        if (Array.isArray(value)) return value.map(walkJson);
+        if (value && typeof value === 'object') {
+          for (const key of Object.keys(value)) value[key] = walkJson(value[key]);
+          return value;
+        }
+        if (typeof value === 'string' && !/^https?:\/\//i.test(value)) return normalizeBrokenCaps(value);
+        return value;
+      };
+      return open + JSON.stringify(walkJson(data), null, 2) + close;
+    } catch {
+      return all;
+    }
+  });
+}
+
 let changed = 0;
 for (const file of walk(RU_ROOT)) {
   let html = fs.readFileSync(file, 'utf8');
   const before = html;
+
+  html = normalizeJsonLd(html);
+
   const held = [];
   html = html.replace(/<(?:script|style|svg)\b[\s\S]*?<\/(?:script|style|svg)>/gi, block => {
     held.push(block);
@@ -35,6 +58,7 @@ for (const file of walk(RU_ROOT)) {
   });
   html = normalizeBrokenCaps(html);
   html = html.replace(/__RU_CAP_HELD_(\d+)__/g, (_, i) => held[Number(i)]);
+
   if (html !== before) {
     fs.writeFileSync(file, html, 'utf8');
     changed++;
