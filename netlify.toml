@@ -1,0 +1,6 @@
+[build]
+  command = "node scripts/static-source-cleanup.mjs"
+  publish = "."
+
+[build.environment]
+  NODE_VERSION = "20"
