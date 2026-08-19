@@ -40,7 +40,6 @@ const forbidden = [
   'Inconsistency between these elements is the main source of issues.',
   'An empty holding company with no management function',
   'A warehouse in the EU without VAT registration',
-  'the real centre of management',
   'to minimise the risk of refusal',
   'REQUEST A BANKING AUDIT',
   'Ukrainian and international law',
