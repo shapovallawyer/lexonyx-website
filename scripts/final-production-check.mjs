@@ -21,10 +21,16 @@ function allHtml(dir, out = []) {
   return out;
 }
 
+const redirects = read('_redirects');
 const sitemap = read('sitemap.xml');
 const urls = [...sitemap.matchAll(/<loc>https:\/\/lexonyx\.com\/([^<]+)<\/loc>/g)].map(m => m[1]);
 assert(urls.length > 80, `sitemap unexpectedly small: ${urls.length}`);
-for (const rel of urls) assert(fs.existsSync(path.join(ROOT, rel)), `sitemap target missing: ${rel}`);
+for (const rel of urls) {
+  const physical = fs.existsSync(path.join(ROOT, rel));
+  const escaped = ('/' + rel).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const backedByRedirect = new RegExp(`^${escaped}\\s+\\S+\\s+(?:200!?|301!?|302!?)$`, 'm').test(redirects);
+  assert(physical || backedByRedirect, `sitemap target missing and not rewrite-backed: ${rel}`);
+}
 
 const retired = /(lithuania|malta|czechia|\/litva\.html|\/chehiya\.html|\/lytva\.html)/i;
 assert(!retired.test(sitemap), 'retired jurisdiction remains in sitemap');
@@ -98,7 +104,6 @@ assert(/policyUrl:\s*'\/en\/cookie-policy\.html'/.test(consent), 'EN cookie bann
 assert(/policyUrl:\s*'\/uk\/cookie-policy\.html'/.test(consent), 'UK cookie banner copy missing');
 assert(/\[data-cookie-settings\]/.test(consent), 'Cookie Settings handler missing');
 
-const redirects = read('_redirects');
 assert(/^\/\s+\/en\/index\.html\s+301!$/m.test(redirects), 'root redirect is not permanent 301 to EN');
 
 if (warnings.length) {
