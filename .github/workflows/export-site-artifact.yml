@@ -1,0 +1,26 @@
+name: Export Site Artifact
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Stage deploy source
+        run: |
+          mkdir -p /tmp/lexonyx-site
+          rsync -a \
+            --exclude '.git' \
+            --exclude 'node_modules' \
+            --exclude 'artifacts' \
+            ./ /tmp/lexonyx-site/
+      - name: Upload deploy source
+        uses: actions/upload-artifact@v4
+        with:
+          name: lexonyx-source
+          path: /tmp/lexonyx-site
+          if-no-files-found: error
+          retention-days: 1
