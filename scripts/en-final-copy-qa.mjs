@@ -20,8 +20,13 @@ const forbidden = [
   'Initial Qualification Form',
   'initial qualification form',
   'initial request qualification',
+  'preliminary qualification',
+  'qualification stage',
   'right entry point',
   'the right format',
+  'Entry Products',
+  'entry products',
+  'one-off diagnostic',
   'We design international structures that withstand tax, banking, investment and regulatory scrutiny.',
   'permissible operating perimeter',
   'the paper structure and the real operation',
@@ -30,8 +35,17 @@ const forbidden = [
   'assemble explainable documentation',
   'ensure that the model reads coherently',
   'a defensible approach to the international structure',
+  'For a bank, the structure is not a tax model. It is a risk map.',
+  'A bank assesses not the tax rate, but the consistency of the narrative.',
+  'Inconsistency between these elements is the main source of issues.',
+  'An empty holding company with no management function',
+  'A warehouse in the EU without VAT registration',
+  'the real centre of management',
+  'to minimise the risk of refusal',
+  'REQUEST A BANKING AUDIT',
   'Ukrainian and international law',
-  'independent consulting company'
+  'independent consulting company',
+  'independent advisory company'
 ];
 
 let files = 0;
@@ -53,6 +67,9 @@ for (const file of walk(EN)) {
     const x = html.match(/<link\b[^>]*hreflang=["']x-default["'][^>]*href=["']([^"']+)["'][^>]*>/i)
       || html.match(/<link\b[^>]*href=["']([^"']+)["'][^>]*hreflang=["']x-default["'][^>]*>/i);
     if (x && x[1] !== canonicalUrl) issues.push(`metadata:x-default=${x[1]}`);
+
+    const canonicalTags = html.match(/<link\b(?=[^>]*\brel=["']canonical["'])[^>]*>/gi) || [];
+    if (canonicalTags.length > 1) issues.push(`metadata:duplicate-canonical=${canonicalTags.length}`);
   }
 
   if (issues.length) {
