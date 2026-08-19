@@ -264,4 +264,12 @@
     fillMetaFields();
     wireFormSubmitLock();
   }
+
+  if (!document.querySelector('script[data-lexonyx-compliance]')) {
+    const compliance = document.createElement('script');
+    compliance.src = '/scripts/compliance-runtime.js?v=20260819';
+    compliance.defer = true;
+    compliance.setAttribute('data-lexonyx-compliance', '2026-08-19');
+    document.head.appendChild(compliance);
+  }
 })();
