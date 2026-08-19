@@ -1,0 +1,43 @@
+name: One-off source canonicalization
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/one-off-source-canonicalization.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  canonicalize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Canonicalize static source layer
+        run: node scripts/static-source-cleanup.mjs
+
+      - name: Commit canonicalized source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add en ru uk
+          if git diff --cached --quiet; then
+            echo "No source canonicalization changes were required."
+            exit 0
+          fi
+          git commit -m "Canonicalize multilingual source navigation"
+          git push origin HEAD:main
