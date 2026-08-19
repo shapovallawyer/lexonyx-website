@@ -128,6 +128,11 @@ function normaliseHead(html) {
   out = out.replace(/<div\b[^>]*class=["'][^"']*badge[^"']*["'][^>]*>[\s\S]*?Since\s+2012[\s\S]*?<\/div>/gi, '');
   out = out.replace(/Since\s+2012/gi, '');
 
+  // Load the English late-stage visual fixes once, after the shared site CSS.
+  if (!out.includes('/en/visual-fixes.css')) {
+    out = out.replace(/<\/head>/i, '  <link rel="stylesheet" href="/en/visual-fixes.css" />\n</head>');
+  }
+
   return out;
 }
 
