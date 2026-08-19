@@ -38,7 +38,7 @@ function cleanText(text) {
   let out = text;
   for (const [from,to] of pairs) out = out.split(from).join(to);
   out = out
-    .replace(/(^|\s)s(?=\s|[.,;:!?)]|$)/g, '$1')
+    .replace(/\bs\b/g, '')
     .replace(/\s{2,}/g, ' ')
     .replace(/\s+([,.;:!?])/g, '$1');
   return out;
