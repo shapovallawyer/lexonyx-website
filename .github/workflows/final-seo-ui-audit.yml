@@ -31,6 +31,7 @@ jobs:
           node scripts/ru-core-last-mile.mjs
           node scripts/ru-insights-language-curation.mjs
           node scripts/ru-insights-final-polish.mjs
+          node scripts/ru-remaining-language-curation.mjs
           node scripts/ru-editorial-curation.mjs
           node scripts/jurisdiction-ui-fix.mjs
           node scripts/final-production-check.mjs
@@ -39,3 +40,4 @@ jobs:
           node scripts/ru-jurisdiction-editorial-audit.mjs
           node scripts/ru-core-editorial-audit.mjs
           node scripts/ru-insights-editorial-audit.mjs
+          node scripts/ru-remaining-editorial-audit.mjs
