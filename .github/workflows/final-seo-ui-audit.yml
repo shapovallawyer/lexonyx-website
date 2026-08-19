@@ -42,6 +42,7 @@ jobs:
           node scripts/ru-four-page-manual-editorial-pass.mjs
           node scripts/jurisdiction-ui-fix.mjs
           node scripts/ru-final-visual-fixes.mjs
+          node scripts/ru-runtime-copy-polish.mjs
           node scripts/final-production-check.mjs
           node scripts/seo-ui-audit.mjs
           node scripts/ru-mixed-script-audit.mjs
