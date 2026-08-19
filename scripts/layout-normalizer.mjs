@@ -78,7 +78,14 @@ function replaceHeaderZone(html, zone, rel) {
 
 function replaceFooter(html, footer, rel) {
   const footerStart = html.search(/<footer\b[^>]*class=["'][^"']*site-footer[^"']*["'][^>]*>/i);
-  if (footerStart < 0) throw new Error(`Cannot replace footer in ${rel}`);
+  if (footerStart < 0) {
+    // Some newly rebuilt jurisdiction pages intentionally had no footer at all.
+    // Insert the canonical footer without disturbing any page-specific scripts.
+    const scriptStart = html.search(/<script\b[^>]*src=/i);
+    const bodyClose = html.search(/<\/body>/i);
+    const insertAt = scriptStart >= 0 ? scriptStart : bodyClose >= 0 ? bodyClose : html.length;
+    return html.slice(0, insertAt) + '\n' + footer + '\n' + html.slice(insertAt);
+  }
   const close = html.indexOf('</footer>', footerStart);
   if (close < 0) throw new Error(`Cannot find footer close in ${rel}`);
   return html.slice(0, footerStart) + footer + html.slice(close + '</footer>'.length);
