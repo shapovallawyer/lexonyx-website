@@ -33,6 +33,7 @@ jobs:
           node scripts/ru-insights-final-polish.mjs
           node scripts/ru-remaining-language-curation.mjs
           node scripts/ru-remaining-final-polish.mjs
+          node scripts/ru-remaining-last-mile.mjs
           node scripts/ru-editorial-curation.mjs
           node scripts/jurisdiction-ui-fix.mjs
           node scripts/final-production-check.mjs
