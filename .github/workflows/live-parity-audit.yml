@@ -27,17 +27,16 @@ jobs:
           const families = Object.entries(map.en || {}).map(([ru,en]) => ({ru,en,uk:map.uk?.[ru]})).filter(x=>x.uk);
           const failures = [];
           const warnings = [];
-          const results = [];
 
           const abs = rel => `${ORIGIN}/${rel}`;
-          const norm = u => { const x = new URL(u, ORIGIN); return x.origin + x.pathname; };
+          const norm = u => { const x = new URL(u, ORIGIN); return x.origin + x.pathname.replace(/\/$/, x.pathname === '/' ? '/' : ''); };
+          const cleanRel = rel => rel.endsWith('/index.html') ? rel.slice(0,-10) : rel.endsWith('.html') ? rel.slice(0,-5) : rel;
+          const candidates = rel => [...new Set([norm(abs(rel)), norm(abs(cleanRel(rel))), norm(abs(cleanRel(rel) + (cleanRel(rel).endsWith('/') ? '' : '/')))])];
+          const hasTarget = (set, rel) => candidates(rel).some(u => set.has(u));
           const attrs = (tag,name) => tag.match(new RegExp(`${name}\\s*=\\s*["']([^"']+)["']`,'i'))?.[1] || '';
           const links = html => html.match(/<link\b[^>]*>/gi) || [];
           const anchors = html => html.match(/<a\b[^>]*>/gi) || [];
-          const canonical = html => {
-            for (const t of links(html)) if (/rel\s*=\s*["'][^"']*canonical/i.test(t)) return norm(attrs(t,'href'));
-            return '';
-          };
+          const canonical = html => { for (const t of links(html)) if (/rel\s*=\s*["'][^"']*canonical/i.test(t)) return norm(attrs(t,'href')); return ''; };
           const alternates = html => {
             const out={};
             for (const t of links(html)) if (/rel\s*=\s*["'][^"']*alternate/i.test(t)) {
@@ -48,7 +47,7 @@ jobs:
           const hrefSet = html => new Set(anchors(html).map(t=>attrs(t,'href')).filter(Boolean).map(norm));
           async function get(url){
             for(let i=0;i<3;i++) try {
-              const r=await fetch(url,{redirect:'follow',headers:{'user-agent':'LEXONYX-live-parity-audit/1.0'}});
+              const r=await fetch(url,{redirect:'follow',headers:{'user-agent':'LEXONYX-live-parity-audit/1.1'}});
               return {status:r.status,ok:r.ok,url:norm(r.url),html:await r.text()};
             } catch(e){ if(i===2) return {status:0,ok:false,url,error:String(e),html:''}; await new Promise(r=>setTimeout(r,750)); }
           }
@@ -74,19 +73,18 @@ jobs:
               for(const target of ['ru','en','uk']) if(alts[target]!==norm(abs(fam[target]))) failures.push({type:'hreflang',lang,rel,target,got:alts[target]||'',expected:norm(abs(fam[target]))});
               if(alts['x-default']!==norm(abs(fam.en))) failures.push({type:'hreflang',lang,rel,target:'x-default',got:alts['x-default']||'',expected:norm(abs(fam.en))});
               const hrefs=hrefSet(r.html);
-              for(const target of ['ru','en','uk']) if(!hrefs.has(norm(abs(fam[target])))) warnings.push({type:'language-switch',lang,rel,target});
+              for(const target of ['ru','en','uk']) if(!hasTarget(hrefs,fam[target])) warnings.push({type:'language-switch',lang,rel,target,expected:candidates(fam[target])});
             }
-            results.push({family:fam,status:'checked'});
           }
 
           const criticalNav={
-            ru:['/ru/ekspertiza/chastnyy-kapital-i-family-office.html','/ru/formaty-raboty/kak-nachat.html','/ru/formaty-raboty/vneshnyaya-yuridicheskaya-funkciya.html'],
-            en:['/en/expertise/private-capital-and-family-office.html','/en/how-to-start.html','/en/work-formats/external-legal-function.html'],
-            uk:['/uk/ekspertyza/pryvatnyy-kapital-i-family-office.html','/uk/yak-pochaty.html','/uk/formaty-roboty/zovnishnia-yurydychna-funktsiia.html']
+            ru:['ru/ekspertiza/chastnyy-kapital-i-family-office.html','ru/formaty-raboty/kak-nachat.html','ru/formaty-raboty/vneshnyaya-yuridicheskaya-funkciya.html'],
+            en:['en/expertise/private-capital-and-family-office.html','en/how-to-start.html','en/work-formats/external-legal-function.html'],
+            uk:['uk/ekspertyza/pryvatnyy-kapital-i-family-office.html','uk/yak-pochaty.html','uk/formaty-roboty/zovnishnia-yurydychna-funktsiia.html']
           };
           for(const lang of ['ru','en','uk']){
             const r=await get(`${ORIGIN}/${lang}/index.html`); const h=hrefSet(r.html);
-            for(const p of criticalNav[lang]) if(!h.has(norm(ORIGIN+p))) failures.push({type:'critical-nav',lang,target:p});
+            for(const p of criticalNav[lang]) if(!hasTarget(h,p)) failures.push({type:'critical-nav',lang,target:p,expected:candidates(p)});
           }
 
           const retired=[/\/en\/jurisdictions\/(malta|lithuania|czechia)(?:\.html|\/|$)/i,/\/ru\/yurisdikcii\/(malta|litva|chehiya)(?:\.html|\/|$)/i,/\/uk\/yurysdyktsiyi\/(malta|lytva|chehiya)(?:\.html|\/|$)/i];
