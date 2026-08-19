@@ -1,0 +1,73 @@
+/* Final RU production visual QA fixes.
+   Loaded after /ru/styles.css by the late build pass. */
+
+@media (max-width: 768px) {
+  .site-footer .footer-main {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 36px !important;
+  }
+
+  .site-footer .footer-main > *,
+  .site-footer .footer-brand-col,
+  .site-footer .footer-col,
+  .site-footer .footer-column,
+  .site-footer .footer-newsletter {
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .site-footer .newsletter-form,
+  .site-footer .newsletter-form .form-group,
+  .site-footer .newsletter-consent,
+  .site-footer .newsletter-consent-label {
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .site-footer .newsletter-form .form-group {
+    display: flex;
+  }
+
+  .site-footer .newsletter-input {
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 auto;
+  }
+
+  .site-footer .footer-disclaimer,
+  .site-footer .footer-bottom,
+  .site-footer .footer-bottom-left,
+  .site-footer .footer-legal-links {
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .site-footer .footer-legal-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 10px;
+  }
+
+  .site-footer .footer-disclaimer,
+  .site-footer .newsletter-description,
+  .site-footer .newsletter-consent-label,
+  .site-footer .footer-links a {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-footer .footer-main {
+    gap: 32px !important;
+  }
+
+  .site-footer .footer-newsletter {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
