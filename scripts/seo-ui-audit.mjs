@@ -4,16 +4,41 @@ import path from 'node:path';
 const ROOT = process.cwd();
 const errors = [];
 const warnings = [];
-const read = rel => fs.readFileSync(path.join(ROOT, rel), 'utf8');
+const readRaw = rel => fs.readFileSync(path.join(ROOT, rel), 'utf8');
 const exists = rel => fs.existsSync(path.join(ROOT, rel));
 const fail = msg => errors.push(msg);
 
-const sitemap = read('sitemap.xml');
-const robots = read('robots.txt');
-const redirects = read('_redirects');
-const map = JSON.parse(read('_url-map-i18n.json'));
+const sitemap = readRaw('sitemap.xml');
+const robots = readRaw('robots.txt');
+const redirects = readRaw('_redirects');
+const map = JSON.parse(readRaw('_url-map-i18n.json'));
 const invEn = new Map(Object.entries(map.en || {}).map(([ru,en]) => [en,ru]));
 const invUk = new Map(Object.entries(map.uk || {}).map(([ru,uk]) => [uk,ru]));
+
+const rewriteMap = new Map();
+const redirectSources = new Set();
+for (const line of redirects.split(/\r?\n/)) {
+  const t = line.trim();
+  if (!t || t.startsWith('#')) continue;
+  const parts = t.split(/\s+/);
+  if (!parts[0]?.startsWith('/')) continue;
+  redirectSources.add(parts[0]);
+  if (parts[2] && /^200!?$/.test(parts[2]) && parts[1]?.startsWith('/')) rewriteMap.set(parts[0], parts[1]);
+}
+function resolvePhysical(rel) {
+  if (exists(rel)) return rel;
+  const target = rewriteMap.get('/' + rel);
+  if (target) {
+    const targetRel = target.replace(/^\//,'').split('?')[0].split('#')[0];
+    if (exists(targetRel)) return targetRel;
+  }
+  return null;
+}
+function readPage(rel) {
+  const physical = resolvePhysical(rel);
+  if (!physical) return null;
+  return readRaw(physical);
+}
 
 const urls = [...sitemap.matchAll(/<loc>https:\/\/lexonyx\.com\/([^<]+)<\/loc>/g)].map(m => m[1]);
 if (urls.length !== 105) fail(`sitemap URL count expected 105, got ${urls.length}`);
@@ -80,9 +105,12 @@ function metaDescription(html) {
 }
 
 const titlesByLang = {en:new Map(),ru:new Map(),uk:new Map()};
+let rewriteBacked = 0;
 for (const rel of urls) {
-  if (!exists(rel)) { fail(`sitemap target missing: ${rel}`); continue; }
-  const html = read(rel);
+  const physical = resolvePhysical(rel);
+  if (!physical) { fail(`sitemap target missing: ${rel}`); continue; }
+  if (physical !== rel) rewriteBacked++;
+  const html = readRaw(physical);
   const expectedCanonical = `https://lexonyx.com/${rel}`;
   const title = textOfTitle(html);
   const desc = metaDescription(html);
@@ -108,13 +136,13 @@ for (const rel of urls) {
   }
 }
 
-// Verify the two clusters that were intentionally rewritten now use the full canonical site chrome.
 const uiTargets = urls.filter(rel =>
   /^en\/jurisdictions\//.test(rel) || /^ru\/yurisdikcii\//.test(rel) || /^uk\/yurysdyktsiyi\//.test(rel) ||
   /^(?:en|ru|uk)\/(?:privacy-policy|cookie-policy|terms-of-use|impressum|accessibility)\.html$/.test(rel)
 );
 for (const rel of uiTargets) {
-  const html = read(rel);
+  const html = readPage(rel);
+  if (!html) { fail(`UI target cannot resolve: ${rel}`); continue; }
   for (const needle of ['id="search-toggle"','class="header-lang-switch"','id="mobile-menu-toggle"','id="mobile-menu"','class="footer-disclaimer"','data-cookie-settings']) {
     if (!html.includes(needle)) fail(`non-standard header/footer on ${rel}: missing ${needle}`);
   }
@@ -129,21 +157,12 @@ for (const rel of uiTargets) {
   if (!/src=["']\/scripts\/ui-runtime\.js["']/i.test(html)) fail(`UI runtime missing: ${rel}`);
 }
 
-// Homepage regression guard: RU must never point to /index.html because / is the EN default.
-const enHome = read('en/index.html');
+const enHome = readRaw('en/index.html');
 const ruHomeSwitches = langSwitchHrefs(enHome, 'ru');
 if (!ruHomeSwitches.length || ruHomeSwitches.some(h => h !== '/ru/index.html')) fail(`EN homepage RU switch regression: ${ruHomeSwitches.join(', ') || 'missing'}`);
 if (!/"knowsLanguage"\s*:\s*\[[^\]]*"uk"/i.test(enHome)) fail('EN homepage structured data still omits Ukrainian language');
 if (/SearchAction|\/ru\/search\.html/i.test(enHome)) fail('EN homepage still exposes invalid SearchAction');
 
-// Internal-link existence check over sitemap pages. Redirected legacy paths are accepted.
-const redirectSources = new Set();
-for (const line of redirects.split(/\r?\n/)) {
-  const t = line.trim();
-  if (!t || t.startsWith('#')) continue;
-  const first = t.split(/\s+/)[0];
-  if (first?.startsWith('/')) redirectSources.add(first);
-}
 function routeExists(href) {
   let p = href.split('#')[0].split('?')[0];
   if (!p || !p.startsWith('/')) return true;
@@ -157,7 +176,8 @@ function routeExists(href) {
 }
 let brokenInternal = 0;
 for (const rel of urls) {
-  const html = read(rel);
+  const html = readPage(rel);
+  if (!html) continue;
   for (const m of html.matchAll(/href=["']([^"']+)["']/gi)) {
     const href = m[1];
     if (!href.startsWith('/')) continue;
@@ -178,4 +198,4 @@ if (errors.length) {
   for (const e of errors) console.error(' - ' + e);
   process.exit(1);
 }
-console.log(`[LEXONYX SEO/UI audit] PASS — sitemap=${urls.length}, UI targets=${uiTargets.length}, broken internal links=${brokenInternal}`);
+console.log(`[LEXONYX SEO/UI audit] PASS — sitemap=${urls.length}, rewrite-backed=${rewriteBacked}, UI targets=${uiTargets.length}, broken internal links=${brokenInternal}`);
