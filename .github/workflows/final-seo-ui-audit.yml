@@ -57,6 +57,7 @@ jobs:
           node scripts/commercial-entry-point-refinement.mjs
           node scripts/commercial-entry-point-qa.mjs
           node scripts/client-journey-refinement.mjs
+          node scripts/client-journey-ru-language-patch.mjs
           node scripts/client-journey-analytics-patch.mjs
           node scripts/client-journey-qa.mjs
           node scripts/commercial-meta-refinement.mjs
