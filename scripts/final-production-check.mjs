@@ -96,7 +96,7 @@ for (const rel of ['en/request-review.html','ru/zaprosit-razbor.html','uk/zapyta
   const html = read(rel);
   assert(/data-netlify=["']true["']/i.test(html), `Netlify intake form marker missing: ${rel}`);
   assert(/privacy_consent/i.test(html), `privacy consent missing: ${rel}`);
-  assert(/Preliminary Issue Map|Предварительная карта вопросов|Попередня карта питань/i.test(html), `intake qualification wording not updated: ${rel}`);
+  assert(/Initial issue map|Карта ключевых вопросов|Карта ключових питань|Preliminary Issue Map|Предварительная карта вопросов|Попередня карта питань/i.test(html), `intake outcome wording missing: ${rel}`);
 }
 
 const consent = read('ru/scripts/lx-consent.js');
