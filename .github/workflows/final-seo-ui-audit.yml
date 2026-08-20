@@ -56,6 +56,9 @@ jobs:
           node scripts/i18n-page-parity-fix.mjs
           node scripts/commercial-entry-point-refinement.mjs
           node scripts/commercial-entry-point-qa.mjs
+          node scripts/client-journey-refinement.mjs
+          node scripts/client-journey-analytics-patch.mjs
+          node scripts/client-journey-qa.mjs
           node scripts/commercial-meta-refinement.mjs
           node scripts/analytics-instrumentation.mjs
           node scripts/conversion-seo-qa.mjs
