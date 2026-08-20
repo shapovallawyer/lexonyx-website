@@ -44,7 +44,7 @@ for (const [rel, target] of Object.entries(contactTargets)) {
 
 const utilityPaths = [
   'en/intake/thank-you.html','en/thank-you-newsletter.html',
-  'ru/intake/ruspasibo.html','ru/intake/spasibo-newsletter.html',
+  'ru/intake/spasibo.html','ru/intake/spasibo-newsletter.html',
   'uk/intake/dyakuyemo.html','uk/dyakuyemo-newsletter.html'
 ];
 for (const rel of utilityPaths) {
