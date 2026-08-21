@@ -7,36 +7,42 @@ const errors = [];
 const PAGES = {
   en: {
     file: 'en/index.html',
-    heading: 'Start from the situation you have now',
+    heading: 'What changed — and what needs to be reviewed now?',
     routes: [
-      '/en/for-ukrainian-business.html',
       '/en/expertise/group-structuring.html',
+      '/en/expertise/tax-residency-cfc.html',
       '/en/expertise/banking-readiness.html',
       '/en/expertise/private-capital-and-family-office.html',
-      '/en/work-formats/external-legal-function.html'
-    ]
+      '/en/work-formats/strategic-structural-audit.html'
+    ],
+    specialist: '/en/for-ukrainian-business.html',
+    external: '/en/work-formats/external-legal-function.html'
   },
   ru: {
     file: 'ru/index.html',
-    heading: 'Начните с той ситуации, которая есть у вас сейчас',
+    heading: 'Что изменилось — и что нужно проверить сейчас?',
     routes: [
-      '/ru/dlya-ukrainskogo-biznesa.html',
       '/ru/ekspertiza/strukturirovanie-gruppy.html',
+      '/ru/ekspertiza/nalogovoe-rezidentstvo-i-kik.html',
       '/ru/ekspertiza/bankovskaya-gotovnost.html',
       '/ru/ekspertiza/chastnyy-kapital-i-family-office.html',
-      '/ru/formaty-raboty/vneshnyaya-yuridicheskaya-funkciya.html'
-    ]
+      '/ru/formaty-raboty/strategicheskiy-strukturnyy-audit.html'
+    ],
+    specialist: '/ru/dlya-ukrainskogo-biznesa.html',
+    external: '/ru/formaty-raboty/vneshnyaya-yuridicheskaya-funkciya.html'
   },
   uk: {
     file: 'uk/index.html',
-    heading: 'Почніть із ситуації, яка є у вас зараз',
+    heading: 'Що змінилося — і що потрібно перевірити зараз?',
     routes: [
-      '/uk/dlya-ukrainskogo-biznesu.html',
       '/uk/ekspertyza/strukturuvannya-grupy.html',
+      '/uk/ekspertyza/podatkove-rezydentstvo-i-kik.html',
       '/uk/ekspertyza/bankivska-gotovnist.html',
       '/uk/ekspertyza/pryvatnyy-kapital-i-family-office.html',
-      '/uk/formaty-roboty/zovnishnia-yurydychna-funktsiia.html'
-    ]
+      '/uk/formaty-roboty/strategichnyy-strukturnyy-audyt.html'
+    ],
+    specialist: '/uk/dlya-ukrainskogo-biznesu.html',
+    external: '/uk/formaty-roboty/zovnishnia-yurydychna-funktsiia.html'
   }
 };
 
@@ -51,13 +57,24 @@ function existsRoute(route) {
 for (const [lang, cfg] of Object.entries(PAGES)) {
   const html = fs.readFileSync(path.join(ROOT, cfg.file), 'utf8');
   if (!html.includes(cfg.heading)) errors.push(`${lang}: client-journey heading missing`);
-  const journeyAttrs = [...html.matchAll(/data-funnel-journey=["']([^"']+)["']/g)].map(m => m[1]);
-  if (journeyAttrs.length !== 5) errors.push(`${lang}: expected 5 journey links, found ${journeyAttrs.length}`);
-  if (new Set(journeyAttrs).size !== 5) errors.push(`${lang}: duplicate journey ids`);
+
+  const journeyLinks = [...html.matchAll(/<a\b[^>]*data-funnel-journey=["']([^"']+)["'][^>]*href=["']([^"']+)["'][^>]*>|<a\b[^>]*href=["']([^"']+)["'][^>]*data-funnel-journey=["']([^"']+)["'][^>]*>/g)];
+  const journeyIds = [...html.matchAll(/data-funnel-journey=["']([^"']+)["']/g)].map(m => m[1]);
+  if (journeyIds.length !== 5) errors.push(`${lang}: expected 5 primary journey links, found ${journeyIds.length}`);
+  if (new Set(journeyIds).size !== 5) errors.push(`${lang}: duplicate journey ids`);
+
   for (const route of cfg.routes) {
-    if (!html.includes(`href="${route}"`) && !html.includes(`href='${route}'`)) errors.push(`${lang}: route not linked from home: ${route}`);
-    if (!existsRoute(route)) errors.push(`${lang}: journey route not publishable: ${route}`);
+    if (!html.includes(`href="${route}"`) && !html.includes(`href='${route}'`)) errors.push(`${lang}: primary route not linked from home: ${route}`);
+    if (!existsRoute(route)) errors.push(`${lang}: primary journey route not publishable: ${route}`);
   }
+
+  if (!html.includes(`href="${cfg.specialist}"`) && !html.includes(`href='${cfg.specialist}'`)) errors.push(`${lang}: dedicated Ukrainian route missing`);
+  if (!html.includes('data-funnel-specialist-route="ukrainian-europe"')) errors.push(`${lang}: dedicated Ukrainian route is not marked separately`);
+  if (!existsRoute(cfg.specialist)) errors.push(`${lang}: dedicated Ukrainian route not publishable`);
+
+  const externalJourneyPattern = new RegExp(`<a\\b(?=[^>]*data-funnel-journey)(?=[^>]*href=["']${cfg.external.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}["'])[^>]*>`, 'i');
+  if (externalJourneyPattern.test(html)) errors.push(`${lang}: External International Legal Function still appears as a primary journey`);
+  if (!html.includes(`href="${cfg.external}"`) && !html.includes(`href='${cfg.external}'`)) errors.push(`${lang}: External International Legal Function must remain available as a work format`);
 }
 
 if (errors.length) {
@@ -65,4 +82,5 @@ if (errors.length) {
   for (const e of errors) console.error(' - ' + e);
   process.exit(1);
 }
-console.log('[LEXONYX client journey QA] PASS — 5 client journeys × 3 languages; all routes publishable');
+
+console.log('[LEXONYX client journey QA] PASS — 5 situational journeys × 3 languages; Ukrainian route separate; External Legal Function retained only as work format');
