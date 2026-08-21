@@ -33,9 +33,7 @@ for (const [ru, en] of Object.entries(map.en || {})) {
 if (families.length !== 55) throw new Error(`Expected 55 families, found ${families.length}`);
 
 const expectedUrls = [];
-for (const lang of ['ru', 'en', 'uk']) {
-  for (const family of families) expectedUrls.push(BASE + cleanPath(family[lang]));
-}
+for (const lang of ['ru', 'en', 'uk']) for (const family of families) expectedUrls.push(BASE + cleanPath(family[lang]));
 if (new Set(expectedUrls).size !== 165) throw new Error('Expected 165 unique clean canonical URLs');
 
 const sitemap = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
@@ -48,18 +46,11 @@ if (missing.length || extra.length) throw new Error(`Sitemap mismatch. Missing=$
 
 const failures = [];
 for (const family of families) {
-  const expected = {
-    ru: BASE + cleanPath(family.ru),
-    en: BASE + cleanPath(family.en),
-    uk: BASE + cleanPath(family.uk)
-  };
+  const expected = { ru: BASE + cleanPath(family.ru), en: BASE + cleanPath(family.en), uk: BASE + cleanPath(family.uk) };
   for (const lang of ['ru', 'en', 'uk']) {
     const rel = family[lang];
     const file = path.join(ROOT, physicalPath(rel));
-    if (!fs.existsSync(file)) {
-      failures.push(`${rel}: physical file missing`);
-      continue;
-    }
+    if (!fs.existsSync(file)) { failures.push(`${rel}: physical file missing`); continue; }
     const html = fs.readFileSync(file, 'utf8');
     const canonicalTag = html.match(/<link\b[^>]*rel=["']canonical["'][^>]*>/i)?.[0];
     const canonical = canonicalTag ? attr(canonicalTag, 'href') : null;
@@ -69,17 +60,14 @@ for (const family of families) {
     const got = {};
     for (const m of alts) got[m[1].toLowerCase()] = attr(m[0], 'href');
     const wanted = { ru: expected.ru, en: expected.en, uk: expected.uk, 'x-default': expected.en };
-    for (const [code, url] of Object.entries(wanted)) {
-      if (got[code] !== url) failures.push(`${rel}: hreflang ${code}=${got[code]} expected=${url}`);
-    }
+    for (const [code, url] of Object.entries(wanted)) if (got[code] !== url) failures.push(`${rel}: hreflang ${code}=${got[code]} expected=${url}`);
   }
 }
 
 const canonicalSourcePaths = [];
 for (const family of families) for (const lang of ['ru','en','uk']) canonicalSourcePaths.push('/' + family[lang]);
 for (const lang of ['ru','en','uk']) {
-  const root = path.join(ROOT, lang);
-  const stack = [root];
+  const stack = [path.join(ROOT, lang)];
   while (stack.length) {
     const dir = stack.pop();
     for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -99,9 +87,7 @@ for (const lang of ['ru','en','uk']) {
 }
 
 const redirects = fs.readFileSync(path.join(ROOT, '_redirects'), 'utf8');
-if (!redirects.includes('# BEGIN CLEAN CANONICAL URLS') || !redirects.includes('# END CLEAN CANONICAL URLS')) {
-  failures.push('_redirects: managed clean canonical block missing');
-}
+if (!redirects.includes('# BEGIN CLEAN CANONICAL URLS') || !redirects.includes('# END CLEAN CANONICAL URLS')) failures.push('_redirects: managed clean canonical block missing');
 if (!/^\/\s+\/en\/\s+301!\s*$/m.test(redirects)) failures.push('_redirects: root must 301 to /en/');
 
 for (const family of families) {
@@ -110,13 +96,13 @@ for (const family of families) {
     const oldPath = '/' + rel;
     const clean = cleanPath(rel);
     if (rel.endsWith('/index.html')) {
-      // Forced index.html redirects can loop on Netlify because directory resolution re-enters the rule.
-      const oldRx = new RegExp(`^${escRe(oldPath)}\\s+${escRe(clean)}\\s+301!\\s*$`, 'm');
-      if (oldRx.test(redirects)) failures.push(`_redirects: unsafe forced index redirect present: ${oldPath} -> ${clean}`);
+      // No explicit redirect rules at all for index-backed directory routes: Netlify resolves these natively.
+      const oldRx = new RegExp(`^${escRe(oldPath)}\\s+`, 'm');
+      if (oldRx.test(redirects)) failures.push(`_redirects: unsafe explicit index route rule present: ${oldPath}`);
       const noSlash = clean.replace(/\/$/, '');
       if (noSlash && noSlash !== clean) {
-        const aliasRx = new RegExp(`^${escRe(noSlash)}\\s+${escRe(clean)}\\s+301!\\s*$`, 'm');
-        if (!aliasRx.test(redirects)) failures.push(`_redirects: missing directory alias ${noSlash} -> ${clean} 301!`);
+        const aliasRx = new RegExp(`^${escRe(noSlash)}\\s+`, 'm');
+        if (aliasRx.test(redirects)) failures.push(`_redirects: unsafe explicit directory alias rule present: ${noSlash}`);
       }
     } else {
       const rx = new RegExp(`^${escRe(oldPath)}\\s+${escRe(clean)}\\s+301!\\s*$`, 'm');
@@ -125,13 +111,11 @@ for (const family of families) {
   }
 }
 
-if (!/^\/en\/work-formats\/external-legal-function\s+\/en\/expertise\/external-legal-function\.html\s+200!\s*$/m.test(redirects)) {
-  failures.push('_redirects: canonical External Legal Function rewrite missing');
-}
+if (!/^\/en\/work-formats\/external-legal-function\s+\/en\/expertise\/external-legal-function\.html\s+200!\s*$/m.test(redirects)) failures.push('_redirects: canonical External Legal Function rewrite missing');
 
 if (failures.length) {
   console.error('[LEXONYX clean URL QA] FAIL');
   for (const f of failures.slice(0, 100)) console.error(' - ' + f);
   process.exit(1);
 }
-console.log('[LEXONYX clean URL QA] PASS — 165 clean canonicals, sitemap/hreflang parity, clean internal hrefs, safe redirect policy');
+console.log('[LEXONYX clean URL QA] PASS — 165 clean canonicals, sitemap/hreflang parity, internal hrefs clean, directory routes rely on native Netlify resolution');
