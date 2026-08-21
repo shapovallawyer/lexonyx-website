@@ -18,11 +18,13 @@ const errors = [];
 function fail(x){ errors.push(x); }
 function read(rel){ return fs.readFileSync(path.join(ROOT,rel),'utf8'); }
 function attr(tag,name){ return (tag.match(new RegExp(`${name}=["']([^"']+)["']`,'i'))||[])[1]||null; }
+function textOnly(html){ return html.replace(/<script\b[\s\S]*?<\/script>/gi,' ').replace(/<style\b[\s\S]*?<\/style>/gi,' ').replace(/<[^>]+>/g,' ').replace(/&[a-z0-9#]+;/gi,' ').replace(/\s+/g,' '); }
 
 for (const [lang,c] of Object.entries(CFG)) {
   if (!fs.existsSync(path.join(ROOT,c.file))) { fail(`${lang}: route page missing ${c.file}`); continue; }
   const html = read(c.file);
   const main = (html.match(/<main\b[^>]*>[\s\S]*?<\/main>/i)||[])[0] || '';
+  const mainText = textOnly(main);
   const h1 = [...html.matchAll(/<h1\b[^>]*>/gi)].length;
   if (h1 !== 1) fail(`${lang}: expected one H1, found ${h1}`);
   if (!html.includes(c.title)) fail(`${lang}: page title/H1 phrase missing`);
@@ -40,11 +42,11 @@ for (const [lang,c] of Object.entries(CFG)) {
     const sw = switches.find(t => attr(t,'lang')?.toLowerCase() === code);
     if (!sw || attr(sw,'href') !== expected) fail(`${lang}: language switch ${code} mismatch`);
   }
-  if (!/qualified|квалифицирован|кваліфікован/i.test(main) || !/jurisdiction|юрисдикц/i.test(main)) fail(`${lang}: professional-perimeter statement missing`);
-  if (!/strategic|стратегичес|стратегіч/i.test(main) || !/audit|аудит/i.test(main)) fail(`${lang}: Strategic Structural Audit route missing`);
-  if (!/express|экспресс|експрес/i.test(main)) fail(`${lang}: diagnostic/Express Risk Review route missing`);
-  if (lang === 'ru' && /\b(?:governance|workstreams|treaty|Source|Wealth|substance)\b/i.test(main)) fail('ru: avoidable Latin terminology in custom route main');
-  if (lang === 'uk' && /\b(?:governance|workstreams|treaty|Source|Wealth|substance)\b/i.test(main)) fail('uk: avoidable Latin terminology in custom route main');
+  if (!/qualified|квалифицирован|кваліфікован/i.test(mainText) || !/jurisdiction|юрисдикц/i.test(mainText)) fail(`${lang}: professional-perimeter statement missing`);
+  if (!/strategic|стратегичес|стратегіч/i.test(mainText) || !/audit|аудит/i.test(mainText)) fail(`${lang}: Strategic Structural Audit route missing`);
+  if (!/express|экспресс|експрес/i.test(mainText)) fail(`${lang}: diagnostic/Express Risk Review route missing`);
+  if (lang === 'ru' && /\b(?:governance|workstreams|treaty|Source|Wealth|substance)\b/i.test(mainText)) fail('ru: avoidable Latin terminology in custom route text');
+  if (lang === 'uk' && /\b(?:governance|workstreams|treaty|Source|Wealth|substance)\b/i.test(mainText)) fail('uk: avoidable Latin terminology in custom route text');
 
   const home = read(c.home);
   const marker = 'data-funnel-journey="founder-owner-relocation"';
