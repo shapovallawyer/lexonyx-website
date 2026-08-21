@@ -25,14 +25,15 @@ for (const [lang, rel] of Object.entries(routes)) {
   fs.writeFileSync(file, html, 'utf8');
 }
 
-// The commercial route must be named as a client situation on the EN homepage,
-// rather than as the narrower technical trigger used by the earlier journey copy.
+// Upgrade the second EN journey to the commercial client-situation name,
+// regardless of the exact legacy wording generated earlier in the build.
 const enHomePath = path.join(ROOT, 'en/index.html');
 let enHome = fs.readFileSync(enHomePath, 'utf8');
-if (!enHome.includes('data-funnel-journey="founder-owner-relocation"')) {
-  throw new Error('EN homepage founder relocation journey marker missing');
-}
-enHome = enHome.replace('Founder or owner relocation', 'Founder Mobility & Business Relocation');
+const cardRx = /<article\b[^>]*>[\s\S]*?data-funnel-journey=["']founder-owner-relocation["'][\s\S]*?<\/article>/i;
+const cardMatch = enHome.match(cardRx);
+if (!cardMatch) throw new Error('EN homepage founder relocation journey card missing');
+const upgradedCard = cardMatch[0].replace(/<h3\b[^>]*>[\s\S]*?<\/h3>/i, '<h3>Founder Mobility &amp; Business Relocation</h3>');
+enHome = enHome.replace(cardRx, upgradedCard);
 fs.writeFileSync(enHomePath, enHome, 'utf8');
 
 console.log('[LEXONYX relocation route postfix] hreflang graph normalized and EN homepage relocation title upgraded');
