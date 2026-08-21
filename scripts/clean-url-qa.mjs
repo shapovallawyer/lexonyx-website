@@ -19,6 +19,9 @@ function attr(tag, name) {
   const m = tag.match(new RegExp(`${name}=["']([^"']+)["']`, 'i'));
   return m?.[1] || null;
 }
+function escRe(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
 
 const families = [];
 for (const [ru, en] of Object.entries(map.en || {})) {
@@ -100,17 +103,28 @@ if (!redirects.includes('# BEGIN CLEAN CANONICAL URLS') || !redirects.includes('
   failures.push('_redirects: managed clean canonical block missing');
 }
 if (!/^\/\s+\/en\/\s+301!\s*$/m.test(redirects)) failures.push('_redirects: root must 301 to /en/');
+
 for (const family of families) {
   for (const lang of ['ru','en','uk']) {
-    const oldPath = '/' + family[lang];
-    const clean = cleanPath(family[lang]);
-    const escaped = oldPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const target = clean.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    if (!new RegExp(`^${escaped}\\s+${target}\\s+301!\\s*$`, 'm').test(redirects)) {
-      failures.push(`_redirects: missing ${oldPath} -> ${clean} 301!`);
+    const rel = family[lang];
+    const oldPath = '/' + rel;
+    const clean = cleanPath(rel);
+    if (rel.endsWith('/index.html')) {
+      // Forced index.html redirects can loop on Netlify because directory resolution re-enters the rule.
+      const oldRx = new RegExp(`^${escRe(oldPath)}\\s+${escRe(clean)}\\s+301!\\s*$`, 'm');
+      if (oldRx.test(redirects)) failures.push(`_redirects: unsafe forced index redirect present: ${oldPath} -> ${clean}`);
+      const noSlash = clean.replace(/\/$/, '');
+      if (noSlash && noSlash !== clean) {
+        const aliasRx = new RegExp(`^${escRe(noSlash)}\\s+${escRe(clean)}\\s+301!\\s*$`, 'm');
+        if (!aliasRx.test(redirects)) failures.push(`_redirects: missing directory alias ${noSlash} -> ${clean} 301!`);
+      }
+    } else {
+      const rx = new RegExp(`^${escRe(oldPath)}\\s+${escRe(clean)}\\s+301!\\s*$`, 'm');
+      if (!rx.test(redirects)) failures.push(`_redirects: missing ${oldPath} -> ${clean} 301!`);
     }
   }
 }
+
 if (!/^\/en\/work-formats\/external-legal-function\s+\/en\/expertise\/external-legal-function\.html\s+200!\s*$/m.test(redirects)) {
   failures.push('_redirects: canonical External Legal Function rewrite missing');
 }
@@ -120,4 +134,4 @@ if (failures.length) {
   for (const f of failures.slice(0, 100)) console.error(' - ' + f);
   process.exit(1);
 }
-console.log('[LEXONYX clean URL QA] PASS — 165 clean canonicals, sitemap parity, hreflang parity, internal hrefs clean, redirects complete');
+console.log('[LEXONYX clean URL QA] PASS — 165 clean canonicals, sitemap/hreflang parity, clean internal hrefs, safe redirect policy');
