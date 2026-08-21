@@ -7,36 +7,39 @@ const errors = [];
 const PAGES = {
   en: {
     file: 'en/index.html',
-    heading: 'Start from the situation you have now',
+    heading: 'Start with what is driving the review now',
     routes: [
-      '/en/for-ukrainian-business.html',
       '/en/expertise/group-structuring.html',
+      '/en/expertise/tax-residency-cfc.html',
       '/en/expertise/banking-readiness.html',
       '/en/expertise/private-capital-and-family-office.html',
-      '/en/work-formats/external-legal-function.html'
-    ]
+      '/en/work-formats/strategic-structural-audit.html'
+    ],
+    specialistRoute: '/en/for-ukrainian-business.html'
   },
   ru: {
     file: 'ru/index.html',
-    heading: 'Начните с той ситуации, которая есть у вас сейчас',
+    heading: 'Начните с того, что требует решения сейчас',
     routes: [
-      '/ru/dlya-ukrainskogo-biznesa.html',
       '/ru/ekspertiza/strukturirovanie-gruppy.html',
+      '/ru/ekspertiza/nalogovoe-rezidentstvo-i-kik.html',
       '/ru/ekspertiza/bankovskaya-gotovnost.html',
       '/ru/ekspertiza/chastnyy-kapital-i-family-office.html',
-      '/ru/formaty-raboty/vneshnyaya-yuridicheskaya-funkciya.html'
-    ]
+      '/ru/formaty-raboty/strategicheskiy-strukturnyy-audit.html'
+    ],
+    specialistRoute: '/ru/dlya-ukrainskogo-biznesa.html'
   },
   uk: {
     file: 'uk/index.html',
-    heading: 'Почніть із ситуації, яка є у вас зараз',
+    heading: 'Почніть із того, що потребує вирішення зараз',
     routes: [
-      '/uk/dlya-ukrainskogo-biznesu.html',
       '/uk/ekspertyza/strukturuvannya-grupy.html',
+      '/uk/ekspertyza/podatkove-rezydentstvo-ta-kik.html',
       '/uk/ekspertyza/bankivska-gotovnist.html',
       '/uk/ekspertyza/pryvatnyy-kapital-i-family-office.html',
-      '/uk/formaty-roboty/zovnishnia-yurydychna-funktsiia.html'
-    ]
+      '/uk/formaty-roboty/strategichnyy-strukturnyy-audyt.html'
+    ],
+    specialistRoute: '/uk/dlya-ukrainskogo-biznesu.html'
   }
 };
 
@@ -51,13 +54,25 @@ function existsRoute(route) {
 for (const [lang, cfg] of Object.entries(PAGES)) {
   const html = fs.readFileSync(path.join(ROOT, cfg.file), 'utf8');
   if (!html.includes(cfg.heading)) errors.push(`${lang}: client-journey heading missing`);
+
   const journeyAttrs = [...html.matchAll(/data-funnel-journey=["']([^"']+)["']/g)].map(m => m[1]);
-  if (journeyAttrs.length !== 5) errors.push(`${lang}: expected 5 journey links, found ${journeyAttrs.length}`);
+  if (journeyAttrs.length !== 5) errors.push(`${lang}: expected 5 universal journey links, found ${journeyAttrs.length}`);
   if (new Set(journeyAttrs).size !== 5) errors.push(`${lang}: duplicate journey ids`);
+  if (journeyAttrs.includes('external-legal-function')) errors.push(`${lang}: external legal function must not be a top-level journey`);
+  if (journeyAttrs.includes('ukrainian-owner-europe')) errors.push(`${lang}: Ukrainian route must sit outside universal journey set`);
+
   for (const route of cfg.routes) {
     if (!html.includes(`href="${route}"`) && !html.includes(`href='${route}'`)) errors.push(`${lang}: route not linked from home: ${route}`);
     if (!existsRoute(route)) errors.push(`${lang}: journey route not publishable: ${route}`);
   }
+
+  if (!html.includes('data-funnel-specialist="ukrainian-business"') && !html.includes("data-funnel-specialist='ukrainian-business'")) {
+    errors.push(`${lang}: dedicated Ukrainian specialist route marker missing`);
+  }
+  if (!html.includes(`href="${cfg.specialistRoute}"`) && !html.includes(`href='${cfg.specialistRoute}'`)) {
+    errors.push(`${lang}: dedicated Ukrainian route not linked from home: ${cfg.specialistRoute}`);
+  }
+  if (!existsRoute(cfg.specialistRoute)) errors.push(`${lang}: dedicated Ukrainian route not publishable: ${cfg.specialistRoute}`);
 }
 
 if (errors.length) {
@@ -65,4 +80,4 @@ if (errors.length) {
   for (const e of errors) console.error(' - ' + e);
   process.exit(1);
 }
-console.log('[LEXONYX client journey QA] PASS — 5 client journeys × 3 languages; all routes publishable');
+console.log('[LEXONYX client journey QA] PASS — 5 situational journeys + 1 dedicated Ukrainian route × 3 languages; all routes publishable');
