@@ -1,20 +1,38 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const file = path.join(process.cwd(), 'ru', 'index.html');
-let html = fs.readFileSync(file, 'utf8');
+const root = process.cwd();
+const ruFile = path.join(root, 'ru', 'index.html');
+const ukFile = path.join(root, 'uk', 'index.html');
+let ru = fs.readFileSync(ruFile, 'utf8');
+let uk = fs.readFileSync(ukFile, 'utf8');
 
-const replacements = [
-  ['Первая иностранная компания, растущая HoldCo/OpCo-структура или действующая модель, которая уже не соответствует реальной работе бизнеса.', 'Первая иностранная компания, растущая холдинговая и операционная структура или действующая модель, которая уже не соответствует реальной работе бизнеса.'],
-  ['Проверка банка / PSP / Source of Funds', 'Проверка банка / PSP / происхождение средств'],
-  ['Онбординг, усиленная проверка или повторяющиеся вопросы об ownership, UBO, потоках, Source of Funds / Source of Wealth и бизнес-модели.', 'Онбординг, усиленная проверка или повторяющиеся вопросы о структуре владения, бенефициаре, потоках, происхождении средств и капитала и самой бизнес-модели.'],
-  ['Частный капитал или Family Office', 'Частный капитал или семейный офис']
+const requiredRu = [
+  'Международное расширение или структура группы',
+  'Переезд собственника или основателя',
+  'Проверка банка / PSP / происхождения средств',
+  'Частный капитал или семейный офис',
+  'Сделка, инвестор или крупное изменение структуры',
+  'Для украинских собственников и бизнеса в Европе'
 ];
 
-for (const [from, to] of replacements) {
-  if (!html.includes(from)) throw new Error(`RU client journey phrase not found: ${from}`);
-  html = html.replace(from, to);
+for (const phrase of requiredRu) {
+  if (!ru.includes(phrase)) throw new Error(`RU client journey phrase missing: ${phrase}`);
 }
 
-fs.writeFileSync(file, html, 'utf8');
-console.log('[LEXONYX client journeys RU] naturalized funnel copy');
+const forbiddenRu = [
+  'Растущий бизнес без внутренней международной юридической команды',
+  'Внешняя юридическая функция →',
+  'Украинский собственник или бизнес в Европе'
+];
+
+for (const phrase of forbiddenRu) {
+  if (ru.includes(phrase)) throw new Error(`Old RU client journey phrase still present: ${phrase}`);
+}
+
+ru = ru.replace('реорганизацией, due diligence или существенным изменением бизнеса.', 'реорганизацией, комплексной проверкой или существенным изменением бизнеса.');
+uk = uk.replace('реорганізацією, due diligence або суттєвою зміною бізнесу.', 'реорганізацією, комплексною перевіркою або суттєвою зміною бізнесу.');
+
+fs.writeFileSync(ruFile, ru, 'utf8');
+fs.writeFileSync(ukFile, uk, 'utf8');
+console.log('[LEXONYX client journeys RU/UK] five situational entries + dedicated Ukrainian route verified and naturalized');
