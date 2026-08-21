@@ -80,18 +80,12 @@ redirects = redirects.replace(/^\/en\/work-formats\/external-legal-function\.htm
 
 const block = [];
 block.push('# BEGIN CLEAN CANONICAL URLS');
-block.push('# Canonical public URLs are extensionless; directory index pages use a trailing slash.');
-block.push('# IMPORTANT: do not force index.html -> directory redirects on Netlify; directory file resolution can re-enter forced rules.');
+block.push('# Canonical public URLs are extensionless; index-backed directories are served natively by Netlify.');
+block.push('# Do not add forced rules for /dir/index.html OR /dir -> /dir/: Netlify directory resolution can re-enter them and loop.');
 block.push('/                               /en/                                                       301!');
-// Non-index HTML pages redirect safely to their extensionless canonical routes.
+// Only non-index HTML pages need an explicit forced redirect to their clean route.
 for (const rel of canonicalRels.filter(r => !r.endsWith('/index.html'))) {
   block.push(`${'/' + rel}  ${cleanPath(rel)}  301!`);
-}
-// Directory aliases without the trailing slash normalize to the clean directory route.
-for (const rel of canonicalRels.filter(r => r.endsWith('/index.html'))) {
-  const clean = cleanPath(rel);
-  const noSlash = clean.replace(/\/$/, '');
-  if (noSlash && noSlash !== clean) block.push(`${noSlash}  ${clean}  301!`);
 }
 // Canonical EN route is backed by a legacy physical source file.
 block.push('/en/work-formats/external-legal-function  /en/expertise/external-legal-function.html  200!');
@@ -104,4 +98,4 @@ redirects = firstNl >= 0
   : redirects + '\n' + block.join('\n');
 fs.writeFileSync(REDIRECTS_PATH, redirects, 'utf8');
 
-console.log(`[LEXONYX clean URL canonicalizer] PASS — canonical URLs=165, HTML files updated=${changedFiles}, sitemap=clean, redirects=managed without index-loop rules`);
+console.log(`[LEXONYX clean URL canonicalizer] PASS — canonical URLs=165, HTML files updated=${changedFiles}, sitemap=clean, directory routes left to native Netlify resolution`);
