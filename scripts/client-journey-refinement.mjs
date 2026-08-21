@@ -192,7 +192,7 @@ function buildSpecialistRoute(route) {
 function refine(file, cfg) {
   const abs = path.join(ROOT, file);
   let html = fs.readFileSync(abs, 'utf8');
-  const sectionStart = html.search(/<section\\b[^>]*class=["'][^"']*\\bhome-audience\\b[^"']*["'][^>]*>/i);
+  const sectionStart = html.search(/<section\b[^>]*class=["'][^"']*\bhome-audience\b[^"']*["'][^>]*>/i);
   if (sectionStart < 0) throw new Error(`home-audience section not found: ${file}`);
   const sectionEnd = html.indexOf('</section>', sectionStart);
   if (sectionEnd < 0) throw new Error(`home-audience section end not found: ${file}`);
@@ -202,7 +202,7 @@ function refine(file, cfg) {
   section = replaceInner(section, 'section-title-main', 'h2', escapeHtml(cfg.heading));
   section = replaceInner(section, 'section-subtitle', 'p', escapeHtml(cfg.subtitle));
 
-  const gridStart = section.search(/<div\\b[^>]*class=["'][^"']*\\baudience-grid\\b[^"']*["'][^>]*>/i);
+  const gridStart = section.search(/<div\b[^>]*class=["'][^"']*\baudience-grid\b[^"']*["'][^>]*>/i);
   if (gridStart < 0) throw new Error(`audience-grid not found: ${file}`);
   const gridOpenEnd = section.indexOf('>', gridStart) + 1;
   const gridClose = section.indexOf('</div>', gridOpenEnd);
