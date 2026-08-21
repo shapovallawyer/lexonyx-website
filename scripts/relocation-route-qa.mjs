@@ -18,7 +18,18 @@ const errors = [];
 function fail(x){ errors.push(x); }
 function read(rel){ return fs.readFileSync(path.join(ROOT,rel),'utf8'); }
 function attr(tag,name){ return (tag.match(new RegExp(`${name}=["']([^"']+)["']`,'i'))||[])[1]||null; }
-function textOnly(html){ return html.replace(/<script\b[\s\S]*?<\/script>/gi,' ').replace(/<style\b[\s\S]*?<\/style>/gi,' ').replace(/<[^>]+>/g,' ').replace(/&[a-z0-9#]+;/gi,' ').replace(/\s+/g,' '); }
+function textOnly(html){
+  return html
+    .replace(/<script\b[\s\S]*?<\/script>/gi,' ')
+    .replace(/<style\b[\s\S]*?<\/style>/gi,' ')
+    .replace(/<[^>]+>/g,' ')
+    .replace(/&amp;/gi,'&')
+    .replace(/&nbsp;/gi,' ')
+    .replace(/&#39;/gi,"'")
+    .replace(/&quot;/gi,'"')
+    .replace(/\s+/g,' ')
+    .trim();
+}
 
 for (const [lang,c] of Object.entries(CFG)) {
   if (!fs.existsSync(path.join(ROOT,c.file))) { fail(`${lang}: route page missing ${c.file}`); continue; }
@@ -27,7 +38,7 @@ for (const [lang,c] of Object.entries(CFG)) {
   const mainText = textOnly(main);
   const h1 = [...html.matchAll(/<h1\b[^>]*>/gi)].length;
   if (h1 !== 1) fail(`${lang}: expected one H1, found ${h1}`);
-  if (!html.includes(c.title)) fail(`${lang}: page title/H1 phrase missing`);
+  if (!textOnly(html).includes(c.title)) fail(`${lang}: page title/H1 phrase missing`);
   const canonical = (html.match(/<link\b[^>]*rel=["']canonical["'][^>]*>/i)||[])[0] || '';
   if (attr(canonical,'href') !== BASE + c.clean) fail(`${lang}: canonical mismatch ${attr(canonical,'href')}`);
   if (/name=["']robots["'][^>]*noindex/i.test(html)) fail(`${lang}: route page is noindex`);
@@ -56,7 +67,7 @@ for (const [lang,c] of Object.entries(CFG)) {
     const start = home.lastIndexOf('<article',pos), end = home.indexOf('</article>',pos);
     const card = start >= 0 && end >= 0 ? home.slice(start,end+10) : '';
     if (!card.includes(`href="${c.clean}"`)) fail(`${lang}: homepage founder journey does not link to relocation route`);
-    if (!card.includes(c.title)) fail(`${lang}: homepage founder journey title not upgraded`);
+    if (!textOnly(card).includes(c.title)) fail(`${lang}: homepage founder journey title not upgraded`);
   }
 }
 
