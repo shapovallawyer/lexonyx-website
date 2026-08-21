@@ -24,4 +24,15 @@ for (const [lang, rel] of Object.entries(routes)) {
   html = html.replace(canonical, canonical + block);
   fs.writeFileSync(file, html, 'utf8');
 }
-console.log('[LEXONYX relocation route postfix] hreflang graph normalized on RU/EN/UK route pages');
+
+// The commercial route must be named as a client situation on the EN homepage,
+// rather than as the narrower technical trigger used by the earlier journey copy.
+const enHomePath = path.join(ROOT, 'en/index.html');
+let enHome = fs.readFileSync(enHomePath, 'utf8');
+if (!enHome.includes('data-funnel-journey="founder-owner-relocation"')) {
+  throw new Error('EN homepage founder relocation journey marker missing');
+}
+enHome = enHome.replace('Founder or owner relocation', 'Founder Mobility & Business Relocation');
+fs.writeFileSync(enHomePath, enHome, 'utf8');
+
+console.log('[LEXONYX relocation route postfix] hreflang graph normalized and EN homepage relocation title upgraded');
