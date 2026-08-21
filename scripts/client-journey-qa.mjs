@@ -36,7 +36,7 @@ const PAGES = {
     heading: 'Що змінилося — і що потрібно перевірити зараз?',
     routes: [
       '/uk/ekspertyza/strukturuvannya-grupy.html',
-      '/uk/ekspertyza/podatkove-rezydentstvo-i-kik.html',
+      '/uk/ekspertyza/podatkove-rezydentstvo-ta-kik.html',
       '/uk/ekspertyza/bankivska-gotovnist.html',
       '/uk/ekspertyza/pryvatnyy-kapital-i-family-office.html',
       '/uk/formaty-roboty/strategichnyy-strukturnyy-audyt.html'
@@ -58,7 +58,6 @@ for (const [lang, cfg] of Object.entries(PAGES)) {
   const html = fs.readFileSync(path.join(ROOT, cfg.file), 'utf8');
   if (!html.includes(cfg.heading)) errors.push(`${lang}: client-journey heading missing`);
 
-  const journeyLinks = [...html.matchAll(/<a\b[^>]*data-funnel-journey=["']([^"']+)["'][^>]*href=["']([^"']+)["'][^>]*>|<a\b[^>]*href=["']([^"']+)["'][^>]*data-funnel-journey=["']([^"']+)["'][^>]*>/g)];
   const journeyIds = [...html.matchAll(/data-funnel-journey=["']([^"']+)["']/g)].map(m => m[1]);
   if (journeyIds.length !== 5) errors.push(`${lang}: expected 5 primary journey links, found ${journeyIds.length}`);
   if (new Set(journeyIds).size !== 5) errors.push(`${lang}: duplicate journey ids`);
