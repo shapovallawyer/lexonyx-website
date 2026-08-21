@@ -23,10 +23,7 @@ function cleanRel(rel) {
   if (rel.endsWith('.html')) return rel.slice(0, -'.html'.length);
   return rel;
 }
-
-function cleanPath(rel) {
-  return '/' + cleanRel(rel);
-}
+function cleanPath(rel) { return '/' + cleanRel(rel); }
 
 const families = [];
 for (const [ru, en] of Object.entries(map.en || {})) {
@@ -38,9 +35,7 @@ for (const [ru, en] of Object.entries(map.en || {})) {
 if (families.length !== 55) throw new Error(`Expected 55 families, found ${families.length}`);
 
 const canonicalRels = [];
-for (const lang of ['ru', 'en', 'uk']) {
-  for (const family of families) canonicalRels.push(family[lang]);
-}
+for (const lang of ['ru', 'en', 'uk']) for (const family of families) canonicalRels.push(family[lang]);
 if (canonicalRels.length !== 165 || new Set(canonicalRels).size !== 165) {
   throw new Error('Canonical family set must contain 165 unique source paths');
 }
@@ -49,8 +44,7 @@ const replacements = [];
 for (const rel of canonicalRels) {
   const fromPath = '/' + rel;
   const toPath = cleanPath(rel);
-  replacements.push([BASE + fromPath, BASE + toPath]);
-  replacements.push([fromPath, toPath]);
+  replacements.push([BASE + fromPath, BASE + toPath], [fromPath, toPath]);
 }
 replacements.sort((a, b) => b[0].length - a[0].length);
 
@@ -87,14 +81,17 @@ redirects = redirects.replace(/^\/en\/work-formats\/external-legal-function\.htm
 const block = [];
 block.push('# BEGIN CLEAN CANONICAL URLS');
 block.push('# Canonical public URLs are extensionless; directory index pages use a trailing slash.');
+block.push('# IMPORTANT: do not force index.html -> directory redirects on Netlify; directory file resolution can re-enter forced rules.');
 block.push('/                               /en/                                                       301!');
-for (const rel of canonicalRels) {
+// Non-index HTML pages redirect safely to their extensionless canonical routes.
+for (const rel of canonicalRels.filter(r => !r.endsWith('/index.html'))) {
   block.push(`${'/' + rel}  ${cleanPath(rel)}  301!`);
 }
+// Directory aliases without the trailing slash normalize to the clean directory route.
 for (const rel of canonicalRels.filter(r => r.endsWith('/index.html'))) {
   const clean = cleanPath(rel);
-  const noSlash = clean === '/' ? '/' : clean.replace(/\/$/, '');
-  if (noSlash !== clean) block.push(`${noSlash}  ${clean}  301!`);
+  const noSlash = clean.replace(/\/$/, '');
+  if (noSlash && noSlash !== clean) block.push(`${noSlash}  ${clean}  301!`);
 }
 // Canonical EN route is backed by a legacy physical source file.
 block.push('/en/work-formats/external-legal-function  /en/expertise/external-legal-function.html  200!');
@@ -107,4 +104,4 @@ redirects = firstNl >= 0
   : redirects + '\n' + block.join('\n');
 fs.writeFileSync(REDIRECTS_PATH, redirects, 'utf8');
 
-console.log(`[LEXONYX clean URL canonicalizer] PASS — canonical URLs=165, HTML files updated=${changedFiles}, sitemap=clean, redirects=managed`);
+console.log(`[LEXONYX clean URL canonicalizer] PASS — canonical URLs=165, HTML files updated=${changedFiles}, sitemap=clean, redirects=managed without index-loop rules`);
