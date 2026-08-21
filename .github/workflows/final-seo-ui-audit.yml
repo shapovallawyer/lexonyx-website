@@ -61,6 +61,8 @@ jobs:
           node scripts/client-journey-ru-language-patch.mjs
           node scripts/client-journey-analytics-patch.mjs
           node scripts/client-journey-qa.mjs
+          node scripts/homepage-v2-refinement.mjs
+          node scripts/homepage-v2-qa.mjs
           node scripts/commercial-meta-refinement.mjs
           node scripts/analytics-instrumentation.mjs
           node scripts/conversion-seo-qa.mjs
@@ -72,6 +74,8 @@ jobs:
           node scripts/ru-core-editorial-audit.mjs
           node scripts/ru-insights-editorial-audit.mjs
           node scripts/ru-remaining-editorial-audit.mjs
+          node scripts/clean-url-canonicalizer.mjs
+          node scripts/clean-url-qa.mjs
           node scripts/ru-live-layout-audit.mjs
           node scripts/en-live-layout-audit.mjs
           node scripts/uk-live-layout-audit.mjs
