@@ -83,6 +83,9 @@ jobs:
           node scripts/authority-cluster-qa.mjs
           node scripts/fm01-site-consistency.mjs
           node scripts/fm01-site-consistency-qa.mjs
+          node scripts/fm01-en-deep-dive-preview.mjs
+          node scripts/fm01-preview-noindex.mjs
+          node scripts/fm01-en-deep-dive-preview-qa.mjs
           node scripts/ru-live-layout-audit.mjs
           node scripts/en-live-layout-audit.mjs
           node scripts/uk-live-layout-audit.mjs
