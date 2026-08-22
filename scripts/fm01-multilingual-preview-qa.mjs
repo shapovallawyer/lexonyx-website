@@ -54,3 +54,15 @@ for(const route of Object.values(hrefs)) if(sitemap.includes(route)) fail(`previ
 
 if(errors.length){console.error(`[FM-01 multilingual preview QA] FAILED — ${errors.length} issue(s)`);for(const e of errors)console.error(' - '+e);process.exit(1);}
 console.log('[FM-01 multilingual preview QA] PASS — RU/EN/UK legal parity, sources, reciprocal hreflang, noindex isolation and canonical routes');
+
+const productionSimulation = process.env.CONTEXT === 'production' || process.env.FM01_PUBLISH === '1' || process.env.GITHUB_ACTIONS === 'true';
+if (productionSimulation) {
+  console.log('[FM-01 publication gate] switching verified preview family to production-state simulation');
+  await import('./fm01-publication-state.mjs');
+  await import('./fm01-publication-qa.mjs');
+  await import('./i18n-page-parity-audit.mjs');
+  await import('./final-production-check.mjs');
+  await import('./seo-ui-audit.mjs');
+  await import('./clean-url-qa.mjs');
+  console.log('[FM-01 publication gate] PASS — production-state simulation and site-wide post-publication audits completed');
+}
