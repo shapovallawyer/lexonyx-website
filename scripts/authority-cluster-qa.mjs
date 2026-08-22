@@ -10,13 +10,23 @@ const CFG = {
 const errors=[];
 const fail=x=>errors.push(x);
 
+function decodeBasicEntities(value) {
+  return value
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>');
+}
+
 for (const [lang,c] of Object.entries(CFG)) {
   const html=fs.readFileSync(path.join(ROOT,c.file),'utf8');
   const section=(html.match(/<section\b(?=[^>]*\bauthority-clusters\b)[^>]*>[\s\S]*?<\/section>/i)||[])[0]||'';
   if (!section) { fail(`${lang}: authority cluster section missing`); continue; }
+  const normalizedSection=decodeBasicEntities(section);
   const cards=[...section.matchAll(/data-authority-cluster=["'](\d+)["']/g)];
   if (cards.length!==5) fail(`${lang}: expected 5 authority clusters, found ${cards.length}`);
-  for (const label of c.labels) if (!section.includes(label)) fail(`${lang}: cluster label missing: ${label}`);
+  for (const label of c.labels) if (!normalizedSection.includes(label)) fail(`${lang}: cluster label missing: ${label}`);
   if (!section.includes(`href="${c.route}"`)) fail(`${lang}: founder relocation authority route missing`);
   if (/eight interconnected elements|восемь взаимосвязанных элементов|вісім взаємопов.?язаних елементів/i.test(html)) fail(`${lang}: stale eight-element claim remains`);
   if (lang==='ru' && section.includes('Framework')) fail('ru: Framework remains in authority layer');
@@ -28,4 +38,4 @@ if (errors.length) {
   for (const e of errors) console.error(' - '+e);
   process.exit(1);
 }
-console.log('[LEXONYX authority architecture QA] PASS — five clusters × EN/RU/UK, relocation route present, stale eight-element copy removed');
+console.log('[LEXONYX authority architecture QA] PASS — five clusters × EN/RU/UK, relocation route present, visible/structured stale eight-element copy removed');
