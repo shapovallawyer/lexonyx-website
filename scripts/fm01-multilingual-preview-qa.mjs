@@ -60,7 +60,8 @@ if (productionSimulation) {
   console.log('[FM-01 publication gate] switching verified preview family to production-state simulation');
   await import('./fm01-publication-state.mjs');
   await import('./fm01-publication-qa.mjs');
-  await import('./i18n-page-parity-audit.mjs');
+  // i18n-page-parity-audit intentionally runs earlier, before clean-url-canonicalizer.
+  // Re-running it here would compare the legacy .html URL map against already-normalized clean hreflang URLs.
   await import('./final-production-check.mjs');
   await import('./seo-ui-audit.mjs');
   await import('./clean-url-qa.mjs');
