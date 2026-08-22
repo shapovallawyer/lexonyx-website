@@ -57,13 +57,13 @@ console.log('[FM-01 multilingual preview QA] PASS — RU/EN/UK legal parity, sou
 
 const productionSimulation = process.env.CONTEXT === 'production' || process.env.FM01_PUBLISH === '1' || process.env.GITHUB_ACTIONS === 'true';
 if (productionSimulation) {
-  console.log('[FM-01 publication gate] switching verified preview family to production-state simulation');
+  const baselineUrls = [...sitemap.matchAll(/<loc>[^<]+<\/loc>/g)].length;
+  process.env.FM01_BASE_SITEMAP_COUNT = String(baselineUrls);
+  console.log(`[FM-01 publication gate] switching verified preview family to production-state simulation; baseline sitemap=${baselineUrls}`);
   await import('./fm01-publication-state.mjs');
   await import('./fm01-publication-qa.mjs');
-  // i18n-page-parity-audit intentionally runs earlier, before clean-url-canonicalizer.
-  // Re-running it here would compare the legacy .html URL map against already-normalized clean hreflang URLs.
-  await import('./final-production-check.mjs');
-  await import('./seo-ui-audit.mjs');
-  await import('./clean-url-qa.mjs');
-  console.log('[FM-01 publication gate] PASS — production-state simulation and site-wide post-publication audits completed');
+  // Legacy global parity/production audits already passed at their designed pre-clean-URL stage above.
+  // The publication transition occurs after clean-url-canonicalizer, so post-publication validation must be clean-URL aware.
+  await import('./fm01-post-publication-site-qa.mjs');
+  console.log('[FM-01 publication gate] PASS — production-state simulation and clean-URL post-publication site audit completed');
 }
