@@ -84,11 +84,15 @@ jobs:
           node scripts/fm01-site-consistency.mjs
           node scripts/fm01-site-consistency-qa.mjs
           node scripts/fm01-en-deep-dive-preview.mjs
+          node scripts/fm01-localized-deep-dive-preview.mjs
+          node scripts/fm01-localized-route-fix.mjs
           node scripts/fm01-preview-noindex.mjs
           node scripts/fm01-en-deep-dive-preview-qa.mjs
+          node scripts/fm01-multilingual-preview-qa.mjs
           node scripts/ru-live-layout-audit.mjs
           node scripts/en-live-layout-audit.mjs
           node scripts/uk-live-layout-audit.mjs
+          node scripts/fm01-localized-layout-audit.mjs
       - name: Upload RU layout QA screenshots
         if: always()
         uses: actions/upload-artifact@v4
@@ -111,5 +115,13 @@ jobs:
         with:
           name: uk-layout-qa
           path: artifacts/uk-layout-qa
+          if-no-files-found: ignore
+          retention-days: 7
+      - name: Upload FM-01 localized layout QA screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fm01-localized-layout-qa
+          path: artifacts/fm01-localized-layout-qa
           if-no-files-found: ignore
           retention-days: 7
