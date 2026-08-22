@@ -43,11 +43,16 @@ if (!fs.existsSync(file)) {
     '/en/request-review'
   ]) if (!html.includes(`href="${route}"`)) fail(`internal route missing: ${route}`);
   if (/"@type"\s*:\s*"FAQPage"/.test(html)) fail('inherited FAQPage JSON-LD remains');
-  if (/hreflang="ru"|hreflang="uk"/.test(html)) fail('unapproved RU/UK hreflang present on EN-only preview');
-  if (!/hreflang="en"/.test(html) || !/hreflang="x-default"/.test(html)) fail('EN/x-default hreflang missing');
+  const hreflangs = {
+    ru:'https://lexonyx.com/ru/insayty/razbory/founder-moves-business-stays',
+    en:'https://lexonyx.com/en/insights/deep-dives/founder-moves-business-stays',
+    uk:'https://lexonyx.com/uk/insaity/rozbory/founder-moves-business-stays',
+    'x-default':'https://lexonyx.com/en/insights/deep-dives/founder-moves-business-stays'
+  };
+  for (const [lang,url] of Object.entries(hreflangs)) if (!html.includes(`hreflang="${lang}" href="${url}"`)) fail(`multilingual hreflang missing: ${lang}`);
 
   const sitemap = fs.existsSync(path.join(ROOT, 'sitemap.xml')) ? fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8') : '';
-  if (sitemap.includes('/en/insights/deep-dives/founder-moves-business-stays')) fail('preview must not enter sitemap before multilingual publication gate');
+  if (sitemap.includes('/en/insights/deep-dives/founder-moves-business-stays')) fail('preview must not enter sitemap before publication gate');
 }
 
 if (errors.length) {
@@ -55,4 +60,4 @@ if (errors.length) {
   for (const e of errors) console.error(' - ' + e);
   process.exit(1);
 }
-console.log('[FM-01 EN Deep Dive preview QA] PASS — legal controls, sources, routes, noindex and EN-only preview isolation');
+console.log('[FM-01 EN Deep Dive preview QA] PASS — legal controls, sources, routes, noindex and multilingual hreflang');
