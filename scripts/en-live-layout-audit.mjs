@@ -20,6 +20,9 @@ const pages = [
   '/en/for-ukrainian-business.html',
   '/en/request-review.html'
 ];
+const fm01Preview = '/en/insights/deep-dives/founder-moves-business-stays.html';
+if (fs.existsSync(path.join(ROOT, fm01Preview.replace(/^\//, '')))) pages.push(fm01Preview);
+
 const viewports = [
   { name: 'desktop', width: 1440, height: 1000 },
   { name: 'mobile', width: 390, height: 844 }
