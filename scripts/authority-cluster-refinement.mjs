@@ -79,14 +79,40 @@ function replaceFaqAnswer(html, needle, answer) {
   return html.slice(0, target.index) + updated + html.slice(target.index + target[0].length);
 }
 
+function replaceStructuredFaqAnswer(html, needle, answer) {
+  let changed = false;
+  const updated = html.replace(/<script\b([^>]*type=["']application\/ld\+json["'][^>]*)>([\s\S]*?)<\/script>/gi, (full, attrs, body) => {
+    let data;
+    try {
+      data = JSON.parse(body.trim());
+    } catch {
+      return full;
+    }
+    if (!data || data['@type'] !== 'FAQPage' || !Array.isArray(data.mainEntity)) return full;
+    let localChanged = false;
+    for (const item of data.mainEntity) {
+      if (item?.['@type'] === 'Question' && String(item.name || '').includes(needle) && item.acceptedAnswer) {
+        item.acceptedAnswer.text = answer;
+        localChanged = true;
+      }
+    }
+    if (!localChanged) return full;
+    changed = true;
+    return `<script type="application/ld+json">\n${JSON.stringify(data, null, 2)}\n  </script>`;
+  });
+  if (!changed) throw new Error(`JSON-LD FAQ item "${needle}" not found`);
+  return updated;
+}
+
 for (const [lang, cfg] of Object.entries(CFG)) {
   const file = path.join(ROOT, cfg.file);
   let html = fs.readFileSync(file, 'utf8');
   html = replaceSectionContaining(html, cfg.oldHeading, authoritySection(cfg));
   html = replaceFaqAnswer(html, cfg.faqNeedle, cfg.faqAnswer);
+  html = replaceStructuredFaqAnswer(html, cfg.faqNeedle, cfg.faqAnswer);
   if (lang === 'ru') html = html.replace('<span>Framework</span>', '<span>Методология</span>');
   if (lang === 'uk') html = html.replace('<span>Framework</span>', '<span>Методологія</span>');
   fs.writeFileSync(file, html, 'utf8');
 }
 
-console.log('[LEXONYX authority architecture] PASS — five authority themes added to EN/RU/UK Insights hubs; stale eight-element claim removed');
+console.log('[LEXONYX authority architecture] PASS — five authority themes added to EN/RU/UK Insights hubs; visible and structured FAQ aligned');
