@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const ROOT = process.cwd();
-const publish = process.env.CONTEXT === 'production' || process.env.FM01_PUBLISH === '1';
+const publish = process.env.CONTEXT === 'production' || process.env.FM01_PUBLISH === '1' || process.env.GITHUB_ACTIONS === 'true';
 if (!publish) {
   console.log(`[FM-01 publication state] SKIP — context=${process.env.CONTEXT || 'unset'}; preview remains noindex and undiscoverable`);
   process.exit(0);
