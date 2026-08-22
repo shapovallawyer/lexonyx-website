@@ -16,6 +16,12 @@ for (const rel of files) {
   if (!fs.existsSync(file)) throw new Error(`FM-01 localized page missing: ${rel}`);
   let html = fs.readFileSync(file, 'utf8');
   for (const [from,to] of replacements) html = html.split(from).join(to);
+  if (rel.startsWith('uk/')) {
+    html = html.replace(
+      'Карта не создаёт автоматических правовых выводов. Её задача — определить, какие части архитектуры изменились и какие вопросы требуют анализа в конкретных юрисдикциях.',
+      'Карта не створює автоматичних правових висновків. Її завдання — визначити, які частини архітектури змінилися і які питання потребують аналізу в конкретних юрисдикціях.'
+    );
+  }
   fs.writeFileSync(file, html, 'utf8');
 }
-console.log('[FM-01 localized routes] PASS — RU/UK internal routes normalized to existing canonical slugs');
+console.log('[FM-01 localized routes/copy] PASS — RU/UK canonical routes and language fallback normalized');
