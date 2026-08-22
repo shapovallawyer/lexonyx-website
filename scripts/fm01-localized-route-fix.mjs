@@ -9,7 +9,9 @@ const files = [
 const replacements = new Map([
   ['/ru/ekspertiza/proishozhdenie-sredstv','/ru/ekspertiza/source-of-funds'],
   ['/uk/ekspertyza/dzherelo-koshtiv','/uk/ekspertyza/source-of-funds'],
-  ['/uk/ekspertyza/pe-risk-ta-mizhnarodni-komandy','/uk/ekspertyza/pe-ryzyk-ta-mizhnarodni-komandy']
+  ['/uk/ekspertyza/pe-risk-ta-mizhnarodni-komandy','/uk/ekspertyza/pe-ryzyk-ta-mizhnarodni-komandy'],
+  ['Собственник переехал, бизнес остался: что на самом деле меняется в международной структуре?','Переезд собственника: что меняется в международной структуре?'],
+  ['Власник переїхав, бізнес залишився: що насправді змінюється в міжнародній структурі?','Переїзд власника: що змінюється в міжнародній структурі?']
 ]);
 for (const rel of files) {
   const file = path.join(ROOT, rel);
@@ -24,4 +26,4 @@ for (const rel of files) {
   }
   fs.writeFileSync(file, html, 'utf8');
 }
-console.log('[FM-01 localized routes/copy] PASS — RU/UK canonical routes and language fallback normalized');
+console.log('[FM-01 localized routes/copy] PASS — canonical routes, language fallback and mobile H1 normalized');
