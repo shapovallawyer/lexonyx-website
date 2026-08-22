@@ -52,7 +52,11 @@ for (const c of Object.values(family)) {
   if (!fs.existsSync(file)) throw new Error(`FM-01 page missing: ${c.file}`);
   let html = fs.readFileSync(file,'utf8');
   html = html.replace(/\s*<meta\s+name=["']robots["'][^>]*>/i,'');
-  html = html.replace(/<meta property="og:type" content="website">/i,'<meta property="og:type" content="article">');
+  if (/<meta\s+property=["']og:type["'][^>]*>/i.test(html)) {
+    html = html.replace(/<meta\s+property=["']og:type["'][^>]*>/i,'<meta property="og:type" content="article">');
+  } else {
+    html = html.replace(/(<meta\s+property=["']og:url["'][^>]*>)/i,'<meta property="og:type" content="article">\n  $1');
+  }
   if (!/"datePublished"\s*:/.test(html)) {
     html = html.replace(/("dateModified"\s*:\s*"2026-08-22")/,'"datePublished": "2026-08-22",\n  $1');
   }
