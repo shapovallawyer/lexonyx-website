@@ -79,6 +79,8 @@ jobs:
           node scripts/relocation-route-page.mjs
           node scripts/relocation-route-postfix.mjs
           node scripts/relocation-route-qa.mjs
+          node scripts/authority-cluster-refinement.mjs
+          node scripts/authority-cluster-qa.mjs
           node scripts/ru-live-layout-audit.mjs
           node scripts/en-live-layout-audit.mjs
           node scripts/uk-live-layout-audit.mjs
