@@ -15,6 +15,7 @@ if (!fs.existsSync(file)) {
   if (!html.includes('<title>Founder Relocation: Tax Residence, CFC, PE & Management | LEXONYX</title>')) fail('title mismatch');
   if (!html.includes('https://lexonyx.com/en/insights/deep-dives/founder-moves-business-stays')) fail('canonical/Article URL missing');
   if (/founder-moves-business-stays\.html/.test((html.match(/<link rel="canonical"[^>]*>/i) || [''])[0])) fail('canonical must be clean URL');
+  if (!/<meta\s+name=["']robots["']\s+content=["']noindex,\s*nofollow["']\s*>/i.test(html)) fail('deploy preview must be noindex,nofollow');
   if (!text.includes('Founder Moves, Business Stays: What Actually Changes in a Cross-Border Structure?')) fail('H1 missing');
   if (!text.includes('Founder relocation should therefore be treated as a cross-border structural event')) fail('master thesis missing');
   if (!text.includes('A founder working from home and a founder managing the company from home are not necessarily the same PE fact pattern.')) fail('home-office authority point missing');
@@ -44,7 +45,6 @@ if (!fs.existsSync(file)) {
   if (/"@type"\s*:\s*"FAQPage"/.test(html)) fail('inherited FAQPage JSON-LD remains');
   if (/hreflang="ru"|hreflang="uk"/.test(html)) fail('unapproved RU/UK hreflang present on EN-only preview');
   if (!/hreflang="en"/.test(html) || !/hreflang="x-default"/.test(html)) fail('EN/x-default hreflang missing');
-  if (html.includes('/sitemap.xml') && false) fail('noop');
 
   const sitemap = fs.existsSync(path.join(ROOT, 'sitemap.xml')) ? fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8') : '';
   if (sitemap.includes('/en/insights/deep-dives/founder-moves-business-stays')) fail('preview must not enter sitemap before multilingual publication gate');
@@ -55,4 +55,4 @@ if (errors.length) {
   for (const e of errors) console.error(' - ' + e);
   process.exit(1);
 }
-console.log('[FM-01 EN Deep Dive preview QA] PASS — legal controls, sources, routes, EN-only preview isolation');
+console.log('[FM-01 EN Deep Dive preview QA] PASS — legal controls, sources, routes, noindex and EN-only preview isolation');
