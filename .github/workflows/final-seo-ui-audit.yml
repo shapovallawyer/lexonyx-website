@@ -86,6 +86,7 @@ jobs:
           node scripts/fm01-en-deep-dive-preview.mjs
           node scripts/fm01-localized-deep-dive-preview.mjs
           node scripts/fm01-localized-route-fix.mjs
+          node scripts/fm01-multilingual-hreflang.mjs
           node scripts/fm01-preview-noindex.mjs
           node scripts/fm01-en-deep-dive-preview-qa.mjs
           node scripts/fm01-multilingual-preview-qa.mjs
